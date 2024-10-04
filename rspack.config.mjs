@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "@rspack/cli";
 import { rspack } from "@rspack/core";
 import RefreshPlugin from "@rspack/plugin-react-refresh";
+import sassEmbedded from "sass-embedded";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isDev = process.env.NODE_ENV === "development";
@@ -47,7 +48,23 @@ export default defineConfig({
 						}
 					}
 				]
-			}
+			},
+      {
+        test: /\.(sass|scss)$/,
+        use: [
+          {
+            loader: 'sass-loader',
+            options: {
+              // using `modern-compiler` and `sass-embedded` together significantly improve build performance,
+              // requires `sass-loader >= 14.2.1`
+              api: 'modern-compiler',
+              implementation: sassEmbedded,
+            },
+          },
+        ],
+        // set to 'css/auto' if you want to support '*.module.(scss|sass)' as CSS Modules, otherwise set type to 'css'
+        type: 'css/auto',
+      },
 		]
 	},
 	plugins: [
