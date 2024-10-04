@@ -1,4 +1,4 @@
-# Rspack Project
+# Skud Face Frontend
 
 ## Setup
 
