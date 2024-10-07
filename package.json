@@ -11,12 +11,6 @@
     "prepare": "husky",
     "lint-staged": "lint-staged"
   },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "eslint"
-    ]
-  },
   "dependencies": {
     "@tanstack/react-router": "^1.62.1",
     "@tanstack/router-devtools": "^1.62.1",
