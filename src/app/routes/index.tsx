@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import { Button, Col, Row, Typography } from 'antd';
-
-const { Title } = Typography;
+import { Button } from '@/shared/ui/button';
 
 export const Route = createFileRoute('/')({
 	component: HomeComponent,
@@ -15,12 +13,7 @@ function HomeComponent() {
 
 	return (
 		<div className="p-2">
-			<Row>
-				<Col>
-					<Title level={2}>Skud Face</Title>
-					<Button onClick={onClick}>Click me!</Button>
-				</Col>
-			</Row>
+			<Button onClick={onClick}>Click me!</Button>
 		</div>
 	);
 }
