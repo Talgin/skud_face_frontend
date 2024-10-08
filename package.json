@@ -8,7 +8,7 @@
     "dev": "rsbuild dev --port 3000",
     "preview": "rsbuild preview",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky",
+    "prepare": "npx husky",
     "lint-staged": "lint-staged"
   },
   "dependencies": {
