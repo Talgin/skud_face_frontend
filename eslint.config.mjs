@@ -1,7 +1,4 @@
-import airbnbConfig from 'eslint-config-airbnb'
-import typescriptEslint from 'typescript-eslint'
+import airbnbConfig from 'eslint-config-airbnb';
+import typescriptEslint from 'typescript-eslint';
 
-export default [
-  airbnbConfig,
-  typescriptEslint.configs
-]
+export default [airbnbConfig, typescriptEslint.configs];
