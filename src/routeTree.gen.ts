@@ -14,11 +14,11 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { Route as rootRoute } from './app/routes/__root';
 import { Route as AuthImport } from './app/routes/_auth';
+import { Route as IndexImport } from './app/routes/index';
 
 // Create Virtual Routes
 
-const IndexLazyImport = createFileRoute('/')();
-const AuthAboutLazyImport = createFileRoute('/_auth/about')();
+const AuthOrganizationLazyImport = createFileRoute('/_auth/organization')();
 
 // Create/Update Routes
 
@@ -27,15 +27,15 @@ const AuthRoute = AuthImport.update({
 	getParentRoute: () => rootRoute,
 } as any);
 
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexRoute = IndexImport.update({
 	path: '/',
 	getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./app/routes/index.lazy').then((d) => d.Route));
+} as any);
 
-const AuthAboutLazyRoute = AuthAboutLazyImport.update({
-	path: '/about',
+const AuthOrganizationLazyRoute = AuthOrganizationLazyImport.update({
+	path: '/organization',
 	getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./app/routes/_auth.about.lazy').then((d) => d.Route));
+} as any).lazy(() => import('./app/routes/_auth.organization.lazy').then((d) => d.Route));
 
 // Populate the FileRoutesByPath interface
 
@@ -45,7 +45,7 @@ declare module '@tanstack/react-router' {
 			id: '/';
 			path: '/';
 			fullPath: '/';
-			preLoaderRoute: typeof IndexLazyImport;
+			preLoaderRoute: typeof IndexImport;
 			parentRoute: typeof rootRoute;
 		};
 		'/_auth': {
@@ -55,11 +55,11 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthImport;
 			parentRoute: typeof rootRoute;
 		};
-		'/_auth/about': {
-			id: '/_auth/about';
-			path: '/about';
-			fullPath: '/about';
-			preLoaderRoute: typeof AuthAboutLazyImport;
+		'/_auth/organization': {
+			id: '/_auth/organization';
+			path: '/organization';
+			fullPath: '/organization';
+			preLoaderRoute: typeof AuthOrganizationLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 	}
@@ -68,50 +68,50 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthRouteChildren {
-	AuthAboutLazyRoute: typeof AuthAboutLazyRoute;
+	AuthOrganizationLazyRoute: typeof AuthOrganizationLazyRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-	AuthAboutLazyRoute: AuthAboutLazyRoute,
+	AuthOrganizationLazyRoute: AuthOrganizationLazyRoute,
 };
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 
 export interface FileRoutesByFullPath {
-	'/': typeof IndexLazyRoute;
+	'/': typeof IndexRoute;
 	'': typeof AuthRouteWithChildren;
-	'/about': typeof AuthAboutLazyRoute;
+	'/organization': typeof AuthOrganizationLazyRoute;
 }
 
 export interface FileRoutesByTo {
-	'/': typeof IndexLazyRoute;
+	'/': typeof IndexRoute;
 	'': typeof AuthRouteWithChildren;
-	'/about': typeof AuthAboutLazyRoute;
+	'/organization': typeof AuthOrganizationLazyRoute;
 }
 
 export interface FileRoutesById {
 	__root__: typeof rootRoute;
-	'/': typeof IndexLazyRoute;
+	'/': typeof IndexRoute;
 	'/_auth': typeof AuthRouteWithChildren;
-	'/_auth/about': typeof AuthAboutLazyRoute;
+	'/_auth/organization': typeof AuthOrganizationLazyRoute;
 }
 
 export interface FileRouteTypes {
 	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths: '/' | '' | '/about';
+	fullPaths: '/' | '' | '/organization';
 	fileRoutesByTo: FileRoutesByTo;
-	to: '/' | '' | '/about';
-	id: '__root__' | '/' | '/_auth' | '/_auth/about';
+	to: '/' | '' | '/organization';
+	id: '__root__' | '/' | '/_auth' | '/_auth/organization';
 	fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-	IndexLazyRoute: typeof IndexLazyRoute;
+	IndexRoute: typeof IndexRoute;
 	AuthRoute: typeof AuthRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-	IndexLazyRoute: IndexLazyRoute,
+	IndexRoute: IndexRoute,
 	AuthRoute: AuthRouteWithChildren,
 };
 
@@ -130,16 +130,16 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/about"
+        "/_auth/organization"
       ]
     },
-    "/_auth/about": {
-      "filePath": "_auth.about.lazy.tsx",
+    "/_auth/organization": {
+      "filePath": "_auth.organization.lazy.tsx",
       "parent": "/_auth"
     }
   }

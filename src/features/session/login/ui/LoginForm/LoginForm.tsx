@@ -1,18 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/shared/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 import { loginFormSchema, type LoginFormSchema } from '../../model/loginFormSchema';
 import { useCallback } from 'react';
+import Cookie from 'js-cookie';
+import { ACCESS_TOKEN } from '@/entities/session';
+import { useRouter } from '@tanstack/react-router';
 
 export function LoginForm() {
+	const router = useRouter();
 	const form = useForm<LoginFormSchema>({
 		resolver: zodResolver(loginFormSchema),
 	});
 
 	const onSubmitHandler = useCallback((values: LoginFormSchema) => {
-		console.log(values);
+		// TODO: replace the value with an access token
+		Cookie.set(ACCESS_TOKEN, 'asd12345');
+		router.history.push('/main');
 	}, []);
 
 	return (
@@ -44,7 +50,7 @@ export function LoginForm() {
 						</FormItem>
 					)}
 				/>
-				<Button>Войти</Button>
+				<Button type="submit">Войти</Button>
 			</form>
 		</Form>
 	);

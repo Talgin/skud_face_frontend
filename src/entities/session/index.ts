@@ -1,1 +1,1 @@
-export { isAuthenticated } from './model';
+export { isAuthenticated, ACCESS_TOKEN } from './model';
