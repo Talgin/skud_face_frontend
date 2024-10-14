@@ -1,5 +1,6 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import { isAuthenticated } from '@/entities/session';
+import { AdminPanelLayout } from '@/app/layouts/admin-panel';
 
 export const Route = createFileRoute('/_auth')({
 	beforeLoad: async ({ location }) => {
@@ -15,4 +16,13 @@ export const Route = createFileRoute('/_auth')({
 			});
 		}
 	},
+	component: AuthComponent,
 });
+
+function AuthComponent() {
+	return (
+		<AdminPanelLayout>
+			<Outlet />
+		</AdminPanelLayout>
+	);
+}
