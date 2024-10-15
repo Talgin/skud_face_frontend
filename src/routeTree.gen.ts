@@ -18,7 +18,9 @@ import { Route as IndexImport } from './app/routes/index';
 
 // Create Virtual Routes
 
+const AuthStudentsLazyImport = createFileRoute('/_auth/students')();
 const AuthOrganizationLazyImport = createFileRoute('/_auth/organization')();
+const AuthAdminLazyImport = createFileRoute('/_auth/admin')();
 
 // Create/Update Routes
 
@@ -32,10 +34,20 @@ const IndexRoute = IndexImport.update({
 	getParentRoute: () => rootRoute,
 } as any);
 
+const AuthStudentsLazyRoute = AuthStudentsLazyImport.update({
+	path: '/students',
+	getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./app/routes/_auth.students.lazy').then((d) => d.Route));
+
 const AuthOrganizationLazyRoute = AuthOrganizationLazyImport.update({
 	path: '/organization',
 	getParentRoute: () => AuthRoute,
 } as any).lazy(() => import('./app/routes/_auth.organization.lazy').then((d) => d.Route));
+
+const AuthAdminLazyRoute = AuthAdminLazyImport.update({
+	path: '/admin',
+	getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./app/routes/_auth.admin.lazy').then((d) => d.Route));
 
 // Populate the FileRoutesByPath interface
 
@@ -55,11 +67,25 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthImport;
 			parentRoute: typeof rootRoute;
 		};
+		'/_auth/admin': {
+			id: '/_auth/admin';
+			path: '/admin';
+			fullPath: '/admin';
+			preLoaderRoute: typeof AuthAdminLazyImport;
+			parentRoute: typeof AuthImport;
+		};
 		'/_auth/organization': {
 			id: '/_auth/organization';
 			path: '/organization';
 			fullPath: '/organization';
 			preLoaderRoute: typeof AuthOrganizationLazyImport;
+			parentRoute: typeof AuthImport;
+		};
+		'/_auth/students': {
+			id: '/_auth/students';
+			path: '/students';
+			fullPath: '/students';
+			preLoaderRoute: typeof AuthStudentsLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 	}
@@ -68,11 +94,15 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthRouteChildren {
+	AuthAdminLazyRoute: typeof AuthAdminLazyRoute;
 	AuthOrganizationLazyRoute: typeof AuthOrganizationLazyRoute;
+	AuthStudentsLazyRoute: typeof AuthStudentsLazyRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+	AuthAdminLazyRoute: AuthAdminLazyRoute,
 	AuthOrganizationLazyRoute: AuthOrganizationLazyRoute,
+	AuthStudentsLazyRoute: AuthStudentsLazyRoute,
 };
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
@@ -80,28 +110,34 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 export interface FileRoutesByFullPath {
 	'/': typeof IndexRoute;
 	'': typeof AuthRouteWithChildren;
+	'/admin': typeof AuthAdminLazyRoute;
 	'/organization': typeof AuthOrganizationLazyRoute;
+	'/students': typeof AuthStudentsLazyRoute;
 }
 
 export interface FileRoutesByTo {
 	'/': typeof IndexRoute;
 	'': typeof AuthRouteWithChildren;
+	'/admin': typeof AuthAdminLazyRoute;
 	'/organization': typeof AuthOrganizationLazyRoute;
+	'/students': typeof AuthStudentsLazyRoute;
 }
 
 export interface FileRoutesById {
 	__root__: typeof rootRoute;
 	'/': typeof IndexRoute;
 	'/_auth': typeof AuthRouteWithChildren;
+	'/_auth/admin': typeof AuthAdminLazyRoute;
 	'/_auth/organization': typeof AuthOrganizationLazyRoute;
+	'/_auth/students': typeof AuthStudentsLazyRoute;
 }
 
 export interface FileRouteTypes {
 	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths: '/' | '' | '/organization';
+	fullPaths: '/' | '' | '/admin' | '/organization' | '/students';
 	fileRoutesByTo: FileRoutesByTo;
-	to: '/' | '' | '/organization';
-	id: '__root__' | '/' | '/_auth' | '/_auth/organization';
+	to: '/' | '' | '/admin' | '/organization' | '/students';
+	id: '__root__' | '/' | '/_auth' | '/_auth/admin' | '/_auth/organization' | '/_auth/students';
 	fileRoutesById: FileRoutesById;
 }
 
@@ -135,11 +171,21 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/organization"
+        "/_auth/admin",
+        "/_auth/organization",
+        "/_auth/students"
       ]
+    },
+    "/_auth/admin": {
+      "filePath": "_auth.admin.lazy.tsx",
+      "parent": "/_auth"
     },
     "/_auth/organization": {
       "filePath": "_auth.organization.lazy.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/students": {
+      "filePath": "_auth.students.lazy.tsx",
       "parent": "/_auth"
     }
   }

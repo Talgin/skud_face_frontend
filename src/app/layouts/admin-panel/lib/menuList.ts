@@ -1,4 +1,4 @@
-import { Tag, Users, Settings, Bookmark, LayoutGrid, Building, LucideIcon } from 'lucide-react';
+import { Settings, LayoutGrid, Building, LucideIcon, UserCog, GraduationCap } from 'lucide-react';
 
 type Submenu = {
 	href: string;
@@ -41,35 +41,50 @@ export function getMenuList(pathname: string): Group[] {
 					icon: Building,
 					submenus: [
 						{
-							href: '/posts',
-							label: 'All Posts',
+							href: '/organization',
+							label: 'Все организаций',
 						},
 						{
-							href: '/posts/new',
-							label: 'New Post',
+							href: '/organization/create',
+							label: 'Создать',
 						},
 					],
 				},
 				{
-					href: '/categories',
-					label: 'Categories',
-					icon: Bookmark,
+					href: '',
+					label: 'Админ',
+					icon: UserCog,
+					submenus: [
+						{
+							href: '/admin',
+							label: 'Все админы',
+						},
+						{
+							href: '/admin/create',
+							label: 'Создать',
+						},
+					],
 				},
 				{
-					href: '/tags',
-					label: 'Tags',
-					icon: Tag,
+					href: '/',
+					label: 'Студенты',
+					icon: GraduationCap,
+					submenus: [
+						{
+							href: '/students',
+							label: 'Все студенты',
+						},
+						{
+							href: '/students/create',
+							label: 'Создать',
+						},
+					],
 				},
 			],
 		},
 		{
 			groupLabel: 'Settings',
 			menus: [
-				{
-					href: '/users',
-					label: 'Users',
-					icon: Users,
-				},
 				{
 					href: '/account',
 					label: 'Account',
