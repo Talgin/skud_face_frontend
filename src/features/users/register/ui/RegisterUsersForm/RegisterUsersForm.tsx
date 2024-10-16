@@ -1,17 +1,17 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type RegisterFormSchema, registerFormSchema } from '../../model/registerFormSchema';
+import { type RegisterUsersFormSchema, registerUsersFormSchema } from '../../model/registerFormSchema';
 import { useCallback } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 
-export function RegisterStudentsForm() {
-	const form = useForm<RegisterFormSchema>({
-		resolver: zodResolver(registerFormSchema),
+export function RegisterUsersForm() {
+	const form = useForm<RegisterUsersFormSchema>({
+		resolver: zodResolver(registerUsersFormSchema),
 	});
 
-	const onSubmitHandler = useCallback((values: RegisterFormSchema) => {}, []);
+	const onSubmitHandler = useCallback((values: RegisterUsersFormSchema) => {}, []);
 
 	return (
 		<Form {...form}>

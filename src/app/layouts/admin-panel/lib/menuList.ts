@@ -1,4 +1,4 @@
-import { Settings, LayoutGrid, Building, LucideIcon, UserCog, GraduationCap } from 'lucide-react';
+import { Settings, LayoutGrid, Building, LucideIcon, UserCog, Users } from 'lucide-react';
 
 type Submenu = {
 	href: string;
@@ -67,16 +67,16 @@ export function getMenuList(pathname: string): Group[] {
 				},
 				{
 					href: '/',
-					label: 'Студенты',
-					icon: GraduationCap,
+					label: 'Пользователей',
+					icon: Users,
 					submenus: [
 						{
-							href: '/students',
-							label: 'Все студенты',
+							href: '/users',
+							label: 'Все пользователи',
 						},
 						{
-							href: '/students/create',
-							label: 'Создать',
+							href: '/user/create',
+							label: 'Создать пользователя',
 						},
 					],
 				},
