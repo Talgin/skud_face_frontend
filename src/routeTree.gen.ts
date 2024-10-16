@@ -13,16 +13,22 @@ import { createFileRoute } from '@tanstack/react-router';
 // Import Routes
 
 import { Route as rootRoute } from './app/routes/__root';
+import { Route as RegisterUsersImport } from './app/routes/register-users';
 import { Route as AuthImport } from './app/routes/_auth';
 import { Route as IndexImport } from './app/routes/index';
 
 // Create Virtual Routes
 
-const AuthUsersLazyImport = createFileRoute('/_auth/users')();
+const AuthRegisterUserLazyImport = createFileRoute('/_auth/register-user')();
 const AuthOrganizationLazyImport = createFileRoute('/_auth/organization')();
 const AuthAdminLazyImport = createFileRoute('/_auth/admin')();
 
 // Create/Update Routes
+
+const RegisterUsersRoute = RegisterUsersImport.update({
+	path: '/register-users',
+	getParentRoute: () => rootRoute,
+} as any);
 
 const AuthRoute = AuthImport.update({
 	id: '/_auth',
@@ -34,10 +40,10 @@ const IndexRoute = IndexImport.update({
 	getParentRoute: () => rootRoute,
 } as any);
 
-const AuthUsersLazyRoute = AuthUsersLazyImport.update({
-	path: '/users',
+const AuthRegisterUserLazyRoute = AuthRegisterUserLazyImport.update({
+	path: '/register-user',
 	getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./app/routes/_auth.users.lazy').then((d) => d.Route));
+} as any).lazy(() => import('./app/routes/_auth.register-user.lazy').then((d) => d.Route));
 
 const AuthOrganizationLazyRoute = AuthOrganizationLazyImport.update({
 	path: '/organization',
@@ -67,6 +73,13 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthImport;
 			parentRoute: typeof rootRoute;
 		};
+		'/register-users': {
+			id: '/register-users';
+			path: '/register-users';
+			fullPath: '/register-users';
+			preLoaderRoute: typeof RegisterUsersImport;
+			parentRoute: typeof rootRoute;
+		};
 		'/_auth/admin': {
 			id: '/_auth/admin';
 			path: '/admin';
@@ -81,11 +94,11 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthOrganizationLazyImport;
 			parentRoute: typeof AuthImport;
 		};
-		'/_auth/users': {
-			id: '/_auth/users';
-			path: '/users';
-			fullPath: '/users';
-			preLoaderRoute: typeof AuthUsersLazyImport;
+		'/_auth/register-user': {
+			id: '/_auth/register-user';
+			path: '/register-user';
+			fullPath: '/register-user';
+			preLoaderRoute: typeof AuthRegisterUserLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 	}
@@ -96,13 +109,13 @@ declare module '@tanstack/react-router' {
 interface AuthRouteChildren {
 	AuthAdminLazyRoute: typeof AuthAdminLazyRoute;
 	AuthOrganizationLazyRoute: typeof AuthOrganizationLazyRoute;
-	AuthUsersLazyRoute: typeof AuthUsersLazyRoute;
+	AuthRegisterUserLazyRoute: typeof AuthRegisterUserLazyRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
 	AuthAdminLazyRoute: AuthAdminLazyRoute,
 	AuthOrganizationLazyRoute: AuthOrganizationLazyRoute,
-	AuthUsersLazyRoute: AuthUsersLazyRoute,
+	AuthRegisterUserLazyRoute: AuthRegisterUserLazyRoute,
 };
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
@@ -110,45 +123,50 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 export interface FileRoutesByFullPath {
 	'/': typeof IndexRoute;
 	'': typeof AuthRouteWithChildren;
+	'/register-users': typeof RegisterUsersRoute;
 	'/admin': typeof AuthAdminLazyRoute;
 	'/organization': typeof AuthOrganizationLazyRoute;
-	'/users': typeof AuthUsersLazyRoute;
+	'/register-user': typeof AuthRegisterUserLazyRoute;
 }
 
 export interface FileRoutesByTo {
 	'/': typeof IndexRoute;
 	'': typeof AuthRouteWithChildren;
+	'/register-users': typeof RegisterUsersRoute;
 	'/admin': typeof AuthAdminLazyRoute;
 	'/organization': typeof AuthOrganizationLazyRoute;
-	'/users': typeof AuthUsersLazyRoute;
+	'/register-user': typeof AuthRegisterUserLazyRoute;
 }
 
 export interface FileRoutesById {
 	__root__: typeof rootRoute;
 	'/': typeof IndexRoute;
 	'/_auth': typeof AuthRouteWithChildren;
+	'/register-users': typeof RegisterUsersRoute;
 	'/_auth/admin': typeof AuthAdminLazyRoute;
 	'/_auth/organization': typeof AuthOrganizationLazyRoute;
-	'/_auth/users': typeof AuthUsersLazyRoute;
+	'/_auth/register-user': typeof AuthRegisterUserLazyRoute;
 }
 
 export interface FileRouteTypes {
 	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths: '/' | '' | '/admin' | '/organization' | '/users';
+	fullPaths: '/' | '' | '/register-users' | '/admin' | '/organization' | '/register-user';
 	fileRoutesByTo: FileRoutesByTo;
-	to: '/' | '' | '/admin' | '/organization' | '/users';
-	id: '__root__' | '/' | '/_auth' | '/_auth/admin' | '/_auth/organization' | '/_auth/users';
+	to: '/' | '' | '/register-users' | '/admin' | '/organization' | '/register-user';
+	id: '__root__' | '/' | '/_auth' | '/register-users' | '/_auth/admin' | '/_auth/organization' | '/_auth/register-user';
 	fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
 	IndexRoute: typeof IndexRoute;
 	AuthRoute: typeof AuthRouteWithChildren;
+	RegisterUsersRoute: typeof RegisterUsersRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
 	IndexRoute: IndexRoute,
 	AuthRoute: AuthRouteWithChildren,
+	RegisterUsersRoute: RegisterUsersRoute,
 };
 
 export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>();
@@ -162,7 +180,8 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_auth"
+        "/_auth",
+        "/register-users"
       ]
     },
     "/": {
@@ -173,8 +192,11 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "children": [
         "/_auth/admin",
         "/_auth/organization",
-        "/_auth/users"
+        "/_auth/register-user"
       ]
+    },
+    "/register-users": {
+      "filePath": "register-users.tsx"
     },
     "/_auth/admin": {
       "filePath": "_auth.admin.lazy.tsx",
@@ -184,8 +206,8 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "filePath": "_auth.organization.lazy.tsx",
       "parent": "/_auth"
     },
-    "/_auth/users": {
-      "filePath": "_auth.users.lazy.tsx",
+    "/_auth/register-user": {
+      "filePath": "_auth.register-user.lazy.tsx",
       "parent": "/_auth"
     }
   }

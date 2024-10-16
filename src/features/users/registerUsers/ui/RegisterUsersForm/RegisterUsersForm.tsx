@@ -1,7 +1,7 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type RegisterUsersFormSchema, registerUsersFormSchema } from '../../model/registerFormSchema';
+import { type RegisterUsersFormSchema, registerUsersFormSchema } from '../../model/registerUsersFormSchema';
 import { useCallback } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
@@ -31,7 +31,7 @@ export function RegisterUsersForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="photoFolder"
+					name="photo"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Фото:</FormLabel>
