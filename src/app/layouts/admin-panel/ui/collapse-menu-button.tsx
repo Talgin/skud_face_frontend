@@ -122,7 +122,7 @@ export function CollapseMenuButton({ icon: Icon, label, active, submenus, isOpen
 					<DropdownMenuItem key={index} asChild>
 						<Link
 							className={`cursor-pointer ${((active === undefined && pathname === href) || active) && 'bg-secondary'}`}
-							href={href}
+							to={href}
 						>
 							<p className="max-w-[180px] truncate">{label}</p>
 						</Link>
