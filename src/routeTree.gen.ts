@@ -15,13 +15,13 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Route as rootRoute } from './app/routes/__root';
 import { Route as AuthImport } from './app/routes/_auth';
 import { Route as IndexImport } from './app/routes/index';
-import { Route as AuthUsersRegisterByOneImport } from './app/routes/_auth/users/register-by-one';
+import { Route as AuthUsersCreateSingleUserImport } from './app/routes/_auth/users/create-single-user';
+import { Route as AuthUsersCreateImport } from './app/routes/_auth/users/create';
 
 // Create Virtual Routes
 
-const AuthUsersRegisterLazyImport = createFileRoute('/_auth/users/register')();
-const AuthOrganizationsRegisterLazyImport = createFileRoute('/_auth/organizations/register')();
-const AuthAdminsRegisterLazyImport = createFileRoute('/_auth/admins/register')();
+const AuthOrganizationsCreateLazyImport = createFileRoute('/_auth/organizations/create')();
+const AuthAdminsCreateLazyImport = createFileRoute('/_auth/admins/create')();
 
 // Create/Update Routes
 
@@ -35,23 +35,23 @@ const IndexRoute = IndexImport.update({
 	getParentRoute: () => rootRoute,
 } as any);
 
-const AuthUsersRegisterLazyRoute = AuthUsersRegisterLazyImport.update({
-	path: '/users/register',
+const AuthOrganizationsCreateLazyRoute = AuthOrganizationsCreateLazyImport.update({
+	path: '/organizations/create',
 	getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./app/routes/_auth/users/register.lazy').then((d) => d.Route));
+} as any).lazy(() => import('./app/routes/_auth/organizations/create.lazy').then((d) => d.Route));
 
-const AuthOrganizationsRegisterLazyRoute = AuthOrganizationsRegisterLazyImport.update({
-	path: '/organizations/register',
+const AuthAdminsCreateLazyRoute = AuthAdminsCreateLazyImport.update({
+	path: '/admins/create',
 	getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./app/routes/_auth/organizations/register.lazy').then((d) => d.Route));
+} as any).lazy(() => import('./app/routes/_auth/admins/create.lazy').then((d) => d.Route));
 
-const AuthAdminsRegisterLazyRoute = AuthAdminsRegisterLazyImport.update({
-	path: '/admins/register',
+const AuthUsersCreateSingleUserRoute = AuthUsersCreateSingleUserImport.update({
+	path: '/users/create-single-user',
 	getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./app/routes/_auth/admins/register.lazy').then((d) => d.Route));
+} as any);
 
-const AuthUsersRegisterByOneRoute = AuthUsersRegisterByOneImport.update({
-	path: '/users/register-by-one',
+const AuthUsersCreateRoute = AuthUsersCreateImport.update({
+	path: '/users/create',
 	getParentRoute: () => AuthRoute,
 } as any);
 
@@ -73,32 +73,32 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthImport;
 			parentRoute: typeof rootRoute;
 		};
-		'/_auth/users/register-by-one': {
-			id: '/_auth/users/register-by-one';
-			path: '/users/register-by-one';
-			fullPath: '/users/register-by-one';
-			preLoaderRoute: typeof AuthUsersRegisterByOneImport;
+		'/_auth/users/create': {
+			id: '/_auth/users/create';
+			path: '/users/create';
+			fullPath: '/users/create';
+			preLoaderRoute: typeof AuthUsersCreateImport;
 			parentRoute: typeof AuthImport;
 		};
-		'/_auth/admins/register': {
-			id: '/_auth/admins/register';
-			path: '/admins/register';
-			fullPath: '/admins/register';
-			preLoaderRoute: typeof AuthAdminsRegisterLazyImport;
+		'/_auth/users/create-single-user': {
+			id: '/_auth/users/create-single-user';
+			path: '/users/create-single-user';
+			fullPath: '/users/create-single-user';
+			preLoaderRoute: typeof AuthUsersCreateSingleUserImport;
 			parentRoute: typeof AuthImport;
 		};
-		'/_auth/organizations/register': {
-			id: '/_auth/organizations/register';
-			path: '/organizations/register';
-			fullPath: '/organizations/register';
-			preLoaderRoute: typeof AuthOrganizationsRegisterLazyImport;
+		'/_auth/admins/create': {
+			id: '/_auth/admins/create';
+			path: '/admins/create';
+			fullPath: '/admins/create';
+			preLoaderRoute: typeof AuthAdminsCreateLazyImport;
 			parentRoute: typeof AuthImport;
 		};
-		'/_auth/users/register': {
-			id: '/_auth/users/register';
-			path: '/users/register';
-			fullPath: '/users/register';
-			preLoaderRoute: typeof AuthUsersRegisterLazyImport;
+		'/_auth/organizations/create': {
+			id: '/_auth/organizations/create';
+			path: '/organizations/create';
+			fullPath: '/organizations/create';
+			preLoaderRoute: typeof AuthOrganizationsCreateLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 	}
@@ -107,17 +107,17 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthRouteChildren {
-	AuthUsersRegisterByOneRoute: typeof AuthUsersRegisterByOneRoute;
-	AuthAdminsRegisterLazyRoute: typeof AuthAdminsRegisterLazyRoute;
-	AuthOrganizationsRegisterLazyRoute: typeof AuthOrganizationsRegisterLazyRoute;
-	AuthUsersRegisterLazyRoute: typeof AuthUsersRegisterLazyRoute;
+	AuthUsersCreateRoute: typeof AuthUsersCreateRoute;
+	AuthUsersCreateSingleUserRoute: typeof AuthUsersCreateSingleUserRoute;
+	AuthAdminsCreateLazyRoute: typeof AuthAdminsCreateLazyRoute;
+	AuthOrganizationsCreateLazyRoute: typeof AuthOrganizationsCreateLazyRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-	AuthUsersRegisterByOneRoute: AuthUsersRegisterByOneRoute,
-	AuthAdminsRegisterLazyRoute: AuthAdminsRegisterLazyRoute,
-	AuthOrganizationsRegisterLazyRoute: AuthOrganizationsRegisterLazyRoute,
-	AuthUsersRegisterLazyRoute: AuthUsersRegisterLazyRoute,
+	AuthUsersCreateRoute: AuthUsersCreateRoute,
+	AuthUsersCreateSingleUserRoute: AuthUsersCreateSingleUserRoute,
+	AuthAdminsCreateLazyRoute: AuthAdminsCreateLazyRoute,
+	AuthOrganizationsCreateLazyRoute: AuthOrganizationsCreateLazyRoute,
 };
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
@@ -125,44 +125,44 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 export interface FileRoutesByFullPath {
 	'/': typeof IndexRoute;
 	'': typeof AuthRouteWithChildren;
-	'/users/register-by-one': typeof AuthUsersRegisterByOneRoute;
-	'/admins/register': typeof AuthAdminsRegisterLazyRoute;
-	'/organizations/register': typeof AuthOrganizationsRegisterLazyRoute;
-	'/users/register': typeof AuthUsersRegisterLazyRoute;
+	'/users/create': typeof AuthUsersCreateRoute;
+	'/users/create-single-user': typeof AuthUsersCreateSingleUserRoute;
+	'/admins/create': typeof AuthAdminsCreateLazyRoute;
+	'/organizations/create': typeof AuthOrganizationsCreateLazyRoute;
 }
 
 export interface FileRoutesByTo {
 	'/': typeof IndexRoute;
 	'': typeof AuthRouteWithChildren;
-	'/users/register-by-one': typeof AuthUsersRegisterByOneRoute;
-	'/admins/register': typeof AuthAdminsRegisterLazyRoute;
-	'/organizations/register': typeof AuthOrganizationsRegisterLazyRoute;
-	'/users/register': typeof AuthUsersRegisterLazyRoute;
+	'/users/create': typeof AuthUsersCreateRoute;
+	'/users/create-single-user': typeof AuthUsersCreateSingleUserRoute;
+	'/admins/create': typeof AuthAdminsCreateLazyRoute;
+	'/organizations/create': typeof AuthOrganizationsCreateLazyRoute;
 }
 
 export interface FileRoutesById {
 	__root__: typeof rootRoute;
 	'/': typeof IndexRoute;
 	'/_auth': typeof AuthRouteWithChildren;
-	'/_auth/users/register-by-one': typeof AuthUsersRegisterByOneRoute;
-	'/_auth/admins/register': typeof AuthAdminsRegisterLazyRoute;
-	'/_auth/organizations/register': typeof AuthOrganizationsRegisterLazyRoute;
-	'/_auth/users/register': typeof AuthUsersRegisterLazyRoute;
+	'/_auth/users/create': typeof AuthUsersCreateRoute;
+	'/_auth/users/create-single-user': typeof AuthUsersCreateSingleUserRoute;
+	'/_auth/admins/create': typeof AuthAdminsCreateLazyRoute;
+	'/_auth/organizations/create': typeof AuthOrganizationsCreateLazyRoute;
 }
 
 export interface FileRouteTypes {
 	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths: '/' | '' | '/users/register-by-one' | '/admins/register' | '/organizations/register' | '/users/register';
+	fullPaths: '/' | '' | '/users/create' | '/users/create-single-user' | '/admins/create' | '/organizations/create';
 	fileRoutesByTo: FileRoutesByTo;
-	to: '/' | '' | '/users/register-by-one' | '/admins/register' | '/organizations/register' | '/users/register';
+	to: '/' | '' | '/users/create' | '/users/create-single-user' | '/admins/create' | '/organizations/create';
 	id:
 		| '__root__'
 		| '/'
 		| '/_auth'
-		| '/_auth/users/register-by-one'
-		| '/_auth/admins/register'
-		| '/_auth/organizations/register'
-		| '/_auth/users/register';
+		| '/_auth/users/create'
+		| '/_auth/users/create-single-user'
+		| '/_auth/admins/create'
+		| '/_auth/organizations/create';
 	fileRoutesById: FileRoutesById;
 }
 
@@ -196,26 +196,26 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/users/register-by-one",
-        "/_auth/admins/register",
-        "/_auth/organizations/register",
-        "/_auth/users/register"
+        "/_auth/users/create",
+        "/_auth/users/create-single-user",
+        "/_auth/admins/create",
+        "/_auth/organizations/create"
       ]
     },
-    "/_auth/users/register-by-one": {
-      "filePath": "_auth/users/register-by-one.ts",
+    "/_auth/users/create": {
+      "filePath": "_auth/users/create.ts",
       "parent": "/_auth"
     },
-    "/_auth/admins/register": {
-      "filePath": "_auth/admins/register.lazy.ts",
+    "/_auth/users/create-single-user": {
+      "filePath": "_auth/users/create-single-user.ts",
       "parent": "/_auth"
     },
-    "/_auth/organizations/register": {
-      "filePath": "_auth/organizations/register.lazy.ts",
+    "/_auth/admins/create": {
+      "filePath": "_auth/admins/create.lazy.ts",
       "parent": "/_auth"
     },
-    "/_auth/users/register": {
-      "filePath": "_auth/users/register.lazy.ts",
+    "/_auth/organizations/create": {
+      "filePath": "_auth/organizations/create.lazy.ts",
       "parent": "/_auth"
     }
   }

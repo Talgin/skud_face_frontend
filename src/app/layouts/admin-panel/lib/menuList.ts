@@ -45,7 +45,7 @@ export function getMenuList(pathname: string): Group[] {
 							label: 'Все организаций',
 						},
 						{
-							href: '/organizations/register',
+							href: '/organizations/create',
 							label: 'Добавить',
 						},
 					],
@@ -60,7 +60,7 @@ export function getMenuList(pathname: string): Group[] {
 							label: 'Все админы',
 						},
 						{
-							href: '/admins/register',
+							href: '/admins/create',
 							label: 'Добавить',
 						},
 					],
@@ -71,11 +71,11 @@ export function getMenuList(pathname: string): Group[] {
 					icon: Users,
 					submenus: [
 						{
-							href: '/users/register',
+							href: '/users/create',
 							label: 'Добавить новых пользователей',
 						},
 						{
-							href: '/users/register-by-one',
+							href: '/users/create-single-user',
 							label: 'Добавить пользователя',
 						},
 					],
