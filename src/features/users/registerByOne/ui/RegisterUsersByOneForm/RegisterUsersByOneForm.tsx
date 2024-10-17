@@ -5,14 +5,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Button } from '@/shared/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Input } from '@/shared/ui/input';
-import { type RegisterUserFormSchema, registerUserFormSchema } from '../../model/registerUserFormSchema';
+import { type RegisterUsersByOneFormSchema, registerUsersByOneFormSchema } from '../../model/registerUserFormSchema';
 
-export function RegisterUserForm() {
-	const form = useForm<RegisterUserFormSchema>({
-		resolver: zodResolver(registerUserFormSchema),
+export function RegisterUsersByOneForm() {
+	const form = useForm<RegisterUsersByOneFormSchema>({
+		resolver: zodResolver(registerUsersByOneFormSchema),
 	});
 
-	const onSubmitHandler = useCallback((values: RegisterUserFormSchema) => {}, []);
+	const onSubmitHandler = useCallback((values: RegisterUsersByOneFormSchema) => {}, []);
 
 	return (
 		<Form {...form}>

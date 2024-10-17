@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { RegisterUsersForm } from '@/features/users/registerUsers';
+import { RegisterUsersForm } from '@/features/users/register';
 
 export function RegisterUsersPage() {
 	return (

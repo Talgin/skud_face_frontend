@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { RegisterUserForm } from '@/features/users/registerUser';
+import { RegisterUsersByOneForm } from '@/features/users/registerByOne';
 
-export function RegisterUserPage() {
+export function RegisterUsersByOnePage() {
 	return (
 		<div className="container flex justify-center pt-16">
 			<Card className="xl:w-6/12 w-full">
@@ -9,7 +9,7 @@ export function RegisterUserPage() {
 					<CardTitle>Регистрация пользователя</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<RegisterUserForm />
+					<RegisterUsersByOneForm />
 				</CardContent>
 			</Card>
 		</div>

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const registerUserFormSchema = z.object({
+export const registerUsersByOneFormSchema = z.object({
 	name: z.string().min(1, { message: 'Обязательное поле' }),
 	surname: z.string({ required_error: 'Обязательное поле' }),
 	cardId: z.string({ required_error: 'Обязательное поле' }),
@@ -9,4 +9,4 @@ export const registerUserFormSchema = z.object({
 	photo: z.any(),
 });
 
-export type RegisterUserFormSchema = z.infer<typeof registerUserFormSchema>;
+export type RegisterUsersByOneFormSchema = z.infer<typeof registerUsersByOneFormSchema>;
