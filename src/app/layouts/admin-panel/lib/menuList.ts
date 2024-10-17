@@ -46,7 +46,7 @@ export function getMenuList(pathname: string): Group[] {
 						},
 						{
 							href: '/organizations/register',
-							label: 'Создать',
+							label: 'Добавить',
 						},
 					],
 				},
@@ -56,12 +56,12 @@ export function getMenuList(pathname: string): Group[] {
 					icon: UserCog,
 					submenus: [
 						{
-							href: '/admin',
+							href: '/admins',
 							label: 'Все админы',
 						},
 						{
-							href: '/admin/create',
-							label: 'Создать',
+							href: '/admins/register',
+							label: 'Добавить',
 						},
 					],
 				},
@@ -71,12 +71,12 @@ export function getMenuList(pathname: string): Group[] {
 					icon: Users,
 					submenus: [
 						{
-							href: '/users',
-							label: 'Все пользователи',
+							href: '/users/register',
+							label: 'Добавить новых пользователей',
 						},
 						{
-							href: '/user/create',
-							label: 'Создать пользователя',
+							href: '/users/register-by-one',
+							label: 'Добавить пользователя',
 						},
 					],
 				},
@@ -86,8 +86,8 @@ export function getMenuList(pathname: string): Group[] {
 			groupLabel: 'Settings',
 			menus: [
 				{
-					href: '/account',
-					label: 'Account',
+					href: '/profile',
+					label: 'Личный кабинет',
 					icon: Settings,
 				},
 			],

@@ -73,7 +73,7 @@ export function CollapseMenuButton({ icon: Icon, label, active, submenus, isOpen
 						className="w-full justify-start h-10 mb-1"
 						asChild
 					>
-						<Link href={href}>
+						<Link to={href}>
 							<span className="mr-4 ml-2">
 								<Dot size={18} />
 							</span>
