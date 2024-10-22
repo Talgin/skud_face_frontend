@@ -21,7 +21,7 @@ import { Route as AuthUsersCreateImport } from './app/routes/_auth/users/create'
 // Create Virtual Routes
 
 const AuthOrganizationsIndexLazyImport = createFileRoute('/_auth/organizations/')();
-const AuthOrganizationsCreateLazyImport = createFileRoute('/_auth/organizations/create')();
+const AuthOrganizationsAddLazyImport = createFileRoute('/_auth/organizations/add')();
 const AuthAdminsCreateLazyImport = createFileRoute('/_auth/admins/create')();
 
 // Create/Update Routes
@@ -41,10 +41,10 @@ const AuthOrganizationsIndexLazyRoute = AuthOrganizationsIndexLazyImport.update(
 	getParentRoute: () => AuthRoute,
 } as any).lazy(() => import('./app/routes/_auth/organizations/index.lazy').then((d) => d.Route));
 
-const AuthOrganizationsCreateLazyRoute = AuthOrganizationsCreateLazyImport.update({
-	path: '/organizations/create',
+const AuthOrganizationsAddLazyRoute = AuthOrganizationsAddLazyImport.update({
+	path: '/organizations/add',
 	getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./app/routes/_auth/organizations/create.lazy').then((d) => d.Route));
+} as any).lazy(() => import('./app/routes/_auth/organizations/add.lazy').then((d) => d.Route));
 
 const AuthAdminsCreateLazyRoute = AuthAdminsCreateLazyImport.update({
 	path: '/admins/create',
@@ -100,11 +100,11 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthAdminsCreateLazyImport;
 			parentRoute: typeof AuthImport;
 		};
-		'/_auth/organizations/create': {
-			id: '/_auth/organizations/create';
-			path: '/organizations/create';
-			fullPath: '/organizations/create';
-			preLoaderRoute: typeof AuthOrganizationsCreateLazyImport;
+		'/_auth/organizations/add': {
+			id: '/_auth/organizations/add';
+			path: '/organizations/add';
+			fullPath: '/organizations/add';
+			preLoaderRoute: typeof AuthOrganizationsAddLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 		'/_auth/organizations/': {
@@ -123,7 +123,7 @@ interface AuthRouteChildren {
 	AuthUsersCreateRoute: typeof AuthUsersCreateRoute;
 	AuthUsersCreateSingleUserRoute: typeof AuthUsersCreateSingleUserRoute;
 	AuthAdminsCreateLazyRoute: typeof AuthAdminsCreateLazyRoute;
-	AuthOrganizationsCreateLazyRoute: typeof AuthOrganizationsCreateLazyRoute;
+	AuthOrganizationsAddLazyRoute: typeof AuthOrganizationsAddLazyRoute;
 	AuthOrganizationsIndexLazyRoute: typeof AuthOrganizationsIndexLazyRoute;
 }
 
@@ -131,7 +131,7 @@ const AuthRouteChildren: AuthRouteChildren = {
 	AuthUsersCreateRoute: AuthUsersCreateRoute,
 	AuthUsersCreateSingleUserRoute: AuthUsersCreateSingleUserRoute,
 	AuthAdminsCreateLazyRoute: AuthAdminsCreateLazyRoute,
-	AuthOrganizationsCreateLazyRoute: AuthOrganizationsCreateLazyRoute,
+	AuthOrganizationsAddLazyRoute: AuthOrganizationsAddLazyRoute,
 	AuthOrganizationsIndexLazyRoute: AuthOrganizationsIndexLazyRoute,
 };
 
@@ -143,7 +143,7 @@ export interface FileRoutesByFullPath {
 	'/users/create': typeof AuthUsersCreateRoute;
 	'/users/create-single-user': typeof AuthUsersCreateSingleUserRoute;
 	'/admins/create': typeof AuthAdminsCreateLazyRoute;
-	'/organizations/create': typeof AuthOrganizationsCreateLazyRoute;
+	'/organizations/add': typeof AuthOrganizationsAddLazyRoute;
 	'/organizations': typeof AuthOrganizationsIndexLazyRoute;
 }
 
@@ -153,7 +153,7 @@ export interface FileRoutesByTo {
 	'/users/create': typeof AuthUsersCreateRoute;
 	'/users/create-single-user': typeof AuthUsersCreateSingleUserRoute;
 	'/admins/create': typeof AuthAdminsCreateLazyRoute;
-	'/organizations/create': typeof AuthOrganizationsCreateLazyRoute;
+	'/organizations/add': typeof AuthOrganizationsAddLazyRoute;
 	'/organizations': typeof AuthOrganizationsIndexLazyRoute;
 }
 
@@ -164,7 +164,7 @@ export interface FileRoutesById {
 	'/_auth/users/create': typeof AuthUsersCreateRoute;
 	'/_auth/users/create-single-user': typeof AuthUsersCreateSingleUserRoute;
 	'/_auth/admins/create': typeof AuthAdminsCreateLazyRoute;
-	'/_auth/organizations/create': typeof AuthOrganizationsCreateLazyRoute;
+	'/_auth/organizations/add': typeof AuthOrganizationsAddLazyRoute;
 	'/_auth/organizations/': typeof AuthOrganizationsIndexLazyRoute;
 }
 
@@ -176,7 +176,7 @@ export interface FileRouteTypes {
 		| '/users/create'
 		| '/users/create-single-user'
 		| '/admins/create'
-		| '/organizations/create'
+		| '/organizations/add'
 		| '/organizations';
 	fileRoutesByTo: FileRoutesByTo;
 	to:
@@ -185,7 +185,7 @@ export interface FileRouteTypes {
 		| '/users/create'
 		| '/users/create-single-user'
 		| '/admins/create'
-		| '/organizations/create'
+		| '/organizations/add'
 		| '/organizations';
 	id:
 		| '__root__'
@@ -194,7 +194,7 @@ export interface FileRouteTypes {
 		| '/_auth/users/create'
 		| '/_auth/users/create-single-user'
 		| '/_auth/admins/create'
-		| '/_auth/organizations/create'
+		| '/_auth/organizations/add'
 		| '/_auth/organizations/';
 	fileRoutesById: FileRoutesById;
 }
@@ -232,7 +232,7 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
         "/_auth/users/create",
         "/_auth/users/create-single-user",
         "/_auth/admins/create",
-        "/_auth/organizations/create",
+        "/_auth/organizations/add",
         "/_auth/organizations/"
       ]
     },
@@ -248,8 +248,8 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "filePath": "_auth/admins/create.lazy.ts",
       "parent": "/_auth"
     },
-    "/_auth/organizations/create": {
-      "filePath": "_auth/organizations/create.lazy.ts",
+    "/_auth/organizations/add": {
+      "filePath": "_auth/organizations/add.lazy.ts",
       "parent": "/_auth"
     },
     "/_auth/organizations/": {

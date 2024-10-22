@@ -1,20 +1,17 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-	type CreateOrganizationFormSchema,
-	createOrganizationFormSchema,
-} from '../../model/createOrganizationFormSchema';
+import { type AddOrganizationFormSchema, addOrganizationFormSchema } from '../../model/addOrganizationFormSchema';
 import { useCallback } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 
-export function CreateOrganizationForm() {
-	const form = useForm<CreateOrganizationFormSchema>({
-		resolver: zodResolver(createOrganizationFormSchema),
+export function AddOrganizationForm() {
+	const form = useForm<AddOrganizationFormSchema>({
+		resolver: zodResolver(addOrganizationFormSchema),
 	});
 
-	const onSubmitHandler = useCallback((values: CreateOrganizationFormSchema) => {}, []);
+	const onSubmitHandler = useCallback((values: AddOrganizationFormSchema) => {}, []);
 
 	return (
 		<Form {...form}>
@@ -71,7 +68,7 @@ export function CreateOrganizationForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Создать</Button>
+				<Button type="submit">Добавить</Button>
 			</form>
 		</Form>
 	);

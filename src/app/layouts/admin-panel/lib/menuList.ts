@@ -45,7 +45,7 @@ export function getMenuList(pathname: string): Group[] {
 							label: 'Все организаций',
 						},
 						{
-							href: '/organizations/create',
+							href: '/organizations/add',
 							label: 'Добавить',
 						},
 					],
