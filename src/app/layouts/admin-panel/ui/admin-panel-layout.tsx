@@ -1,5 +1,3 @@
-'use client';
-
 import { cn } from '@/shared/lib/shadcn-ui/utils';
 import { Sidebar } from './sidebar';
 import { Footer } from './footer';

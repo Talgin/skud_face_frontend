@@ -3,7 +3,7 @@ import { LoginPage } from '@/pages/login';
 import { isAuthenticated } from '@/entities/session';
 import { z } from 'zod';
 
-const fallback = '/organizations/create' as const;
+const fallback = '/organizations' as const;
 
 export const Route = createFileRoute('/')({
 	validateSearch: z.object({
