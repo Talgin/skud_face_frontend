@@ -1,6 +1,6 @@
 import { Organizations } from '@/entities/organizations';
 
-export const mockOrganizations: Organizations = [
+export const organizationsMock: Organizations = [
 	{
 		id: '1',
 		organizationName: 'Astana IT University',

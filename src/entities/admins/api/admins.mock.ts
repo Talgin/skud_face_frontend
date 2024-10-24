@@ -1,0 +1,60 @@
+import type { Admins } from '../model/adminsSchema';
+
+export const adminsMock: Admins = [
+	{
+		id: '1',
+		name: 'Name',
+		surname: 'Surname',
+		organization: 'Astana IT University',
+		cardId: 'asd123',
+		phoneNumber: '+7 (7172) 645-710',
+	},
+	{
+		id: '2',
+		name: 'Name',
+		surname: 'Surname',
+		organization: 'Astana IT University',
+		cardId: 'asd123',
+		phoneNumber: '+7 (7172) 645-710',
+	},
+	{
+		id: '3',
+		name: 'Name',
+		surname: 'Surname',
+		organization: 'Astana IT University',
+		cardId: 'asd123',
+		phoneNumber: '+7 (7172) 645-710',
+	},
+	{
+		id: '4',
+		name: 'Name',
+		surname: 'Surname',
+		organization: 'Astana IT University',
+		cardId: 'asd123',
+		phoneNumber: '+7 (7172) 645-710',
+	},
+	{
+		id: '5',
+		name: 'Name',
+		surname: 'Surname',
+		organization: 'Astana IT University',
+		cardId: 'asd123',
+		phoneNumber: '+7 (7172) 645-710',
+	},
+	{
+		id: '6',
+		name: 'Name',
+		surname: 'Surname',
+		organization: 'Astana IT University',
+		cardId: 'asd123',
+		phoneNumber: '+7 (7172) 645-710',
+	},
+	{
+		id: '7',
+		name: 'Name',
+		surname: 'Surname',
+		organization: 'Astana IT University',
+		cardId: 'asd123',
+		phoneNumber: '+7 (7172) 645-710',
+	},
+];

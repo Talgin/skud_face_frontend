@@ -60,7 +60,7 @@ export function getMenuList(pathname: string): Group[] {
 							label: 'Все админы',
 						},
 						{
-							href: '/admins/create',
+							href: '/admins/add',
 							label: 'Добавить',
 						},
 					],

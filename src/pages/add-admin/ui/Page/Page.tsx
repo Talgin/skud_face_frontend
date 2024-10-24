@@ -1,15 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { CreateAdminForm } from '@/features/admin/create';
+import { AddAdminForm } from '@/features/admin/add';
 
-export function CreateAdminPage() {
+export function AddAdminPage() {
 	return (
 		<div className="container flex justify-center pt-16">
 			<Card className="xl:w-6/12 w-full">
 				<CardHeader>
-					<CardTitle>Создать админ</CardTitle>
+					<CardTitle>Добавить админ</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<CreateAdminForm />
+					<AddAdminForm />
 				</CardContent>
 			</Card>
 		</div>

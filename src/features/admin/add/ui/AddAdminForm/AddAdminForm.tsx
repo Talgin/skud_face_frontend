@@ -1,17 +1,17 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type CreateAdminFormSchema, createAdminFormSchema } from '../../model/createAdminFormSchema';
+import { type AddAdminFormSchema, addAdminFormSchema } from '../../model/addAdminFormSchema';
 import { useCallback } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 
-export function CreateAdminForm() {
-	const form = useForm<CreateAdminFormSchema>({
-		resolver: zodResolver(createAdminFormSchema),
+export function AddAdminForm() {
+	const form = useForm<AddAdminFormSchema>({
+		resolver: zodResolver(addAdminFormSchema),
 	});
 
-	const onSubmitHandler = useCallback((values: CreateAdminFormSchema) => {}, []);
+	const onSubmitHandler = useCallback((values: AddAdminFormSchema) => {}, []);
 
 	return (
 		<Form {...form}>

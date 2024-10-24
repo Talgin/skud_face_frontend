@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 
-export function OrganizationsTableRowActions() {
+export function AdminsTableRowActions() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
