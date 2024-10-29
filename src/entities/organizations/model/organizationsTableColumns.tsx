@@ -1,6 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { OrganizationsTableRowActions } from '../ui/OrganizationsTableRowActions';
-
+import { TableRowActions } from '@/shared/ui/table-row-actions';
 import { type Organization } from './organizationsSchema';
 
 export const organizationsTableColumns: ColumnDef<Organization>[] = [
@@ -27,6 +26,6 @@ export const organizationsTableColumns: ColumnDef<Organization>[] = [
 	},
 	{
 		id: 'actions',
-		cell: ({ row }) => <OrganizationsTableRowActions />,
+		cell: ({ row }) => <TableRowActions />,
 	},
 ];

@@ -1,6 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { AdminsTableRowActions } from '../ui/AdminsTableRowActions';
-
+import { TableRowActions } from '@/shared/ui/table-row-actions';
 import { type Admin } from '../model/adminsSchema';
 
 export const adminsTableColumns: ColumnDef<Admin>[] = [
@@ -30,6 +29,6 @@ export const adminsTableColumns: ColumnDef<Admin>[] = [
 	},
 	{
 		id: 'actions',
-		cell: () => <AdminsTableRowActions />,
+		cell: () => <TableRowActions />,
 	},
 ];

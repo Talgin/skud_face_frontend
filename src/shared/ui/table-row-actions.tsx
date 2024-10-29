@@ -1,5 +1,5 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 
 import { Button } from '@/shared/ui/button';
 import {
@@ -10,8 +10,18 @@ import {
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
+import { useConfirmModal } from '@/shared/lib/useConfirmModal';
 
-export function OrganizationsTableRowActions() {
+export function TableRowActions() {
+	const confirmRemoveModal = useConfirmModal();
+
+	const handleRemoveButtonClick = () => {
+		confirmRemoveModal.show({
+			onCancel: () => confirmRemoveModal.remove(),
+			onConfirm: () => confirmRemoveModal.remove(),
+		});
+	};
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -29,10 +39,10 @@ export function OrganizationsTableRowActions() {
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
+				<DropdownMenuItem onClick={handleRemoveButtonClick}>
 					Удалить
 					<DropdownMenuShortcut>
-						<Trash2 size={18} />
+						<DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
 					</DropdownMenuShortcut>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
