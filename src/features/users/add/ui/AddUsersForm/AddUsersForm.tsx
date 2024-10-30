@@ -1,17 +1,17 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type CreateUsersFormSchema, createUsersFormSchema } from '../../model/createUsersFormSchema';
+import { type AddUsersFormSchema, addUsersFormSchema } from '../../model/addUsersFormSchema';
 import { useCallback } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 
-export function CreateUsersForm() {
-	const form = useForm<CreateUsersFormSchema>({
-		resolver: zodResolver(createUsersFormSchema),
+export function AddUsersForm() {
+	const form = useForm<AddUsersFormSchema>({
+		resolver: zodResolver(addUsersFormSchema),
 	});
 
-	const onSubmitHandler = useCallback((values: CreateUsersFormSchema) => {}, []);
+	const onSubmitHandler = useCallback((values: AddUsersFormSchema) => {}, []);
 
 	return (
 		<Form {...form}>

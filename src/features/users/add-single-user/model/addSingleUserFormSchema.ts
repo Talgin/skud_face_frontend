@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createSingleFormSchema = z.object({
+export const addSingleFormSchema = z.object({
 	name: z.string().min(1, { message: 'Обязательное поле' }),
 	surname: z.string({ required_error: 'Обязательное поле' }),
 	cardId: z.string({ required_error: 'Обязательное поле' }),
@@ -9,4 +9,4 @@ export const createSingleFormSchema = z.object({
 	photo: z.any(),
 });
 
-export type CreateSingleUserFormSchema = z.infer<typeof createSingleFormSchema>;
+export type AddSingleUserFormSchema = z.infer<typeof addSingleFormSchema>;

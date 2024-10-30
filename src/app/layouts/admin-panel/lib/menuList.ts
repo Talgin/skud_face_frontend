@@ -71,11 +71,11 @@ export function getMenuList(pathname: string): Group[] {
 					icon: Users,
 					submenus: [
 						{
-							href: '/users/create',
+							href: '/users/add',
 							label: 'Добавить новых пользователей',
 						},
 						{
-							href: '/users/create-single-user',
+							href: '/users/add-single-user',
 							label: 'Добавить пользователя',
 						},
 					],

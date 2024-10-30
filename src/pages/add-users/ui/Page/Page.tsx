@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { CreateUsersForm } from '@/features/users/create';
+import { AddUsersForm } from '@/features/users/add';
 
-export function CreateUsersPage() {
+export function AddUsersPage() {
 	return (
 		<div className="container flex justify-center pt-16">
 			<Card className="xl:w-6/12 w-full">
@@ -9,7 +9,7 @@ export function CreateUsersPage() {
 					<CardTitle>Добавить пользователей</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<CreateUsersForm />
+					<AddUsersForm />
 				</CardContent>
 			</Card>
 		</div>
