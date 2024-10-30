@@ -1,4 +1,4 @@
-import { Settings, LayoutGrid, Building, LucideIcon, UserCog, Users } from 'lucide-react';
+import { Settings, LayoutGrid, Building, LucideIcon, UserCog, Users, MapPin } from 'lucide-react';
 
 type Submenu = {
 	href: string;
@@ -77,6 +77,21 @@ export function getMenuList(pathname: string): Group[] {
 						{
 							href: '/users/add-single-user',
 							label: 'Добавить пользователя',
+						},
+					],
+				},
+				{
+					href: '/points',
+					label: 'Точки',
+					icon: MapPin,
+					submenus: [
+						{
+							href: '/points',
+							label: 'Все точки',
+						},
+						{
+							href: '/points/add',
+							label: 'Добавить точку',
 						},
 					],
 				},
