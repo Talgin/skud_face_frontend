@@ -31,14 +31,14 @@ export function ConfirmModalPresenter(props: Props) {
 	} = props;
 
 	return (
-		<AlertDialog>
+		<AlertDialog open={true}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>{title}</AlertDialogTitle>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel>{cancelText}</AlertDialogCancel>
-					<AlertDialogAction>{confirmText}</AlertDialogAction>
+					<AlertDialogCancel onClick={onCancel}>{cancelText}</AlertDialogCancel>
+					<AlertDialogAction onClick={onConfirm}>{confirmText}</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>
