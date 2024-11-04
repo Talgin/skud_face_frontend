@@ -1,6 +1,7 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { Pencil } from 'lucide-react';
+import { useNavigate } from '@tanstack/react-router';
 
+import { Pencil } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import {
 	DropdownMenu,
@@ -12,8 +13,17 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { useConfirmModal } from '@/shared/lib/useConfirmModal';
 
-export function TableRowActions() {
+export type TableRowActionsProps = {
+	editRouteTo: string;
+};
+
+export function TableRowActions(props: TableRowActionsProps) {
 	const confirmRemoveModal = useConfirmModal();
+	const navigate = useNavigate();
+
+	const handleEditButtonClick = () => {
+		navigate({ to: props.editRouteTo });
+	};
 
 	const handleRemoveButtonClick = () => {
 		confirmRemoveModal.show({
@@ -31,7 +41,7 @@ export function TableRowActions() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-[160px]">
-				<DropdownMenuItem>
+				<DropdownMenuItem onClick={handleEditButtonClick}>
 					Редактировать
 					<DropdownMenuShortcut>
 						<Pencil size={16} />

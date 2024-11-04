@@ -25,6 +25,7 @@ const AuthOrganizationsIndexLazyImport = createFileRoute('/_auth/organizations/'
 const AuthAdminsIndexLazyImport = createFileRoute('/_auth/admins/')();
 const AuthOrganizationsAddLazyImport = createFileRoute('/_auth/organizations/add')();
 const AuthAdminsAddLazyImport = createFileRoute('/_auth/admins/add')();
+const AuthOrganizationsEditIdLazyImport = createFileRoute('/_auth/organizations/edit/$id')();
 
 // Create/Update Routes
 
@@ -72,6 +73,11 @@ const AuthUsersAddRoute = AuthUsersAddImport.update({
 	path: '/users/add',
 	getParentRoute: () => AuthRoute,
 } as any);
+
+const AuthOrganizationsEditIdLazyRoute = AuthOrganizationsEditIdLazyImport.update({
+	path: '/organizations/edit/$id',
+	getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./app/routes/_auth/organizations/edit.$id.lazy').then((d) => d.Route));
 
 // Populate the FileRoutesByPath interface
 
@@ -140,6 +146,13 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthPointsIndexLazyImport;
 			parentRoute: typeof AuthImport;
 		};
+		'/_auth/organizations/edit/$id': {
+			id: '/_auth/organizations/edit/$id';
+			path: '/organizations/edit/$id';
+			fullPath: '/organizations/edit/$id';
+			preLoaderRoute: typeof AuthOrganizationsEditIdLazyImport;
+			parentRoute: typeof AuthImport;
+		};
 	}
 }
 
@@ -153,6 +166,7 @@ interface AuthRouteChildren {
 	AuthAdminsIndexLazyRoute: typeof AuthAdminsIndexLazyRoute;
 	AuthOrganizationsIndexLazyRoute: typeof AuthOrganizationsIndexLazyRoute;
 	AuthPointsIndexLazyRoute: typeof AuthPointsIndexLazyRoute;
+	AuthOrganizationsEditIdLazyRoute: typeof AuthOrganizationsEditIdLazyRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
@@ -163,6 +177,7 @@ const AuthRouteChildren: AuthRouteChildren = {
 	AuthAdminsIndexLazyRoute: AuthAdminsIndexLazyRoute,
 	AuthOrganizationsIndexLazyRoute: AuthOrganizationsIndexLazyRoute,
 	AuthPointsIndexLazyRoute: AuthPointsIndexLazyRoute,
+	AuthOrganizationsEditIdLazyRoute: AuthOrganizationsEditIdLazyRoute,
 };
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
@@ -177,6 +192,7 @@ export interface FileRoutesByFullPath {
 	'/admins': typeof AuthAdminsIndexLazyRoute;
 	'/organizations': typeof AuthOrganizationsIndexLazyRoute;
 	'/points': typeof AuthPointsIndexLazyRoute;
+	'/organizations/edit/$id': typeof AuthOrganizationsEditIdLazyRoute;
 }
 
 export interface FileRoutesByTo {
@@ -189,6 +205,7 @@ export interface FileRoutesByTo {
 	'/admins': typeof AuthAdminsIndexLazyRoute;
 	'/organizations': typeof AuthOrganizationsIndexLazyRoute;
 	'/points': typeof AuthPointsIndexLazyRoute;
+	'/organizations/edit/$id': typeof AuthOrganizationsEditIdLazyRoute;
 }
 
 export interface FileRoutesById {
@@ -202,6 +219,7 @@ export interface FileRoutesById {
 	'/_auth/admins/': typeof AuthAdminsIndexLazyRoute;
 	'/_auth/organizations/': typeof AuthOrganizationsIndexLazyRoute;
 	'/_auth/points/': typeof AuthPointsIndexLazyRoute;
+	'/_auth/organizations/edit/$id': typeof AuthOrganizationsEditIdLazyRoute;
 }
 
 export interface FileRouteTypes {
@@ -215,7 +233,8 @@ export interface FileRouteTypes {
 		| '/organizations/add'
 		| '/admins'
 		| '/organizations'
-		| '/points';
+		| '/points'
+		| '/organizations/edit/$id';
 	fileRoutesByTo: FileRoutesByTo;
 	to:
 		| '/'
@@ -226,7 +245,8 @@ export interface FileRouteTypes {
 		| '/organizations/add'
 		| '/admins'
 		| '/organizations'
-		| '/points';
+		| '/points'
+		| '/organizations/edit/$id';
 	id:
 		| '__root__'
 		| '/'
@@ -237,7 +257,8 @@ export interface FileRouteTypes {
 		| '/_auth/organizations/add'
 		| '/_auth/admins/'
 		| '/_auth/organizations/'
-		| '/_auth/points/';
+		| '/_auth/points/'
+		| '/_auth/organizations/edit/$id';
 	fileRoutesById: FileRoutesById;
 }
 
@@ -277,7 +298,8 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
         "/_auth/organizations/add",
         "/_auth/admins/",
         "/_auth/organizations/",
-        "/_auth/points/"
+        "/_auth/points/",
+        "/_auth/organizations/edit/$id"
       ]
     },
     "/_auth/users/add": {
@@ -306,6 +328,10 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
     },
     "/_auth/points/": {
       "filePath": "_auth/points/index.lazy.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/organizations/edit/$id": {
+      "filePath": "_auth/organizations/edit.$id.lazy.ts",
       "parent": "/_auth"
     }
   }
