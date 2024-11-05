@@ -1,7 +1,8 @@
 'use client';
 
 import { Link, useLocation } from '@tanstack/react-router';
-import { Ellipsis, LogOut } from 'lucide-react';
+import { Ellipsis } from 'lucide-react';
+import { LogoutButton } from '@/features/session/logout';
 import { cn } from '@/shared/lib/shadcn-ui/utils';
 import { Button } from '@/shared/ui/button';
 import { ScrollArea } from '@/shared/ui/scroll-area';
@@ -93,14 +94,7 @@ export function Menu({ isOpen }: MenuProps) {
 						<TooltipProvider disableHoverableContent>
 							<Tooltip delayDuration={100}>
 								<TooltipTrigger asChild>
-									<Button onClick={() => {}} variant="outline" className="w-full justify-center h-10 mt-5">
-										<span className={cn(isOpen === false ? '' : 'mr-4')}>
-											<LogOut size={18} />
-										</span>
-										<p className={cn('whitespace-nowrap', isOpen === false ? 'opacity-0 hidden' : 'opacity-100')}>
-											Выйти
-										</p>
-									</Button>
+									<LogoutButton isOpen={isOpen} />
 								</TooltipTrigger>
 								{isOpen === false && <TooltipContent side="right">Выйти</TooltipContent>}
 							</Tooltip>
