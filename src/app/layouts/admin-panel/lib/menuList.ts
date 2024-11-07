@@ -1,4 +1,4 @@
-import { Settings, LayoutGrid, Building, LucideIcon, UserCog, Users, MapPin } from 'lucide-react';
+import { Settings, LayoutGrid, Building, LucideIcon, UserCog, Users, MapPin, Monitor } from 'lucide-react';
 
 type Submenu = {
 	href: string;
@@ -24,6 +24,12 @@ export function getMenuList(pathname: string): Group[] {
 		{
 			groupLabel: '',
 			menus: [
+				{
+					href: '/monitoring',
+					label: 'Мониторинг',
+					icon: Monitor,
+					submenus: [],
+				},
 				{
 					href: '/dashboard',
 					label: 'Дашборд',

@@ -2,6 +2,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
 import { type Admin } from '../model/adminsSchema';
 
+const EDIT_ROUTE = '/admins/edit';
+
 export const adminsTableColumns: ColumnDef<Admin>[] = [
 	{
 		accessorKey: 'id',
@@ -29,6 +31,6 @@ export const adminsTableColumns: ColumnDef<Admin>[] = [
 	},
 	{
 		id: 'actions',
-		cell: () => <TableRowActions />,
+		cell: ({ row }) => <TableRowActions editRouteTo={`${EDIT_ROUTE}/${row.id}`} />,
 	},
 ];

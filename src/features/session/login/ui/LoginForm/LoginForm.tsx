@@ -18,7 +18,7 @@ export function LoginForm() {
 	const onSubmitHandler = useCallback((values: LoginFormSchema) => {
 		// TODO: replace the value with an access token
 		Cookie.set(ACCESS_TOKEN, 'asd12345');
-		router.history.push('/organizations');
+		router.history.push('/monitoring');
 	}, []);
 
 	return (
