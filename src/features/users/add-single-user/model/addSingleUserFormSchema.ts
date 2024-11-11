@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
 export const addSingleFormSchema = z.object({
-	name: z.string().min(1, { message: 'Обязательное поле' }),
-	surname: z.string({ required_error: 'Обязательное поле' }),
-	cardId: z.string({ required_error: 'Обязательное поле' }),
-	phoneNumber: z.string({ required_error: 'Обязательное поле' }),
-	role: z.string({ required_error: 'Обязательное поле' }),
+	name: z.string(),
+	surname: z.string(),
+	cardId: z.string(),
+	phoneNumber: z.string(),
+	role: z.string(),
 	photo: z.any(),
 });
 

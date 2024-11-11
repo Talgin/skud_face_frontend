@@ -20,12 +20,14 @@ import { Route as AuthUsersAddImport } from './app/routes/_auth/users/add';
 
 // Create Virtual Routes
 
+const AuthUsersIndexLazyImport = createFileRoute('/_auth/users/')();
 const AuthPointsIndexLazyImport = createFileRoute('/_auth/points/')();
 const AuthOrganizationsIndexLazyImport = createFileRoute('/_auth/organizations/')();
 const AuthMonitoringIndexLazyImport = createFileRoute('/_auth/monitoring/')();
 const AuthAdminsIndexLazyImport = createFileRoute('/_auth/admins/')();
 const AuthOrganizationsAddLazyImport = createFileRoute('/_auth/organizations/add')();
 const AuthAdminsAddLazyImport = createFileRoute('/_auth/admins/add')();
+const AuthUsersEditIdLazyImport = createFileRoute('/_auth/users/edit/$id')();
 const AuthOrganizationsEditIdLazyImport = createFileRoute('/_auth/organizations/edit/$id')();
 const AuthAdminsEditIdLazyImport = createFileRoute('/_auth/admins/edit/$id')();
 
@@ -40,6 +42,11 @@ const IndexRoute = IndexImport.update({
 	path: '/',
 	getParentRoute: () => rootRoute,
 } as any);
+
+const AuthUsersIndexLazyRoute = AuthUsersIndexLazyImport.update({
+	path: '/users/',
+	getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./app/routes/_auth/users/index.lazy').then((d) => d.Route));
 
 const AuthPointsIndexLazyRoute = AuthPointsIndexLazyImport.update({
 	path: '/points/',
@@ -80,6 +87,11 @@ const AuthUsersAddRoute = AuthUsersAddImport.update({
 	path: '/users/add',
 	getParentRoute: () => AuthRoute,
 } as any);
+
+const AuthUsersEditIdLazyRoute = AuthUsersEditIdLazyImport.update({
+	path: '/users/edit/$id',
+	getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./app/routes/_auth/users/edit.$id.lazy').then((d) => d.Route));
 
 const AuthOrganizationsEditIdLazyRoute = AuthOrganizationsEditIdLazyImport.update({
 	path: '/organizations/edit/$id',
@@ -165,6 +177,13 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthPointsIndexLazyImport;
 			parentRoute: typeof AuthImport;
 		};
+		'/_auth/users/': {
+			id: '/_auth/users/';
+			path: '/users';
+			fullPath: '/users';
+			preLoaderRoute: typeof AuthUsersIndexLazyImport;
+			parentRoute: typeof AuthImport;
+		};
 		'/_auth/admins/edit/$id': {
 			id: '/_auth/admins/edit/$id';
 			path: '/admins/edit/$id';
@@ -177,6 +196,13 @@ declare module '@tanstack/react-router' {
 			path: '/organizations/edit/$id';
 			fullPath: '/organizations/edit/$id';
 			preLoaderRoute: typeof AuthOrganizationsEditIdLazyImport;
+			parentRoute: typeof AuthImport;
+		};
+		'/_auth/users/edit/$id': {
+			id: '/_auth/users/edit/$id';
+			path: '/users/edit/$id';
+			fullPath: '/users/edit/$id';
+			preLoaderRoute: typeof AuthUsersEditIdLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 	}
@@ -193,8 +219,10 @@ interface AuthRouteChildren {
 	AuthMonitoringIndexLazyRoute: typeof AuthMonitoringIndexLazyRoute;
 	AuthOrganizationsIndexLazyRoute: typeof AuthOrganizationsIndexLazyRoute;
 	AuthPointsIndexLazyRoute: typeof AuthPointsIndexLazyRoute;
+	AuthUsersIndexLazyRoute: typeof AuthUsersIndexLazyRoute;
 	AuthAdminsEditIdLazyRoute: typeof AuthAdminsEditIdLazyRoute;
 	AuthOrganizationsEditIdLazyRoute: typeof AuthOrganizationsEditIdLazyRoute;
+	AuthUsersEditIdLazyRoute: typeof AuthUsersEditIdLazyRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
@@ -206,8 +234,10 @@ const AuthRouteChildren: AuthRouteChildren = {
 	AuthMonitoringIndexLazyRoute: AuthMonitoringIndexLazyRoute,
 	AuthOrganizationsIndexLazyRoute: AuthOrganizationsIndexLazyRoute,
 	AuthPointsIndexLazyRoute: AuthPointsIndexLazyRoute,
+	AuthUsersIndexLazyRoute: AuthUsersIndexLazyRoute,
 	AuthAdminsEditIdLazyRoute: AuthAdminsEditIdLazyRoute,
 	AuthOrganizationsEditIdLazyRoute: AuthOrganizationsEditIdLazyRoute,
+	AuthUsersEditIdLazyRoute: AuthUsersEditIdLazyRoute,
 };
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
@@ -223,8 +253,10 @@ export interface FileRoutesByFullPath {
 	'/monitoring': typeof AuthMonitoringIndexLazyRoute;
 	'/organizations': typeof AuthOrganizationsIndexLazyRoute;
 	'/points': typeof AuthPointsIndexLazyRoute;
+	'/users': typeof AuthUsersIndexLazyRoute;
 	'/admins/edit/$id': typeof AuthAdminsEditIdLazyRoute;
 	'/organizations/edit/$id': typeof AuthOrganizationsEditIdLazyRoute;
+	'/users/edit/$id': typeof AuthUsersEditIdLazyRoute;
 }
 
 export interface FileRoutesByTo {
@@ -238,8 +270,10 @@ export interface FileRoutesByTo {
 	'/monitoring': typeof AuthMonitoringIndexLazyRoute;
 	'/organizations': typeof AuthOrganizationsIndexLazyRoute;
 	'/points': typeof AuthPointsIndexLazyRoute;
+	'/users': typeof AuthUsersIndexLazyRoute;
 	'/admins/edit/$id': typeof AuthAdminsEditIdLazyRoute;
 	'/organizations/edit/$id': typeof AuthOrganizationsEditIdLazyRoute;
+	'/users/edit/$id': typeof AuthUsersEditIdLazyRoute;
 }
 
 export interface FileRoutesById {
@@ -254,8 +288,10 @@ export interface FileRoutesById {
 	'/_auth/monitoring/': typeof AuthMonitoringIndexLazyRoute;
 	'/_auth/organizations/': typeof AuthOrganizationsIndexLazyRoute;
 	'/_auth/points/': typeof AuthPointsIndexLazyRoute;
+	'/_auth/users/': typeof AuthUsersIndexLazyRoute;
 	'/_auth/admins/edit/$id': typeof AuthAdminsEditIdLazyRoute;
 	'/_auth/organizations/edit/$id': typeof AuthOrganizationsEditIdLazyRoute;
+	'/_auth/users/edit/$id': typeof AuthUsersEditIdLazyRoute;
 }
 
 export interface FileRouteTypes {
@@ -271,8 +307,10 @@ export interface FileRouteTypes {
 		| '/monitoring'
 		| '/organizations'
 		| '/points'
+		| '/users'
 		| '/admins/edit/$id'
-		| '/organizations/edit/$id';
+		| '/organizations/edit/$id'
+		| '/users/edit/$id';
 	fileRoutesByTo: FileRoutesByTo;
 	to:
 		| '/'
@@ -285,8 +323,10 @@ export interface FileRouteTypes {
 		| '/monitoring'
 		| '/organizations'
 		| '/points'
+		| '/users'
 		| '/admins/edit/$id'
-		| '/organizations/edit/$id';
+		| '/organizations/edit/$id'
+		| '/users/edit/$id';
 	id:
 		| '__root__'
 		| '/'
@@ -299,8 +339,10 @@ export interface FileRouteTypes {
 		| '/_auth/monitoring/'
 		| '/_auth/organizations/'
 		| '/_auth/points/'
+		| '/_auth/users/'
 		| '/_auth/admins/edit/$id'
-		| '/_auth/organizations/edit/$id';
+		| '/_auth/organizations/edit/$id'
+		| '/_auth/users/edit/$id';
 	fileRoutesById: FileRoutesById;
 }
 
@@ -342,8 +384,10 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
         "/_auth/monitoring/",
         "/_auth/organizations/",
         "/_auth/points/",
+        "/_auth/users/",
         "/_auth/admins/edit/$id",
-        "/_auth/organizations/edit/$id"
+        "/_auth/organizations/edit/$id",
+        "/_auth/users/edit/$id"
       ]
     },
     "/_auth/users/add": {
@@ -378,12 +422,20 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "filePath": "_auth/points/index.lazy.tsx",
       "parent": "/_auth"
     },
+    "/_auth/users/": {
+      "filePath": "_auth/users/index.lazy.ts",
+      "parent": "/_auth"
+    },
     "/_auth/admins/edit/$id": {
       "filePath": "_auth/admins/edit.$id.lazy.ts",
       "parent": "/_auth"
     },
     "/_auth/organizations/edit/$id": {
       "filePath": "_auth/organizations/edit.$id.lazy.ts",
+      "parent": "/_auth"
+    },
+    "/_auth/users/edit/$id": {
+      "filePath": "_auth/users/edit.$id.lazy.ts",
       "parent": "/_auth"
     }
   }

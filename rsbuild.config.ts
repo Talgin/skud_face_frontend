@@ -21,4 +21,7 @@ export default defineConfig({
 			],
 		},
 	},
+	html: {
+		title: 'Face detection',
+	},
 });
