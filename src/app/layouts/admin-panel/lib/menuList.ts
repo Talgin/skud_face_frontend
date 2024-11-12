@@ -1,4 +1,4 @@
-import { Settings, LayoutGrid, Building, LucideIcon, UserCog, Users, MapPin, Monitor } from 'lucide-react';
+import { Settings, LayoutGrid, Building, LucideIcon, UserCog, Users, MapPin, Monitor, Camera } from 'lucide-react';
 
 type Submenu = {
 	href: string;
@@ -102,6 +102,21 @@ export function getMenuList(pathname: string): Group[] {
 						{
 							href: '/points/add',
 							label: 'Добавить точку',
+						},
+					],
+				},
+				{
+					href: '/cameras',
+					label: 'Камеры',
+					icon: Camera,
+					submenus: [
+						{
+							href: '/cameras',
+							label: 'Все камеры',
+						},
+						{
+							href: '/cameras/add',
+							label: 'Добавить камеру',
 						},
 					],
 				},

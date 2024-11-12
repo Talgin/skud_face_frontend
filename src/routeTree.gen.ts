@@ -24,8 +24,10 @@ const AuthUsersIndexLazyImport = createFileRoute('/_auth/users/')();
 const AuthPointsIndexLazyImport = createFileRoute('/_auth/points/')();
 const AuthOrganizationsIndexLazyImport = createFileRoute('/_auth/organizations/')();
 const AuthMonitoringIndexLazyImport = createFileRoute('/_auth/monitoring/')();
+const AuthCamerasIndexLazyImport = createFileRoute('/_auth/cameras/')();
 const AuthAdminsIndexLazyImport = createFileRoute('/_auth/admins/')();
 const AuthOrganizationsAddLazyImport = createFileRoute('/_auth/organizations/add')();
+const AuthCamerasAddLazyImport = createFileRoute('/_auth/cameras/add')();
 const AuthAdminsAddLazyImport = createFileRoute('/_auth/admins/add')();
 const AuthUsersEditIdLazyImport = createFileRoute('/_auth/users/edit/$id')();
 const AuthOrganizationsEditIdLazyImport = createFileRoute('/_auth/organizations/edit/$id')();
@@ -63,6 +65,11 @@ const AuthMonitoringIndexLazyRoute = AuthMonitoringIndexLazyImport.update({
 	getParentRoute: () => AuthRoute,
 } as any).lazy(() => import('./app/routes/_auth/monitoring/index.lazy').then((d) => d.Route));
 
+const AuthCamerasIndexLazyRoute = AuthCamerasIndexLazyImport.update({
+	path: '/cameras/',
+	getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./app/routes/_auth/cameras/index.lazy').then((d) => d.Route));
+
 const AuthAdminsIndexLazyRoute = AuthAdminsIndexLazyImport.update({
 	path: '/admins/',
 	getParentRoute: () => AuthRoute,
@@ -72,6 +79,11 @@ const AuthOrganizationsAddLazyRoute = AuthOrganizationsAddLazyImport.update({
 	path: '/organizations/add',
 	getParentRoute: () => AuthRoute,
 } as any).lazy(() => import('./app/routes/_auth/organizations/add.lazy').then((d) => d.Route));
+
+const AuthCamerasAddLazyRoute = AuthCamerasAddLazyImport.update({
+	path: '/cameras/add',
+	getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./app/routes/_auth/cameras/add.lazy').then((d) => d.Route));
 
 const AuthAdminsAddLazyRoute = AuthAdminsAddLazyImport.update({
 	path: '/admins/add',
@@ -142,6 +154,13 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthAdminsAddLazyImport;
 			parentRoute: typeof AuthImport;
 		};
+		'/_auth/cameras/add': {
+			id: '/_auth/cameras/add';
+			path: '/cameras/add';
+			fullPath: '/cameras/add';
+			preLoaderRoute: typeof AuthCamerasAddLazyImport;
+			parentRoute: typeof AuthImport;
+		};
 		'/_auth/organizations/add': {
 			id: '/_auth/organizations/add';
 			path: '/organizations/add';
@@ -154,6 +173,13 @@ declare module '@tanstack/react-router' {
 			path: '/admins';
 			fullPath: '/admins';
 			preLoaderRoute: typeof AuthAdminsIndexLazyImport;
+			parentRoute: typeof AuthImport;
+		};
+		'/_auth/cameras/': {
+			id: '/_auth/cameras/';
+			path: '/cameras';
+			fullPath: '/cameras';
+			preLoaderRoute: typeof AuthCamerasIndexLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 		'/_auth/monitoring/': {
@@ -214,8 +240,10 @@ interface AuthRouteChildren {
 	AuthUsersAddRoute: typeof AuthUsersAddRoute;
 	AuthUsersAddSingleUserRoute: typeof AuthUsersAddSingleUserRoute;
 	AuthAdminsAddLazyRoute: typeof AuthAdminsAddLazyRoute;
+	AuthCamerasAddLazyRoute: typeof AuthCamerasAddLazyRoute;
 	AuthOrganizationsAddLazyRoute: typeof AuthOrganizationsAddLazyRoute;
 	AuthAdminsIndexLazyRoute: typeof AuthAdminsIndexLazyRoute;
+	AuthCamerasIndexLazyRoute: typeof AuthCamerasIndexLazyRoute;
 	AuthMonitoringIndexLazyRoute: typeof AuthMonitoringIndexLazyRoute;
 	AuthOrganizationsIndexLazyRoute: typeof AuthOrganizationsIndexLazyRoute;
 	AuthPointsIndexLazyRoute: typeof AuthPointsIndexLazyRoute;
@@ -229,8 +257,10 @@ const AuthRouteChildren: AuthRouteChildren = {
 	AuthUsersAddRoute: AuthUsersAddRoute,
 	AuthUsersAddSingleUserRoute: AuthUsersAddSingleUserRoute,
 	AuthAdminsAddLazyRoute: AuthAdminsAddLazyRoute,
+	AuthCamerasAddLazyRoute: AuthCamerasAddLazyRoute,
 	AuthOrganizationsAddLazyRoute: AuthOrganizationsAddLazyRoute,
 	AuthAdminsIndexLazyRoute: AuthAdminsIndexLazyRoute,
+	AuthCamerasIndexLazyRoute: AuthCamerasIndexLazyRoute,
 	AuthMonitoringIndexLazyRoute: AuthMonitoringIndexLazyRoute,
 	AuthOrganizationsIndexLazyRoute: AuthOrganizationsIndexLazyRoute,
 	AuthPointsIndexLazyRoute: AuthPointsIndexLazyRoute,
@@ -248,8 +278,10 @@ export interface FileRoutesByFullPath {
 	'/users/add': typeof AuthUsersAddRoute;
 	'/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
 	'/admins/add': typeof AuthAdminsAddLazyRoute;
+	'/cameras/add': typeof AuthCamerasAddLazyRoute;
 	'/organizations/add': typeof AuthOrganizationsAddLazyRoute;
 	'/admins': typeof AuthAdminsIndexLazyRoute;
+	'/cameras': typeof AuthCamerasIndexLazyRoute;
 	'/monitoring': typeof AuthMonitoringIndexLazyRoute;
 	'/organizations': typeof AuthOrganizationsIndexLazyRoute;
 	'/points': typeof AuthPointsIndexLazyRoute;
@@ -265,8 +297,10 @@ export interface FileRoutesByTo {
 	'/users/add': typeof AuthUsersAddRoute;
 	'/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
 	'/admins/add': typeof AuthAdminsAddLazyRoute;
+	'/cameras/add': typeof AuthCamerasAddLazyRoute;
 	'/organizations/add': typeof AuthOrganizationsAddLazyRoute;
 	'/admins': typeof AuthAdminsIndexLazyRoute;
+	'/cameras': typeof AuthCamerasIndexLazyRoute;
 	'/monitoring': typeof AuthMonitoringIndexLazyRoute;
 	'/organizations': typeof AuthOrganizationsIndexLazyRoute;
 	'/points': typeof AuthPointsIndexLazyRoute;
@@ -283,8 +317,10 @@ export interface FileRoutesById {
 	'/_auth/users/add': typeof AuthUsersAddRoute;
 	'/_auth/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
 	'/_auth/admins/add': typeof AuthAdminsAddLazyRoute;
+	'/_auth/cameras/add': typeof AuthCamerasAddLazyRoute;
 	'/_auth/organizations/add': typeof AuthOrganizationsAddLazyRoute;
 	'/_auth/admins/': typeof AuthAdminsIndexLazyRoute;
+	'/_auth/cameras/': typeof AuthCamerasIndexLazyRoute;
 	'/_auth/monitoring/': typeof AuthMonitoringIndexLazyRoute;
 	'/_auth/organizations/': typeof AuthOrganizationsIndexLazyRoute;
 	'/_auth/points/': typeof AuthPointsIndexLazyRoute;
@@ -302,8 +338,10 @@ export interface FileRouteTypes {
 		| '/users/add'
 		| '/users/add-single-user'
 		| '/admins/add'
+		| '/cameras/add'
 		| '/organizations/add'
 		| '/admins'
+		| '/cameras'
 		| '/monitoring'
 		| '/organizations'
 		| '/points'
@@ -318,8 +356,10 @@ export interface FileRouteTypes {
 		| '/users/add'
 		| '/users/add-single-user'
 		| '/admins/add'
+		| '/cameras/add'
 		| '/organizations/add'
 		| '/admins'
+		| '/cameras'
 		| '/monitoring'
 		| '/organizations'
 		| '/points'
@@ -334,8 +374,10 @@ export interface FileRouteTypes {
 		| '/_auth/users/add'
 		| '/_auth/users/add-single-user'
 		| '/_auth/admins/add'
+		| '/_auth/cameras/add'
 		| '/_auth/organizations/add'
 		| '/_auth/admins/'
+		| '/_auth/cameras/'
 		| '/_auth/monitoring/'
 		| '/_auth/organizations/'
 		| '/_auth/points/'
@@ -379,8 +421,10 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
         "/_auth/users/add",
         "/_auth/users/add-single-user",
         "/_auth/admins/add",
+        "/_auth/cameras/add",
         "/_auth/organizations/add",
         "/_auth/admins/",
+        "/_auth/cameras/",
         "/_auth/monitoring/",
         "/_auth/organizations/",
         "/_auth/points/",
@@ -402,12 +446,20 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "filePath": "_auth/admins/add.lazy.ts",
       "parent": "/_auth"
     },
+    "/_auth/cameras/add": {
+      "filePath": "_auth/cameras/add.lazy.tsx",
+      "parent": "/_auth"
+    },
     "/_auth/organizations/add": {
       "filePath": "_auth/organizations/add.lazy.ts",
       "parent": "/_auth"
     },
     "/_auth/admins/": {
       "filePath": "_auth/admins/index.lazy.ts",
+      "parent": "/_auth"
+    },
+    "/_auth/cameras/": {
+      "filePath": "_auth/cameras/index.lazy.ts",
       "parent": "/_auth"
     },
     "/_auth/monitoring/": {
