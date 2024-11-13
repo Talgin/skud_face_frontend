@@ -2,7 +2,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type AddCameraFormSchema, addCameraFormSchema } from '../../model/addCameraFormSchema';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
@@ -11,13 +11,27 @@ import { cn } from '@/shared/lib/shadcn-ui/utils';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { Checkbox } from '@/shared/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { getPoints, type Points } from '@/entities/points';
 
 export function AddCameraForm() {
+	const [points, setPoints] = useState<Points>([]);
 	const form = useForm<AddCameraFormSchema>({
 		resolver: zodResolver(addCameraFormSchema),
 	});
 
-	const onSubmitHandler = useCallback((values: AddCameraFormSchema) => {}, []);
+	const onSubmitHandler = useCallback((values: AddCameraFormSchema) => {
+		console.log(values);
+	}, []);
+
+	async function fetchPoints() {
+		const pointsResponse = await getPoints();
+		setPoints(pointsResponse);
+	}
+
+	useEffect(() => {
+		fetchPoints();
+	}, []);
 
 	return (
 		<Form {...form}>
@@ -74,7 +88,7 @@ export function AddCameraForm() {
 											variant={'outline'}
 											className={cn('w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}
 										>
-											{field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+											{field.value ? format(field.value, 'PPP') : <span>Выбериите дату</span>}
 											<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 										</Button>
 									</FormControl>
@@ -114,7 +128,20 @@ export function AddCameraForm() {
 						<FormItem>
 							<FormLabel>ИД точки:</FormLabel>
 							<FormControl>
-								<Input {...field} />
+								<Select onValueChange={field.onChange} defaultValue={field.value}>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Выберите точку" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										{points.map((point) => (
+											<SelectItem key={point.id} value={point.id}>
+												{point.name}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -122,7 +149,7 @@ export function AddCameraForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="pointId"
+					name="url"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Ссылка:</FormLabel>
