@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
+import { AddCameraPage } from '@/pages/add-camera';
 
 export const Route = createLazyFileRoute('/_auth/cameras/add')({
-	component: () => <div>Hello /_auth/cameras/add!</div>,
+	component: AddCameraPage,
 });
