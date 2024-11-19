@@ -4,6 +4,11 @@ import { pluginReact } from '@rsbuild/plugin-react';
 import { TanStackRouterRspack } from '@tanstack/router-plugin/rspack';
 import { pluginSass } from '@rsbuild/plugin-sass';
 
+import { loadEnv } from '@rsbuild/core';
+
+// By default, `publicVars` are variables prefixed with `PUBLIC_`
+const { publicVars } = loadEnv();
+
 export default defineConfig({
 	plugins: [pluginReact(), pluginSass()],
 	source: {
@@ -11,6 +16,7 @@ export default defineConfig({
 		alias: {
 			'@/': './src',
 		},
+		define: publicVars,
 	},
 	tools: {
 		rspack: {
