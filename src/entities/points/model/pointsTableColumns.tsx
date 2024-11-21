@@ -1,8 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
-import { type Admin } from './pointsSchema';
+import { type Point } from './pointsSchema';
 
-export const pointsTableColumns: ColumnDef<Admin>[] = [
+const EDIT_ROUTE = '/points/edit';
+
+export const pointsTableColumns: ColumnDef<Point>[] = [
 	{
 		accessorKey: 'id',
 		header: () => <span>Идентификатор</span>,
@@ -12,11 +14,11 @@ export const pointsTableColumns: ColumnDef<Admin>[] = [
 		header: () => <span>Название</span>,
 	},
 	{
-		accessorKey: 'surname',
+		accessorKey: 'address',
 		header: () => <span>Адрес</span>,
 	},
 	{
 		id: 'actions',
-		cell: () => <TableRowActions />,
+		cell: ({ row }) => <TableRowActions editRouteTo={`${EDIT_ROUTE}/${row.id}`} />,
 	},
 ];
