@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import { baseApi } from '@/shared/api/baseApi';
+import { logoutMiddleware } from '@/features/session/logout';
 import { rootReducer } from './rootReducer';
 
 export function makeStore() {
@@ -12,7 +13,7 @@ export function makeStore() {
 				serializableCheck: {
 					ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 				},
-			}).concat(baseApi.middleware),
+			}).concat(baseApi.middleware, logoutMiddleware.middleware),
 	});
 
 	setupListeners(store.dispatch);
