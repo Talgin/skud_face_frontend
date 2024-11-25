@@ -1,9 +1,9 @@
-import { logout } from '../../model/logout';
 import { useRouter } from '@tanstack/react-router';
 import { cn } from '@/shared/lib/shadcn-ui/utils';
 import { LogOut } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import React from 'react';
+import { logoutThunk } from '../../model/logout';
 
 type LogoutButtonProps = {
 	isOpen: boolean | undefined;
@@ -13,7 +13,7 @@ export const LogoutButton = React.forwardRef(({ isOpen }: LogoutButtonProps, ref
 	const router = useRouter();
 
 	const handleLogoutClick = () => {
-		logout();
+		logoutThunk();
 		router.history.push('/');
 	};
 

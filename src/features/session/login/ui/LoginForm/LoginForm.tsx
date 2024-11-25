@@ -5,20 +5,28 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/shared/ui/input';
 import { loginFormSchema, type LoginFormSchema } from '../../model/loginFormSchema';
 import { useCallback } from 'react';
-import Cookie from 'js-cookie';
-import { ACCESS_TOKEN } from '@/entities/session';
 import { useRouter } from '@tanstack/react-router';
+import { useAppDispatch } from '@/shared/model';
+import { loginThunk } from '@/features/session/login/model/login';
 
-export function LoginForm() {
+type Props = {
+	onComplete?: () => void;
+};
+
+export function LoginForm(props: Props) {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 	const form = useForm<LoginFormSchema>({
 		resolver: zodResolver(loginFormSchema),
 	});
 
-	const onSubmitHandler = useCallback((values: LoginFormSchema) => {
-		// TODO: replace the value with an access token
-		Cookie.set(ACCESS_TOKEN, 'asd12345');
-		router.history.push('/monitoring');
+	const onSubmitHandler = useCallback(({ email, password }: LoginFormSchema) => {
+		dispatch(loginThunk({ email, password }))
+			.unwrap()
+			.then(() => props.onComplete?.())
+			.catch((error) => {
+				form.setError('email', { type: 'server', message: error.message });
+			});
 	}, []);
 
 	return (

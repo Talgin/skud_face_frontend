@@ -23,3 +23,4 @@ export function makeStore() {
 export const appStore = makeStore();
 
 export type RootState = ReturnType<typeof makeStore>;
+export type AppDispatch = typeof appStore.dispatch;
