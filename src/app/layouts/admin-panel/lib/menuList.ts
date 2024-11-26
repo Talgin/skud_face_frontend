@@ -47,11 +47,11 @@ export function getMenuList(pathname: string): Group[] {
 					icon: Building,
 					submenus: [
 						{
-							href: '/organizations',
+							href: '/organization',
 							label: 'Все организаций',
 						},
 						{
-							href: '/organizations/add',
+							href: '/organization/add',
 							label: 'Добавить',
 						},
 					],

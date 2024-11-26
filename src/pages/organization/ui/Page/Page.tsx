@@ -1,30 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button } from '@/shared/ui/button';
 import { CirclePlus } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
 import { DataTable } from '@/widgets/DataTable';
-import { getOrganizations, type Organizations, organizationsTableColumns } from '@/entities/organizations';
+import { organizationTableColumns, useOrganizationsQuery } from '@/entities/organization';
 
-export function OrganizationsPage() {
+export function OrganizationPage() {
 	const navigate = useNavigate();
-	const [organizations, setOrganizations] = useState<Organizations>([]);
+	const { data: organizations } = useOrganizationsQuery();
 
 	function handleAddButtonClick() {
 		navigate({ to: '/organizations/add' });
 	}
 
-	async function fetchOrganizations() {
-		const response = await getOrganizations();
-		setOrganizations(response);
-	}
-
-	useEffect(() => {
-		fetchOrganizations();
-	}, []);
-
 	return (
 		<div className="container pt-16">
-			<DataTable columns={organizationsTableColumns} data={organizations} />
+			<DataTable columns={organizationTableColumns} data={organizations} />
 			<div className="mt-4">
 				<Button className="float-right" onClick={handleAddButtonClick}>
 					<CirclePlus className="mr-2" /> Добавить

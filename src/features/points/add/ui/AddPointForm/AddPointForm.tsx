@@ -7,7 +7,7 @@ import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { type Cameras, getCameras } from '@/entities/cameras';
-import { type Organizations, getOrganizations } from '@/entities/organizations';
+import { type Organizations, getOrganizations } from '@/entities/organization';
 
 export function AddPointForm() {
 	const [cameras, setCameras] = useState<Cameras>([]);

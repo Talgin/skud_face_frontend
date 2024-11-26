@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const organizationSchema = z.object({
-	id: z.string(),
+	id: z.number(),
 	organizationName: z.string(),
 	ceoName: z.string(),
 	address: z.string(),
@@ -9,7 +9,3 @@ export const organizationSchema = z.object({
 });
 
 export const organizationsSchema = organizationSchema.array();
-
-export type Organizations = z.infer<typeof organizationsSchema>;
-
-export type Organization = z.infer<typeof organizationSchema>;

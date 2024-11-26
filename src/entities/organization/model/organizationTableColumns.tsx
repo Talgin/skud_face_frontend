@@ -1,10 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
-import { type Organization } from './organizationsSchema';
+import { type Organization } from './types';
 
-const EDIT_ROUTE = '/organizations/edit';
+const EDIT_ROUTE = '/organization/edit';
 
-export const organizationsTableColumns: ColumnDef<Organization>[] = [
+export const organizationTableColumns: ColumnDef<Organization>[] = [
 	{
 		accessorKey: 'id',
 		header: () => <span>Идентификатор</span>,
