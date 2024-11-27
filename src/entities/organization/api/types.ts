@@ -6,4 +6,9 @@ export type OrganizationDto = {
 	phone: string;
 };
 
-export type RequestOrganizationBody = Omit<OrganizationDto, 'id'>;
+export type CreateRequestOrganizationBody = Omit<OrganizationDto, 'id'>;
+
+export type UpdateRequestOrganizationBody = {
+	id: number;
+	organization: Omit<OrganizationDto, 'id'>;
+};

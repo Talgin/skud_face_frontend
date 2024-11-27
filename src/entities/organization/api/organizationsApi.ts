@@ -1,23 +1,44 @@
-import { baseApi } from '@/shared/api';
+import { baseApi, ORGANIZATION_TAG } from '@/shared/api';
 import type { Organization } from '../model/types';
-import type { OrganizationDto, RequestOrganizationBody } from './types';
+import type { OrganizationDto, CreateRequestOrganizationBody, UpdateRequestOrganizationBody } from './types';
 import { mapOrganization } from '../lib/mapOrganization';
 
 export const organizationsApi = baseApi.injectEndpoints({
 	endpoints: (build) => ({
 		organizations: build.query<Organization[], void>({
 			query: () => ({ url: '/organization' }),
-			providesTags: [],
 			transformResponse: (response: OrganizationDto[]) => response.map(mapOrganization),
+			providesTags: [ORGANIZATION_TAG],
 		}),
-		createOrganization: build.mutation<Organization, RequestOrganizationBody>({
+		createOrganization: build.mutation<Organization, CreateRequestOrganizationBody>({
 			query: (organization) => ({
 				url: '/organization',
 				method: 'POST',
 				body: organization,
 			}),
+			invalidatesTags: [ORGANIZATION_TAG],
+		}),
+		updateOrganization: build.mutation<Organization, UpdateRequestOrganizationBody>({
+			query: ({ id, organization }) => ({
+				url: `/organization/${id}/update`,
+				method: 'PATCH',
+				body: organization,
+			}),
+			invalidatesTags: [ORGANIZATION_TAG],
+		}),
+		deleteOrganization: build.mutation<void, { id: number }>({
+			query: ({ id }) => ({
+				url: `/organization/${id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: [ORGANIZATION_TAG],
 		}),
 	}),
 });
 
-export const { useOrganizationsQuery, useCreateOrganizationMutation } = organizationsApi;
+export const {
+	useOrganizationsQuery,
+	useCreateOrganizationMutation,
+	useUpdateOrganizationMutation,
+	useDeleteOrganizationMutation,
+} = organizationsApi;
