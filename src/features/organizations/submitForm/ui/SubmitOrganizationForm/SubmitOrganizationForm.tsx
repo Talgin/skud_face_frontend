@@ -5,32 +5,29 @@ import { useRouter } from '@tanstack/react-router';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
-import { useCreateOrganizationMutation, useOrganizationsQuery } from '@/entities/organization';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type AddOrganizationFormSchema, addOrganizationFormSchema } from '../../model/addOrganizationFormSchema';
+import { submitOrganizationFormSchema } from '../../model/submitOrganizationFormSchema';
+import type { OrganizationValues } from '../../model/types';
 
-export function AddOrganizationForm() {
-	const [createOrganization, { isLoading, isSuccess }] = useCreateOrganizationMutation();
+type Props = {
+	onSubmit: (values: OrganizationValues) => void;
+	isSuccess: boolean;
+	isLoading: boolean;
+	successMessage: string;
+};
+
+export function SubmitOrganizationForm(props: Props) {
 	const router = useRouter();
 
-	const form = useForm<AddOrganizationFormSchema>({
-		resolver: zodResolver(addOrganizationFormSchema),
+	const form = useForm<OrganizationValues>({
+		resolver: zodResolver(submitOrganizationFormSchema),
 	});
-
-	const onSubmitHandler = useCallback(async (values: AddOrganizationFormSchema) => {
-		await createOrganization({
-			name: values.organizationName,
-			ceo_name: values.ceoName,
-			address: values.address,
-			phone: values.phoneNumber,
-		}).unwrap();
-	}, []);
 
 	function onNavigateToAllOrgnization() {
 		router.history.push('/organization');
 	}
 
-	return isSuccess ? (
+	return props.isSuccess ? (
 		<div>
 			<p>Организация успешно создана!</p>
 			<Button className="mt-4" onClick={onNavigateToAllOrgnization}>
@@ -39,7 +36,7 @@ export function AddOrganizationForm() {
 		</div>
 	) : (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmitHandler)} className="space-y-8">
+			<form onSubmit={form.handleSubmit(props.onSubmit)} className="space-y-8">
 				<FormField
 					control={form.control}
 					name="organizationName"
@@ -92,8 +89,8 @@ export function AddOrganizationForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" disabled={isLoading}>
-					{isLoading ? (
+				<Button type="submit" disabled={props.isLoading}>
+					{props.isLoading ? (
 						<div className="flex flex-col justify-center">
 							<Loader2 className="animate-spin mr-2" />
 						</div>

@@ -12,9 +12,13 @@ import {
 	DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu';
 import { useConfirmModal } from '@/shared/lib/useConfirmModal';
+import { useEffect } from 'react';
 
 export type TableRowActionsProps = {
 	editRouteTo: string;
+	onConfirm: () => void;
+	isDeletedSuccessfully: boolean;
+	isLoading: boolean;
 };
 
 export function TableRowActions(props: TableRowActionsProps) {
@@ -28,9 +32,18 @@ export function TableRowActions(props: TableRowActionsProps) {
 	const handleRemoveButtonClick = () => {
 		confirmRemoveModal.show({
 			onCancel: () => confirmRemoveModal.remove(),
-			onConfirm: () => confirmRemoveModal.remove(),
+			onConfirm: () => {
+				props.onConfirm();
+			},
+			isLoading: props.isLoading,
 		});
 	};
+
+	useEffect(() => {
+		if (props.isDeletedSuccessfully) {
+			confirmRemoveModal.remove();
+		}
+	}, [props.isDeletedSuccessfully]);
 
 	return (
 		<DropdownMenu>

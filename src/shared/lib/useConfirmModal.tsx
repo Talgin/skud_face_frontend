@@ -8,6 +8,7 @@ import {
 	AlertDialogTitle,
 } from '@/shared/ui/alert-dialog';
 import { create as createModal, useModal } from '@ebay/nice-modal-react';
+import { Loader2 } from 'lucide-react';
 
 type Props = {
 	onConfirm: () => void;
@@ -15,6 +16,7 @@ type Props = {
 	title?: string;
 	confirmText?: string;
 	cancelText?: string;
+	isLoading?: boolean;
 };
 
 const DEFAULT_CONFIRM_TITLE = 'Вы уверены что хотите удалить?';
@@ -38,7 +40,9 @@ export function ConfirmModalPresenter(props: Props) {
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel onClick={onCancel}>{cancelText}</AlertDialogCancel>
-					<AlertDialogAction onClick={onConfirm}>{confirmText}</AlertDialogAction>
+					<AlertDialogAction onClick={onConfirm} disabled={props.isLoading}>
+						{props.isLoading ? <Loader2 /> : <span>{confirmText}</span>}
+					</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>
