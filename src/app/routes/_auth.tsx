@@ -1,10 +1,9 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
-import { isAuthenticated } from '@/entities/session';
 import { AdminPanelLayout } from '@/app/layouts/admin-panel';
 
 export const Route = createFileRoute('/_auth')({
-	beforeLoad: async ({ location }) => {
-		if (!isAuthenticated()) {
+	beforeLoad: async ({ location, context }) => {
+		if (!(context as { auth: { isAuthenticated: boolean } }).auth.isAuthenticated) {
 			throw redirect({
 				to: '/',
 				search: {

@@ -4,6 +4,6 @@ export type SessionDto = {
 };
 
 export type RequestLoginBody = {
-	readonly email: Email;
+	readonly username: Email;
 	readonly password: string;
 };

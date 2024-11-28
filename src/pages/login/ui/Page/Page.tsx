@@ -16,7 +16,7 @@ export function LoginPage() {
 					<CardTitle>Вход в систему</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<LoginForm />
+					<LoginForm onComplete={onComplete} />
 				</CardContent>
 			</Card>
 		</div>

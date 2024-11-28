@@ -14,12 +14,12 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { Route as rootRoute } from './app/routes/__root';
 import { Route as AuthImport } from './app/routes/_auth';
-import { Route as IndexImport } from './app/routes/index';
 import { Route as AuthUsersAddSingleUserImport } from './app/routes/_auth/users/add-single-user';
 import { Route as AuthUsersAddImport } from './app/routes/_auth/users/add';
 
 // Create Virtual Routes
 
+const IndexLazyImport = createFileRoute('/')();
 const AuthUsersIndexLazyImport = createFileRoute('/_auth/users/')();
 const AuthPointsIndexLazyImport = createFileRoute('/_auth/points/')();
 const AuthOrganizationIndexLazyImport = createFileRoute('/_auth/organization/')();
@@ -44,10 +44,10 @@ const AuthRoute = AuthImport.update({
 	getParentRoute: () => rootRoute,
 } as any);
 
-const IndexRoute = IndexImport.update({
+const IndexLazyRoute = IndexLazyImport.update({
 	path: '/',
 	getParentRoute: () => rootRoute,
-} as any);
+} as any).lazy(() => import('./app/routes/index.lazy').then((d) => d.Route));
 
 const AuthUsersIndexLazyRoute = AuthUsersIndexLazyImport.update({
 	path: '/users/',
@@ -147,7 +147,7 @@ declare module '@tanstack/react-router' {
 			id: '/';
 			path: '/';
 			fullPath: '/';
-			preLoaderRoute: typeof IndexImport;
+			preLoaderRoute: typeof IndexLazyImport;
 			parentRoute: typeof rootRoute;
 		};
 		'/_auth': {
@@ -333,7 +333,7 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 
 export interface FileRoutesByFullPath {
-	'/': typeof IndexRoute;
+	'/': typeof IndexLazyRoute;
 	'': typeof AuthRouteWithChildren;
 	'/users/add': typeof AuthUsersAddRoute;
 	'/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
@@ -356,7 +356,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-	'/': typeof IndexRoute;
+	'/': typeof IndexLazyRoute;
 	'': typeof AuthRouteWithChildren;
 	'/users/add': typeof AuthUsersAddRoute;
 	'/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
@@ -380,7 +380,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
 	__root__: typeof rootRoute;
-	'/': typeof IndexRoute;
+	'/': typeof IndexLazyRoute;
 	'/_auth': typeof AuthRouteWithChildren;
 	'/_auth/users/add': typeof AuthUsersAddRoute;
 	'/_auth/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
@@ -473,12 +473,12 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-	IndexRoute: typeof IndexRoute;
+	IndexLazyRoute: typeof IndexLazyRoute;
 	AuthRoute: typeof AuthRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-	IndexRoute: IndexRoute,
+	IndexLazyRoute: IndexLazyRoute,
 	AuthRoute: AuthRouteWithChildren,
 };
 
@@ -497,7 +497,7 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       ]
     },
     "/": {
-      "filePath": "index.tsx"
+      "filePath": "index.lazy.tsx"
     },
     "/_auth": {
       "filePath": "_auth.tsx",

@@ -3,7 +3,7 @@ import { isFetchBaseQueryError } from '@/shared/api';
 import { sessionApi } from '@/entities/session/api/sessionApi';
 
 type Params = {
-	email: Email;
+	username: Email;
 	password: string;
 };
 

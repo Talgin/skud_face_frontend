@@ -8,7 +8,7 @@ export const sessionApi = baseApi.injectEndpoints({
 	endpoints: (build) => ({
 		login: build.mutation<Session, RequestLoginBody>({
 			query: (body) => ({
-				url: '/login',
+				url: '/auth/login',
 				method: 'POST',
 				body,
 			}),
@@ -17,3 +17,5 @@ export const sessionApi = baseApi.injectEndpoints({
 		}),
 	}),
 });
+
+export const { useLoginMutation } = sessionApi;

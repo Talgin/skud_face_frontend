@@ -1,8 +1,9 @@
+import React from 'react';
 import { useRouter } from '@tanstack/react-router';
 import { cn } from '@/shared/lib/shadcn-ui/utils';
 import { LogOut } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
-import React from 'react';
+import { useAppDispatch } from '@/shared/model';
 import { logoutThunk } from '../../model/logout';
 
 type LogoutButtonProps = {
@@ -11,10 +12,12 @@ type LogoutButtonProps = {
 
 export const LogoutButton = React.forwardRef(({ isOpen }: LogoutButtonProps, ref: React.ForwardedRef<unknown>) => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 
 	const handleLogoutClick = () => {
-		logoutThunk();
-		router.history.push('/');
+		dispatch(logoutThunk())
+			.unwrap()
+			.finally(() => router.history.push('/'));
 	};
 
 	return (

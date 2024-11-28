@@ -1,31 +1,32 @@
+import { useCallback } from 'react';
+import { Loader2 } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/shared/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
 import { loginFormSchema, type LoginFormSchema } from '../../model/loginFormSchema';
-import { useCallback } from 'react';
-import { useRouter } from '@tanstack/react-router';
+import { useLoginMutation } from '@/entities/session';
 import { useAppDispatch } from '@/shared/model';
-import { loginThunk } from '@/features/session/login/model/login';
+import { loginThunk } from '@/features/session/login';
 
 type Props = {
 	onComplete?: () => void;
 };
 
 export function LoginForm(props: Props) {
-	const router = useRouter();
 	const dispatch = useAppDispatch();
+	const [login, { isLoading }] = useLoginMutation();
 	const form = useForm<LoginFormSchema>({
 		resolver: zodResolver(loginFormSchema),
 	});
 
-	const onSubmitHandler = useCallback(({ email, password }: LoginFormSchema) => {
-		dispatch(loginThunk({ email, password }))
+	const onSubmitHandler = useCallback(({ username, password }: LoginFormSchema) => {
+		dispatch(loginThunk({ username, password }))
 			.unwrap()
 			.then(() => props.onComplete?.())
 			.catch((error) => {
-				form.setError('email', { type: 'server', message: error.message });
+				form.setError('username', { type: 'server', message: error.message });
 			});
 	}, []);
 
@@ -34,7 +35,7 @@ export function LoginForm(props: Props) {
 			<form onSubmit={form.handleSubmit(onSubmitHandler)} className="space-y-8">
 				<FormField
 					control={form.control}
-					name="email"
+					name="username"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Email</FormLabel>
@@ -58,7 +59,9 @@ export function LoginForm(props: Props) {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Войти</Button>
+				<Button type="submit" disabled={isLoading}>
+					{isLoading ? <Loader2 className="animate-spin" /> : <span>Войти</span>}
+				</Button>
 			</form>
 		</Form>
 	);
