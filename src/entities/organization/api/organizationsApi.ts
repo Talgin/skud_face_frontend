@@ -10,6 +10,11 @@ export const organizationsApi = baseApi.injectEndpoints({
 			transformResponse: (response: OrganizationDto[]) => response.map(mapOrganization),
 			providesTags: [ORGANIZATION_TAG],
 		}),
+		organization: build.query<Organization, number>({
+			query: (id) => ({ url: `/organization/${id}` }),
+			transformResponse: (response: OrganizationDto) => mapOrganization(response),
+			providesTags: [ORGANIZATION_TAG],
+		}),
 		createOrganization: build.mutation<Organization, CreateRequestOrganizationBody>({
 			query: (organization) => ({
 				url: '/organization',
@@ -38,6 +43,7 @@ export const organizationsApi = baseApi.injectEndpoints({
 
 export const {
 	useOrganizationsQuery,
+	useOrganizationQuery,
 	useCreateOrganizationMutation,
 	useUpdateOrganizationMutation,
 	useDeleteOrganizationMutation,

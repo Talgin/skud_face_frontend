@@ -33,12 +33,12 @@ export const organizationTableColumns: ColumnDef<Organization>[] = [
 			const [deleteOrganization, { isSuccess, isLoading }] = useDeleteOrganizationMutation();
 
 			function onConfirm() {
-				deleteOrganization(parseInt(row.id));
+				deleteOrganization(row.original.id);
 			}
 
 			return (
 				<TableRowActions
-					editRouteTo={`${EDIT_ROUTE}/${row.id}`}
+					editRouteTo={`${EDIT_ROUTE}/${row.original.id}`}
 					onConfirm={onConfirm}
 					isDeletedSuccessfully={isSuccess}
 					isLoading={isLoading}

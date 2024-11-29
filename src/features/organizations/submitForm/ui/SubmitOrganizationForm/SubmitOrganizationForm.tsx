@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 import { useRouter } from '@tanstack/react-router';
@@ -14,6 +13,8 @@ type Props = {
 	isSuccess: boolean;
 	isLoading: boolean;
 	successMessage: string;
+	defaultValues?: OrganizationValues;
+	isEditing?: boolean;
 };
 
 export function SubmitOrganizationForm(props: Props) {
@@ -21,6 +22,7 @@ export function SubmitOrganizationForm(props: Props) {
 
 	const form = useForm<OrganizationValues>({
 		resolver: zodResolver(submitOrganizationFormSchema),
+		defaultValues: props.defaultValues,
 	});
 
 	function onNavigateToAllOrgnization() {
@@ -29,9 +31,9 @@ export function SubmitOrganizationForm(props: Props) {
 
 	return props.isSuccess ? (
 		<div>
-			<p>Организация успешно создана!</p>
+			<p>Организация успешно {props.isEditing ? 'обновлена' : 'создана'}!</p>
 			<Button className="mt-4" onClick={onNavigateToAllOrgnization}>
-				Все организаций
+				Все организации
 			</Button>
 		</div>
 	) : (
@@ -94,6 +96,8 @@ export function SubmitOrganizationForm(props: Props) {
 						<div className="flex flex-col justify-center">
 							<Loader2 className="animate-spin mr-2" />
 						</div>
+					) : props.isEditing ? (
+						<span>Изменить</span>
 					) : (
 						<span>Добавить</span>
 					)}

@@ -1,6 +1,6 @@
 import { type OrganizationValues, SubmitOrganizationForm } from '@/features/organizations/submitForm';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { useUpdateOrganizationMutation } from '@/entities/organization';
+import { useOrganizationQuery, useUpdateOrganizationMutation } from '@/entities/organization';
 import { useParams } from '@tanstack/react-router';
 
 const successMessage = 'Организация успешно обновлено!';
@@ -8,6 +8,7 @@ const successMessage = 'Организация успешно обновлено
 export function EditOrganizationPage() {
 	const [updateOrganization, { isLoading, isSuccess }] = useUpdateOrganizationMutation();
 	const { id } = useParams({ strict: false });
+	const { data: organization, isSuccess: isOrganizationSuccess } = useOrganizationQuery(parseInt(id));
 
 	function onSubmit(values: OrganizationValues) {
 		if (id) {
@@ -29,12 +30,16 @@ export function EditOrganizationPage() {
 					<CardTitle>Изменить организацию</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<SubmitOrganizationForm
-						onSubmit={onSubmit}
-						isLoading={isLoading}
-						isSuccess={isSuccess}
-						successMessage={successMessage}
-					/>
+					{isOrganizationSuccess && (
+						<SubmitOrganizationForm
+							onSubmit={onSubmit}
+							isLoading={isLoading}
+							isSuccess={isSuccess}
+							successMessage={successMessage}
+							defaultValues={organization}
+							isEditing={true}
+						/>
+					)}
 				</CardContent>
 			</Card>
 		</div>

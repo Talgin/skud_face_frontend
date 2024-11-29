@@ -4,6 +4,7 @@ export { getOrganizations } from './api/getOrganizations';
 export type { Organization, Organizations } from './model/types';
 export {
 	useOrganizationsQuery,
+	useOrganizationQuery,
 	useCreateOrganizationMutation,
 	useUpdateOrganizationMutation,
 	useDeleteOrganizationMutation,
