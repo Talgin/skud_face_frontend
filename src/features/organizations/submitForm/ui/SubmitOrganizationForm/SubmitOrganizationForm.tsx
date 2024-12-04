@@ -25,14 +25,14 @@ export function SubmitOrganizationForm(props: Props) {
 		defaultValues: props.defaultValues,
 	});
 
-	function onNavigateToAllOrgnization() {
+	function onNavigateToAllOrganization() {
 		router.history.push('/organization');
 	}
 
 	return props.isSuccess ? (
 		<div>
 			<p>Организация успешно {props.isEditing ? 'обновлена' : 'создана'}!</p>
-			<Button className="mt-4" onClick={onNavigateToAllOrgnization}>
+			<Button className="mt-4" onClick={onNavigateToAllOrganization}>
 				Все организации
 			</Button>
 		</div>

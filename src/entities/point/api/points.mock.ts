@@ -1,4 +1,4 @@
-import type { Points } from '../model/pointsSchema';
+import type { Points } from '../model/pointSchema';
 
 export const pointsMock: Points = [
 	{

@@ -91,16 +91,16 @@ export function getMenuList(pathname: string): Group[] {
 					],
 				},
 				{
-					href: '/points',
+					href: '/point',
 					label: 'Точки',
 					icon: MapPin,
 					submenus: [
 						{
-							href: '/points',
+							href: '/point',
 							label: 'Все точки',
 						},
 						{
-							href: '/points/add',
+							href: '/point/add',
 							label: 'Добавить точку',
 						},
 					],

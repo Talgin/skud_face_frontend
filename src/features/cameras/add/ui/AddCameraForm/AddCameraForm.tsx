@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { getPoints, type Points } from '@/entities/points';
+import { getPoints, type Points } from '@/entities/point';
 
 export function AddCameraForm() {
 	const [points, setPoints] = useState<Points>([]);
@@ -126,7 +126,7 @@ export function AddCameraForm() {
 					name="pointId"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>ИД точки:</FormLabel>
+							<FormLabel>Точка:</FormLabel>
 							<FormControl>
 								<Select onValueChange={field.onChange} defaultValue={field.value}>
 									<FormControl>

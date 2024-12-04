@@ -1,39 +1,59 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type AddPointFormSchema, addPointFormSchema } from '../../model/addPointFormSchema';
+import { submitPointFormSchema } from '../../model/submitPointFormSchema';
 import { useCallback, useEffect, useState } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { type Cameras, getCameras } from '@/entities/cameras';
-import { type Organizations, getOrganizations } from '@/entities/organization';
+import { useOrganizationsQuery } from '@/entities/organization';
+import type { PointValues } from '../../model/types';
+import { useRouter } from '@tanstack/react-router';
 
-export function AddPointForm() {
+type Props = {
+	onSubmit: (values: PointValues) => void;
+	isSuccess: boolean;
+	isLoading: boolean;
+	successMessage: string;
+	defaultValues?: PointValues;
+	isEditing?: boolean;
+};
+
+export function SubmitPointForm(props: Props) {
+	const router = useRouter();
 	const [cameras, setCameras] = useState<Cameras>([]);
-	const [organizations, setOrganizations] = useState<Organizations>([]);
-	const form = useForm<AddPointFormSchema>({
-		resolver: zodResolver(addPointFormSchema),
+	const { data: organizations } = useOrganizationsQuery();
+	const form = useForm<PointValues>({
+		resolver: zodResolver(submitPointFormSchema),
+		defaultValues: props.defaultValues,
 	});
 
-	const onSubmitHandler = useCallback((values: AddPointFormSchema) => {}, []);
+	const onSubmitHandler = useCallback((values: PointValues) => {
+		props.onSubmit(values);
+	}, []);
 
 	async function fetchCameras() {
 		const camerasResponse = await getCameras();
 		setCameras(camerasResponse);
 	}
 
-	async function fetchOrganizations() {
-		const organizationsResponse = await getOrganizations();
-		setOrganizations(organizationsResponse);
-	}
-
 	useEffect(() => {
 		fetchCameras();
-		fetchOrganizations();
 	}, []);
 
-	return (
+	function onNavigateToPoints() {
+		router.history.push('/point');
+	}
+
+	return props.isSuccess ? (
+		<div>
+			<p>Точка успешно {props.isEditing ? 'обновлена' : 'создана'}!</p>
+			<Button className="mt-4" onClick={onNavigateToPoints}>
+				Все точки
+			</Button>
+		</div>
+	) : (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmitHandler)} className="space-y-8">
 				<FormField
@@ -64,7 +84,7 @@ export function AddPointForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="camera_id"
+					name="cameraId"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Камера:</FormLabel>
@@ -90,7 +110,7 @@ export function AddPointForm() {
 				/>
 				<FormField
 					control={form.control}
-					name="camera_id"
+					name="organizationId"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Организация:</FormLabel>
@@ -102,8 +122,8 @@ export function AddPointForm() {
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{organizations.map((organization) => (
-											<SelectItem key={organization.id} value={organization.id}>
+										{organizations?.map((organization) => (
+											<SelectItem key={organization.id} value={String(organization.id)}>
 												{organization.organizationName}
 											</SelectItem>
 										))}

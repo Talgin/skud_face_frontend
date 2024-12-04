@@ -1,2 +1,3 @@
 export const SESSION_TAG = 'SESSION_TAG';
 export const ORGANIZATION_TAG = 'ORGANIZATION_TAG';
+export const POINTS_TAG = 'POINTS_TAG';

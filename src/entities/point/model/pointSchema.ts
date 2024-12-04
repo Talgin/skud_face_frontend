@@ -1,12 +1,11 @@
 import { z } from 'zod';
 
 export const pointSchema = z.object({
-	id: z.string(),
+	id: z.number(),
 	name: z.string(),
 	address: z.string(),
+	organizationId: z.number(),
+	cameraId: z.number(),
 });
 
 export const pointsSchema = pointSchema.array();
-
-export type Points = z.infer<typeof pointsSchema>;
-export type Point = z.infer<typeof pointSchema>;
