@@ -1,7 +1,30 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { AddCameraForm } from '@/features/cameras/add';
+import { CameraValues, mapCamera, SubmitCameraForm } from '@/features/camera/submit';
+import { useParams } from '@tanstack/react-router';
+import { useCameraQuery, useUpdateCameraMutation } from '@/entities/camera';
 
 export function EditCameraPage() {
+	const { id } = useParams({ strict: false });
+	const [updateCamera, { isSuccess }] = useUpdateCameraMutation();
+	const { data: camera, isSuccess: isCameraSuccess } = useCameraQuery(parseInt(id));
+
+	function onSubmit(values: CameraValues) {
+		if (id) {
+			updateCamera({
+				id: parseInt(id),
+				newCamera: {
+					serial_number: values.serialNumber,
+					brand_name: values.brandName,
+					camera_model_name: values.modelName,
+					registration_date: values.registrationDate.toDateString(),
+					is_activated: values.isActivated,
+					point_id: Number(values.pointId),
+					url: values.url,
+				},
+			});
+		}
+	}
+
 	return (
 		<div className="container flex justify-center pt-16">
 			<Card className="xl:w-6/12 w-full">
@@ -9,7 +32,14 @@ export function EditCameraPage() {
 					<CardTitle>Изменить камеру</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<AddCameraForm />
+					{isCameraSuccess && (
+						<SubmitCameraForm
+							onSubmit={onSubmit}
+							isSuccess={isSuccess}
+							defaultValues={mapCamera(camera)}
+							isEditing={true}
+						/>
+					)}
 				</CardContent>
 			</Card>
 		</div>

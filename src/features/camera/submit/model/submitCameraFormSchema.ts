@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const addCameraFormSchema = z.object({
+export const submitCameraFormSchema = z.object({
 	serialNumber: z.string().min(1, { message: 'Обязательное поле' }),
 	brandName: z.string().min(1, { message: 'Обязательное поле' }),
 	modelName: z.string().min(1, { message: 'Обязательное поле' }),
@@ -12,4 +12,4 @@ export const addCameraFormSchema = z.object({
 	url: z.string().min(1, { message: 'Обязательное поле' }),
 });
 
-export type AddCameraFormSchema = z.infer<typeof addCameraFormSchema>;
+export type AddCameraFormSchema = z.infer<typeof submitCameraFormSchema>;

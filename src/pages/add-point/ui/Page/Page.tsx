@@ -2,10 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { PointValues, SubmitPointForm } from '@/features/point/submit';
 import { useCreatePointMutation } from '@/entities/point';
 
-const successMessage = 'Точка успешно создана!';
-
 export function AddPointPage() {
-	const [createPoint, { isLoading, isSuccess }] = useCreatePointMutation();
+	const [createPoint, { isSuccess }] = useCreatePointMutation();
 
 	function onSubmit(values: PointValues) {
 		createPoint({
@@ -23,12 +21,7 @@ export function AddPointPage() {
 					<CardTitle>Добавить точку</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<SubmitPointForm
-						onSubmit={onSubmit}
-						isLoading={isLoading}
-						isSuccess={isSuccess}
-						successMessage={successMessage}
-					/>
+					<SubmitPointForm onSubmit={onSubmit} isSuccess={isSuccess} />
 				</CardContent>
 			</Card>
 		</div>

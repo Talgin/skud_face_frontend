@@ -106,16 +106,16 @@ export function getMenuList(pathname: string): Group[] {
 					],
 				},
 				{
-					href: '/cameras',
+					href: '/camera',
 					label: 'Камеры',
 					icon: Camera,
 					submenus: [
 						{
-							href: '/cameras',
+							href: '/camera',
 							label: 'Все камеры',
 						},
 						{
-							href: '/cameras/add',
+							href: '/camera/add',
 							label: 'Добавить камеру',
 						},
 					],

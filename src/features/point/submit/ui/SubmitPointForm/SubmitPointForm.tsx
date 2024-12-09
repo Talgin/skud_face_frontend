@@ -6,24 +6,22 @@ import { useCallback, useEffect, useState } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { type Cameras, getCameras } from '@/entities/cameras';
 import { useOrganizationsQuery } from '@/entities/organization';
 import type { PointValues } from '../../model/types';
 import { useRouter } from '@tanstack/react-router';
+import { useCamerasQuery } from '@/entities/camera';
 
 type Props = {
 	onSubmit: (values: PointValues) => void;
 	isSuccess: boolean;
-	isLoading: boolean;
-	successMessage: string;
 	defaultValues?: PointValues;
 	isEditing?: boolean;
 };
 
 export function SubmitPointForm(props: Props) {
 	const router = useRouter();
-	const [cameras, setCameras] = useState<Cameras>([]);
 	const { data: organizations } = useOrganizationsQuery();
+	const { data: cameras } = useCamerasQuery();
 	const form = useForm<PointValues>({
 		resolver: zodResolver(submitPointFormSchema),
 		defaultValues: props.defaultValues,
@@ -31,15 +29,6 @@ export function SubmitPointForm(props: Props) {
 
 	const onSubmitHandler = useCallback((values: PointValues) => {
 		props.onSubmit(values);
-	}, []);
-
-	async function fetchCameras() {
-		const camerasResponse = await getCameras();
-		setCameras(camerasResponse);
-	}
-
-	useEffect(() => {
-		fetchCameras();
 	}, []);
 
 	function onNavigateToPoints() {
@@ -96,8 +85,8 @@ export function SubmitPointForm(props: Props) {
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{cameras.map((camera) => (
-											<SelectItem key={camera.id} value={camera.id}>
+										{cameras?.map((camera) => (
+											<SelectItem key={camera.id} value={String(camera.id)}>
 												{camera.serialNumber}
 											</SelectItem>
 										))}

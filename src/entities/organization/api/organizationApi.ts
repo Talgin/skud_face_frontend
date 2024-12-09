@@ -3,7 +3,7 @@ import type { Organization } from '../model/types';
 import type { OrganizationDto, CreateRequestOrganizationBody, UpdateRequestOrganizationBody } from './types';
 import { mapOrganization } from '../lib/mapOrganization';
 
-export const organizationsApi = baseApi.injectEndpoints({
+export const organizationApi = baseApi.injectEndpoints({
 	endpoints: (build) => ({
 		organizations: build.query<Organization[], void>({
 			query: () => ({ url: '/organization' }),
@@ -47,4 +47,4 @@ export const {
 	useCreateOrganizationMutation,
 	useUpdateOrganizationMutation,
 	useDeleteOrganizationMutation,
-} = organizationsApi;
+} = organizationApi;

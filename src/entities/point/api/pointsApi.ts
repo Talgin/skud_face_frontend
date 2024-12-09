@@ -3,21 +3,23 @@ import type { Point } from '../model/types';
 import { PointDto, CreatePointRequestBody, UpdatePointRequestBody } from './types';
 import { mapPoint } from '../lib/mapPoint';
 
+const basePath = '/point';
+
 export const pointsApi = baseApi.injectEndpoints({
 	endpoints: (build) => ({
 		points: build.query<Point[], void>({
-			query: () => ({ url: '/dorm' }),
+			query: () => ({ url: basePath }),
 			transformResponse: (response: PointDto[]) => response.map(mapPoint),
 			providesTags: [POINTS_TAG],
 		}),
 		point: build.query<Point, number>({
-			query: (id) => ({ url: `/dorm/${id}` }),
+			query: (id) => ({ url: `${basePath}/${id}` }),
 			transformResponse: (response: PointDto) => mapPoint(response),
 			providesTags: [POINTS_TAG],
 		}),
 		createPoint: build.mutation<Point, CreatePointRequestBody>({
 			query: (point) => ({
-				url: '/dorm',
+				url: basePath,
 				method: 'POST',
 				body: point,
 			}),
@@ -25,7 +27,7 @@ export const pointsApi = baseApi.injectEndpoints({
 		}),
 		updatePoint: build.mutation<Point, { id: number; newPoint: UpdatePointRequestBody }>({
 			query: ({ id, newPoint }) => ({
-				url: `/point/${id}/update`,
+				url: `${basePath}/${id}/update`,
 				method: 'PATCH',
 				body: newPoint,
 			}),
@@ -33,7 +35,7 @@ export const pointsApi = baseApi.injectEndpoints({
 		}),
 		deletePoint: build.mutation<void, number>({
 			query: (id: number) => ({
-				url: `/point/${id}`,
+				url: `${basePath}/${id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: [POINTS_TAG],

@@ -8,4 +8,4 @@ export {
 	useCreateOrganizationMutation,
 	useUpdateOrganizationMutation,
 	useDeleteOrganizationMutation,
-} from './api/organizationsApi';
+} from './api/organizationApi';

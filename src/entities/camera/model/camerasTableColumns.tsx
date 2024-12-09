@@ -1,8 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { useDeleteOrganizationMutation } from '@/entities/organization';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
-import { type Camera } from '../model/camerasSchema';
+import { type Camera } from './types';
 
-const EDIT_ROUTE = '/cameras/edit';
+const EDIT_ROUTE = '/camera/edit';
 
 export const camerasTableColumns: ColumnDef<Camera>[] = [
 	{
@@ -39,6 +40,21 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
 	},
 	{
 		id: 'actions',
-		cell: ({ row }) => <TableRowActions editRouteTo={`${EDIT_ROUTE}/${row.id}`} />,
+		cell: ({ row }) => {
+			const [deleteCamera, { isSuccess, isLoading }] = useDeleteOrganizationMutation();
+
+			function onConfirm() {
+				deleteCamera(row.original.id);
+			}
+
+			return (
+				<TableRowActions
+					editRouteTo={`${EDIT_ROUTE}/${row.original.id}`}
+					onConfirm={onConfirm}
+					isDeletedSuccessfully={isSuccess}
+					isLoading={isLoading}
+				/>
+			);
+		},
 	},
 ];

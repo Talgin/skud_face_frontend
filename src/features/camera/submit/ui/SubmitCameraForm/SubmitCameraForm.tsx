@@ -1,7 +1,8 @@
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
+import { useRouter } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type AddCameraFormSchema, addCameraFormSchema } from '../../model/addCameraFormSchema';
+import { type AddCameraFormSchema, submitCameraFormSchema } from '../../model/submitCameraFormSchema';
 import { useCallback, useEffect, useState } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
@@ -12,28 +13,39 @@ import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
-import { getPoints, type Points } from '@/entities/point';
+import { usePointsQuery } from '@/entities/point';
+import type { CameraValues } from '../../model/types';
 
-export function AddCameraForm() {
-	const [points, setPoints] = useState<Points>([]);
+type Props = {
+	onSubmit: (values: CameraValues) => void;
+	isSuccess: boolean;
+	defaultValues?: CameraValues;
+	isEditing?: boolean;
+};
+
+export function SubmitCameraForm(props: Props) {
+	const router = useRouter();
+	const { data: points } = usePointsQuery();
 	const form = useForm<AddCameraFormSchema>({
-		resolver: zodResolver(addCameraFormSchema),
+		resolver: zodResolver(submitCameraFormSchema),
 	});
 
 	const onSubmitHandler = useCallback((values: AddCameraFormSchema) => {
-		console.log(values);
+		props.onSubmit(values);
 	}, []);
 
-	async function fetchPoints() {
-		const pointsResponse = await getPoints();
-		setPoints(pointsResponse);
+	function onNavigateToCameras() {
+		router.history.push('/point');
 	}
 
-	useEffect(() => {
-		fetchPoints();
-	}, []);
-
-	return (
+	return props.isSuccess ? (
+		<div>
+			<p>Камера успешно {props.isEditing ? 'обновлена' : 'создана'}!</p>
+			<Button className="mt-4" onClick={onNavigateToCameras}>
+				Все камеры
+			</Button>
+		</div>
+	) : (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmitHandler)} className="space-y-8">
 				<FormField
@@ -135,8 +147,8 @@ export function AddCameraForm() {
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{points.map((point) => (
-											<SelectItem key={point.id} value={point.id}>
+										{points?.map((point) => (
+											<SelectItem key={point.id} value={String(point.id)}>
 												{point.name}
 											</SelectItem>
 										))}

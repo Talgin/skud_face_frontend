@@ -1,7 +1,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { AddCameraForm } from '@/features/cameras/add';
+import { SubmitCameraForm, type CameraValues } from '@/features/camera/submit';
+import { useCreateCameraMutation } from '@/entities/camera';
+import { z } from 'zod';
 
 export function AddCameraPage() {
+	const [createCamera, { isLoading, isSuccess }] = useCreateCameraMutation();
+
+	function onSubmit(values: CameraValues) {
+		createCamera({
+			serial_number: values.serialNumber,
+			brand_name: values.brandName,
+			camera_model_name: values.modelName,
+			registration_date: values.registrationDate.toDateString(),
+			is_activated: values.isActivated,
+			point_id: Number(values.pointId),
+			url: values.url,
+		}).unwrap();
+	}
+
 	return (
 		<div className="container flex justify-center pt-16">
 			<Card className="xl:w-6/12 w-full">
@@ -9,7 +25,7 @@ export function AddCameraPage() {
 					<CardTitle>Добавить камеру</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<AddCameraForm />
+					<SubmitCameraForm onSubmit={onSubmit} isSuccess={isSuccess} />
 				</CardContent>
 			</Card>
 		</div>
