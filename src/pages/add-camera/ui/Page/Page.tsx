@@ -1,10 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { SubmitCameraForm, type CameraValues } from '@/features/camera/submit';
 import { useCreateCameraMutation } from '@/entities/camera';
-import { z } from 'zod';
 
 export function AddCameraPage() {
-	const [createCamera, { isLoading, isSuccess }] = useCreateCameraMutation();
+	const [createCamera, { isSuccess }] = useCreateCameraMutation();
 
 	function onSubmit(values: CameraValues) {
 		createCamera({

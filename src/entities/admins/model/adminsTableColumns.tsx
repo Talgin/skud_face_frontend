@@ -1,8 +1,9 @@
 import { ColumnDef } from '@tanstack/react-table';
+import { useDeleteAdminMutation } from '@/entities/admins';
+import type { Admin } from '../model/types';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
-import { type Admin } from '../model/adminsSchema';
 
-const EDIT_ROUTE = '/admins/edit';
+const EDIT_ROUTE = '/admin/edit';
 
 export const adminsTableColumns: ColumnDef<Admin>[] = [
 	{
@@ -31,6 +32,21 @@ export const adminsTableColumns: ColumnDef<Admin>[] = [
 	},
 	{
 		id: 'actions',
-		cell: ({ row }) => <TableRowActions editRouteTo={`${EDIT_ROUTE}/${row.id}`} />,
+		cell: ({ row }) => {
+			const [deleteAdmin, { isSuccess, isLoading }] = useDeleteAdminMutation();
+
+			function onConfirm() {
+				deleteAdmin(row.original.id);
+			}
+
+			return (
+				<TableRowActions
+					editRouteTo={`${EDIT_ROUTE}/${row.original.id}`}
+					onConfirm={onConfirm}
+					isDeletedSuccessfully={isSuccess}
+					isLoading={isLoading}
+				/>
+			);
+		},
 	},
 ];

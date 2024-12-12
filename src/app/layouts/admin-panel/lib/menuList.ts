@@ -62,11 +62,11 @@ export function getMenuList(pathname: string): Group[] {
 					icon: UserCog,
 					submenus: [
 						{
-							href: '/admins',
+							href: '/admin',
 							label: 'Все админы',
 						},
 						{
-							href: '/admins/add',
+							href: '/admin/add',
 							label: 'Добавить',
 						},
 					],
