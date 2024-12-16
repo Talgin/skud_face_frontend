@@ -14,13 +14,13 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { Route as rootRoute } from './app/routes/__root';
 import { Route as AuthImport } from './app/routes/_auth';
-import { Route as AuthUsersAddSingleUserImport } from './app/routes/_auth/users/add-single-user';
-import { Route as AuthUsersAddImport } from './app/routes/_auth/users/add';
+import { Route as AuthUserAddBatchImport } from './app/routes/_auth/user/add-batch';
+import { Route as AuthUserAddImport } from './app/routes/_auth/user/add';
 
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')();
-const AuthUsersIndexLazyImport = createFileRoute('/_auth/users/')();
+const AuthUserIndexLazyImport = createFileRoute('/_auth/user/')();
 const AuthPointIndexLazyImport = createFileRoute('/_auth/point/')();
 const AuthOrganizationIndexLazyImport = createFileRoute('/_auth/organization/')();
 const AuthMonitoringIndexLazyImport = createFileRoute('/_auth/monitoring/')();
@@ -31,7 +31,7 @@ const AuthOrganizationAddLazyImport = createFileRoute('/_auth/organization/add')
 const AuthMonitoringHistoryLazyImport = createFileRoute('/_auth/monitoring/history')();
 const AuthCameraAddLazyImport = createFileRoute('/_auth/camera/add')();
 const AuthAdminAddLazyImport = createFileRoute('/_auth/admin/add')();
-const AuthUsersEditIdLazyImport = createFileRoute('/_auth/users/edit/$id')();
+const AuthUserEditIdLazyImport = createFileRoute('/_auth/user/edit/$id')();
 const AuthPointEditIdLazyImport = createFileRoute('/_auth/point/edit/$id')();
 const AuthOrganizationEditIdLazyImport = createFileRoute('/_auth/organization/edit/$id')();
 const AuthCameraEditIdLazyImport = createFileRoute('/_auth/camera/edit/$id')();
@@ -49,10 +49,10 @@ const IndexLazyRoute = IndexLazyImport.update({
 	getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./app/routes/index.lazy').then((d) => d.Route));
 
-const AuthUsersIndexLazyRoute = AuthUsersIndexLazyImport.update({
-	path: '/users/',
+const AuthUserIndexLazyRoute = AuthUserIndexLazyImport.update({
+	path: '/user/',
 	getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./app/routes/_auth/users/index.lazy').then((d) => d.Route));
+} as any).lazy(() => import('./app/routes/_auth/user/index.lazy').then((d) => d.Route));
 
 const AuthPointIndexLazyRoute = AuthPointIndexLazyImport.update({
 	path: '/point/',
@@ -104,20 +104,20 @@ const AuthAdminAddLazyRoute = AuthAdminAddLazyImport.update({
 	getParentRoute: () => AuthRoute,
 } as any).lazy(() => import('./app/routes/_auth/admin/add.lazy').then((d) => d.Route));
 
-const AuthUsersAddSingleUserRoute = AuthUsersAddSingleUserImport.update({
-	path: '/users/add-single-user',
+const AuthUserAddBatchRoute = AuthUserAddBatchImport.update({
+	path: '/user/add-batch',
 	getParentRoute: () => AuthRoute,
 } as any);
 
-const AuthUsersAddRoute = AuthUsersAddImport.update({
-	path: '/users/add',
+const AuthUserAddRoute = AuthUserAddImport.update({
+	path: '/user/add',
 	getParentRoute: () => AuthRoute,
 } as any);
 
-const AuthUsersEditIdLazyRoute = AuthUsersEditIdLazyImport.update({
-	path: '/users/edit/$id',
+const AuthUserEditIdLazyRoute = AuthUserEditIdLazyImport.update({
+	path: '/user/edit/$id',
 	getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./app/routes/_auth/users/edit.$id.lazy').then((d) => d.Route));
+} as any).lazy(() => import('./app/routes/_auth/user/edit.$id.lazy').then((d) => d.Route));
 
 const AuthPointEditIdLazyRoute = AuthPointEditIdLazyImport.update({
 	path: '/point/edit/$id',
@@ -157,18 +157,18 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthImport;
 			parentRoute: typeof rootRoute;
 		};
-		'/_auth/users/add': {
-			id: '/_auth/users/add';
-			path: '/users/add';
-			fullPath: '/users/add';
-			preLoaderRoute: typeof AuthUsersAddImport;
+		'/_auth/user/add': {
+			id: '/_auth/user/add';
+			path: '/user/add';
+			fullPath: '/user/add';
+			preLoaderRoute: typeof AuthUserAddImport;
 			parentRoute: typeof AuthImport;
 		};
-		'/_auth/users/add-single-user': {
-			id: '/_auth/users/add-single-user';
-			path: '/users/add-single-user';
-			fullPath: '/users/add-single-user';
-			preLoaderRoute: typeof AuthUsersAddSingleUserImport;
+		'/_auth/user/add-batch': {
+			id: '/_auth/user/add-batch';
+			path: '/user/add-batch';
+			fullPath: '/user/add-batch';
+			preLoaderRoute: typeof AuthUserAddBatchImport;
 			parentRoute: typeof AuthImport;
 		};
 		'/_auth/admin/add': {
@@ -241,11 +241,11 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthPointIndexLazyImport;
 			parentRoute: typeof AuthImport;
 		};
-		'/_auth/users/': {
-			id: '/_auth/users/';
-			path: '/users';
-			fullPath: '/users';
-			preLoaderRoute: typeof AuthUsersIndexLazyImport;
+		'/_auth/user/': {
+			id: '/_auth/user/';
+			path: '/user';
+			fullPath: '/user';
+			preLoaderRoute: typeof AuthUserIndexLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 		'/_auth/admin/edit/$id': {
@@ -276,11 +276,11 @@ declare module '@tanstack/react-router' {
 			preLoaderRoute: typeof AuthPointEditIdLazyImport;
 			parentRoute: typeof AuthImport;
 		};
-		'/_auth/users/edit/$id': {
-			id: '/_auth/users/edit/$id';
-			path: '/users/edit/$id';
-			fullPath: '/users/edit/$id';
-			preLoaderRoute: typeof AuthUsersEditIdLazyImport;
+		'/_auth/user/edit/$id': {
+			id: '/_auth/user/edit/$id';
+			path: '/user/edit/$id';
+			fullPath: '/user/edit/$id';
+			preLoaderRoute: typeof AuthUserEditIdLazyImport;
 			parentRoute: typeof AuthImport;
 		};
 	}
@@ -289,8 +289,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthRouteChildren {
-	AuthUsersAddRoute: typeof AuthUsersAddRoute;
-	AuthUsersAddSingleUserRoute: typeof AuthUsersAddSingleUserRoute;
+	AuthUserAddRoute: typeof AuthUserAddRoute;
+	AuthUserAddBatchRoute: typeof AuthUserAddBatchRoute;
 	AuthAdminAddLazyRoute: typeof AuthAdminAddLazyRoute;
 	AuthCameraAddLazyRoute: typeof AuthCameraAddLazyRoute;
 	AuthMonitoringHistoryLazyRoute: typeof AuthMonitoringHistoryLazyRoute;
@@ -301,17 +301,17 @@ interface AuthRouteChildren {
 	AuthMonitoringIndexLazyRoute: typeof AuthMonitoringIndexLazyRoute;
 	AuthOrganizationIndexLazyRoute: typeof AuthOrganizationIndexLazyRoute;
 	AuthPointIndexLazyRoute: typeof AuthPointIndexLazyRoute;
-	AuthUsersIndexLazyRoute: typeof AuthUsersIndexLazyRoute;
+	AuthUserIndexLazyRoute: typeof AuthUserIndexLazyRoute;
 	AuthAdminEditIdLazyRoute: typeof AuthAdminEditIdLazyRoute;
 	AuthCameraEditIdLazyRoute: typeof AuthCameraEditIdLazyRoute;
 	AuthOrganizationEditIdLazyRoute: typeof AuthOrganizationEditIdLazyRoute;
 	AuthPointEditIdLazyRoute: typeof AuthPointEditIdLazyRoute;
-	AuthUsersEditIdLazyRoute: typeof AuthUsersEditIdLazyRoute;
+	AuthUserEditIdLazyRoute: typeof AuthUserEditIdLazyRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-	AuthUsersAddRoute: AuthUsersAddRoute,
-	AuthUsersAddSingleUserRoute: AuthUsersAddSingleUserRoute,
+	AuthUserAddRoute: AuthUserAddRoute,
+	AuthUserAddBatchRoute: AuthUserAddBatchRoute,
 	AuthAdminAddLazyRoute: AuthAdminAddLazyRoute,
 	AuthCameraAddLazyRoute: AuthCameraAddLazyRoute,
 	AuthMonitoringHistoryLazyRoute: AuthMonitoringHistoryLazyRoute,
@@ -322,12 +322,12 @@ const AuthRouteChildren: AuthRouteChildren = {
 	AuthMonitoringIndexLazyRoute: AuthMonitoringIndexLazyRoute,
 	AuthOrganizationIndexLazyRoute: AuthOrganizationIndexLazyRoute,
 	AuthPointIndexLazyRoute: AuthPointIndexLazyRoute,
-	AuthUsersIndexLazyRoute: AuthUsersIndexLazyRoute,
+	AuthUserIndexLazyRoute: AuthUserIndexLazyRoute,
 	AuthAdminEditIdLazyRoute: AuthAdminEditIdLazyRoute,
 	AuthCameraEditIdLazyRoute: AuthCameraEditIdLazyRoute,
 	AuthOrganizationEditIdLazyRoute: AuthOrganizationEditIdLazyRoute,
 	AuthPointEditIdLazyRoute: AuthPointEditIdLazyRoute,
-	AuthUsersEditIdLazyRoute: AuthUsersEditIdLazyRoute,
+	AuthUserEditIdLazyRoute: AuthUserEditIdLazyRoute,
 };
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
@@ -335,8 +335,8 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 export interface FileRoutesByFullPath {
 	'/': typeof IndexLazyRoute;
 	'': typeof AuthRouteWithChildren;
-	'/users/add': typeof AuthUsersAddRoute;
-	'/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
+	'/user/add': typeof AuthUserAddRoute;
+	'/user/add-batch': typeof AuthUserAddBatchRoute;
 	'/admin/add': typeof AuthAdminAddLazyRoute;
 	'/camera/add': typeof AuthCameraAddLazyRoute;
 	'/monitoring/history': typeof AuthMonitoringHistoryLazyRoute;
@@ -347,19 +347,19 @@ export interface FileRoutesByFullPath {
 	'/monitoring': typeof AuthMonitoringIndexLazyRoute;
 	'/organization': typeof AuthOrganizationIndexLazyRoute;
 	'/point': typeof AuthPointIndexLazyRoute;
-	'/users': typeof AuthUsersIndexLazyRoute;
+	'/user': typeof AuthUserIndexLazyRoute;
 	'/admin/edit/$id': typeof AuthAdminEditIdLazyRoute;
 	'/camera/edit/$id': typeof AuthCameraEditIdLazyRoute;
 	'/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute;
 	'/point/edit/$id': typeof AuthPointEditIdLazyRoute;
-	'/users/edit/$id': typeof AuthUsersEditIdLazyRoute;
+	'/user/edit/$id': typeof AuthUserEditIdLazyRoute;
 }
 
 export interface FileRoutesByTo {
 	'/': typeof IndexLazyRoute;
 	'': typeof AuthRouteWithChildren;
-	'/users/add': typeof AuthUsersAddRoute;
-	'/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
+	'/user/add': typeof AuthUserAddRoute;
+	'/user/add-batch': typeof AuthUserAddBatchRoute;
 	'/admin/add': typeof AuthAdminAddLazyRoute;
 	'/camera/add': typeof AuthCameraAddLazyRoute;
 	'/monitoring/history': typeof AuthMonitoringHistoryLazyRoute;
@@ -370,20 +370,20 @@ export interface FileRoutesByTo {
 	'/monitoring': typeof AuthMonitoringIndexLazyRoute;
 	'/organization': typeof AuthOrganizationIndexLazyRoute;
 	'/point': typeof AuthPointIndexLazyRoute;
-	'/users': typeof AuthUsersIndexLazyRoute;
+	'/user': typeof AuthUserIndexLazyRoute;
 	'/admin/edit/$id': typeof AuthAdminEditIdLazyRoute;
 	'/camera/edit/$id': typeof AuthCameraEditIdLazyRoute;
 	'/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute;
 	'/point/edit/$id': typeof AuthPointEditIdLazyRoute;
-	'/users/edit/$id': typeof AuthUsersEditIdLazyRoute;
+	'/user/edit/$id': typeof AuthUserEditIdLazyRoute;
 }
 
 export interface FileRoutesById {
 	__root__: typeof rootRoute;
 	'/': typeof IndexLazyRoute;
 	'/_auth': typeof AuthRouteWithChildren;
-	'/_auth/users/add': typeof AuthUsersAddRoute;
-	'/_auth/users/add-single-user': typeof AuthUsersAddSingleUserRoute;
+	'/_auth/user/add': typeof AuthUserAddRoute;
+	'/_auth/user/add-batch': typeof AuthUserAddBatchRoute;
 	'/_auth/admin/add': typeof AuthAdminAddLazyRoute;
 	'/_auth/camera/add': typeof AuthCameraAddLazyRoute;
 	'/_auth/monitoring/history': typeof AuthMonitoringHistoryLazyRoute;
@@ -394,12 +394,12 @@ export interface FileRoutesById {
 	'/_auth/monitoring/': typeof AuthMonitoringIndexLazyRoute;
 	'/_auth/organization/': typeof AuthOrganizationIndexLazyRoute;
 	'/_auth/point/': typeof AuthPointIndexLazyRoute;
-	'/_auth/users/': typeof AuthUsersIndexLazyRoute;
+	'/_auth/user/': typeof AuthUserIndexLazyRoute;
 	'/_auth/admin/edit/$id': typeof AuthAdminEditIdLazyRoute;
 	'/_auth/camera/edit/$id': typeof AuthCameraEditIdLazyRoute;
 	'/_auth/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute;
 	'/_auth/point/edit/$id': typeof AuthPointEditIdLazyRoute;
-	'/_auth/users/edit/$id': typeof AuthUsersEditIdLazyRoute;
+	'/_auth/user/edit/$id': typeof AuthUserEditIdLazyRoute;
 }
 
 export interface FileRouteTypes {
@@ -407,8 +407,8 @@ export interface FileRouteTypes {
 	fullPaths:
 		| '/'
 		| ''
-		| '/users/add'
-		| '/users/add-single-user'
+		| '/user/add'
+		| '/user/add-batch'
 		| '/admin/add'
 		| '/camera/add'
 		| '/monitoring/history'
@@ -419,18 +419,18 @@ export interface FileRouteTypes {
 		| '/monitoring'
 		| '/organization'
 		| '/point'
-		| '/users'
+		| '/user'
 		| '/admin/edit/$id'
 		| '/camera/edit/$id'
 		| '/organization/edit/$id'
 		| '/point/edit/$id'
-		| '/users/edit/$id';
+		| '/user/edit/$id';
 	fileRoutesByTo: FileRoutesByTo;
 	to:
 		| '/'
 		| ''
-		| '/users/add'
-		| '/users/add-single-user'
+		| '/user/add'
+		| '/user/add-batch'
 		| '/admin/add'
 		| '/camera/add'
 		| '/monitoring/history'
@@ -441,18 +441,18 @@ export interface FileRouteTypes {
 		| '/monitoring'
 		| '/organization'
 		| '/point'
-		| '/users'
+		| '/user'
 		| '/admin/edit/$id'
 		| '/camera/edit/$id'
 		| '/organization/edit/$id'
 		| '/point/edit/$id'
-		| '/users/edit/$id';
+		| '/user/edit/$id';
 	id:
 		| '__root__'
 		| '/'
 		| '/_auth'
-		| '/_auth/users/add'
-		| '/_auth/users/add-single-user'
+		| '/_auth/user/add'
+		| '/_auth/user/add-batch'
 		| '/_auth/admin/add'
 		| '/_auth/camera/add'
 		| '/_auth/monitoring/history'
@@ -463,12 +463,12 @@ export interface FileRouteTypes {
 		| '/_auth/monitoring/'
 		| '/_auth/organization/'
 		| '/_auth/point/'
-		| '/_auth/users/'
+		| '/_auth/user/'
 		| '/_auth/admin/edit/$id'
 		| '/_auth/camera/edit/$id'
 		| '/_auth/organization/edit/$id'
 		| '/_auth/point/edit/$id'
-		| '/_auth/users/edit/$id';
+		| '/_auth/user/edit/$id';
 	fileRoutesById: FileRoutesById;
 }
 
@@ -502,8 +502,8 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/users/add",
-        "/_auth/users/add-single-user",
+        "/_auth/user/add",
+        "/_auth/user/add-batch",
         "/_auth/admin/add",
         "/_auth/camera/add",
         "/_auth/monitoring/history",
@@ -514,20 +514,20 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
         "/_auth/monitoring/",
         "/_auth/organization/",
         "/_auth/point/",
-        "/_auth/users/",
+        "/_auth/user/",
         "/_auth/admin/edit/$id",
         "/_auth/camera/edit/$id",
         "/_auth/organization/edit/$id",
         "/_auth/point/edit/$id",
-        "/_auth/users/edit/$id"
+        "/_auth/user/edit/$id"
       ]
     },
-    "/_auth/users/add": {
-      "filePath": "_auth/users/add.ts",
+    "/_auth/user/add": {
+      "filePath": "_auth/user/add.ts",
       "parent": "/_auth"
     },
-    "/_auth/users/add-single-user": {
-      "filePath": "_auth/users/add-single-user.ts",
+    "/_auth/user/add-batch": {
+      "filePath": "_auth/user/add-batch.ts",
       "parent": "/_auth"
     },
     "/_auth/admin/add": {
@@ -570,8 +570,8 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "filePath": "_auth/point/index.lazy.tsx",
       "parent": "/_auth"
     },
-    "/_auth/users/": {
-      "filePath": "_auth/users/index.lazy.ts",
+    "/_auth/user/": {
+      "filePath": "_auth/user/index.lazy.ts",
       "parent": "/_auth"
     },
     "/_auth/admin/edit/$id": {
@@ -590,8 +590,8 @@ export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileT
       "filePath": "_auth/point/edit.$id.lazy.ts",
       "parent": "/_auth"
     },
-    "/_auth/users/edit/$id": {
-      "filePath": "_auth/users/edit.$id.lazy.ts",
+    "/_auth/user/edit/$id": {
+      "filePath": "_auth/user/edit.$id.lazy.ts",
       "parent": "/_auth"
     }
   }
