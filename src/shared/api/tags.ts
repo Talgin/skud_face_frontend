@@ -4,3 +4,4 @@ export const POINTS_TAG = 'POINTS_TAG';
 export const CAMERA_TAG = 'CAMERA_TAG';
 export const EMPLOYEE_TAG = 'EMPLOYEE_TAG';
 export const STUDENT_TAG = 'STUDENT_TAG';
+export const ROLE_TAG = 'ROLE_TAG';
