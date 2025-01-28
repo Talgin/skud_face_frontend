@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useDeleteOrganizationMutation } from '@/entities/organization';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
 import { type Camera } from './types';
+import { Checkbox } from '@/shared/ui/checkbox';
 
 const EDIT_ROUTE = '/camera/edit';
 
@@ -29,6 +30,9 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
 	{
 		accessorKey: 'isActivated',
 		header: () => <span>Активирована</span>,
+		cell: ({ row }) => {
+			return <Checkbox checked={row.original.isActivated} disabled={true} />;
+		},
 	},
 	{
 		accessorKey: 'pointId',

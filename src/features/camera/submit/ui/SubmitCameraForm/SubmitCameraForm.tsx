@@ -120,45 +120,49 @@ export function SubmitCameraForm(props: Props) {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="isActivated"
-					render={({ field }) => (
-						<FormItem className="flex flex-col">
-							<FormLabel>Активировать:</FormLabel>
-							<FormControl>
-								<Checkbox checked={field.value} onCheckedChange={field.onChange} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="pointId"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Точка:</FormLabel>
-							<FormControl>
-								<Select onValueChange={field.onChange} defaultValue={field.value}>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder="Выберите точку" />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										{points?.map((point) => (
-											<SelectItem key={point.id} value={String(point.id)}>
-												{point.name}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				{props.isEditing && (
+					<FormField
+						control={form.control}
+						name="isActivated"
+						render={({ field }) => (
+							<FormItem className="flex flex-col">
+								<FormLabel>Активировать:</FormLabel>
+								<FormControl>
+									<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				)}
+				{props.isEditing && (
+					<FormField
+						control={form.control}
+						name="pointId"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Точка:</FormLabel>
+								<FormControl>
+									<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<FormControl>
+											<SelectTrigger>
+												<SelectValue placeholder="Выберите точку" />
+											</SelectTrigger>
+										</FormControl>
+										<SelectContent>
+											{points?.map((point) => (
+												<SelectItem key={point.id} value={String(point.id)}>
+													{point.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				)}
 				<FormField
 					control={form.control}
 					name="url"

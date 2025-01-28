@@ -6,7 +6,7 @@ export const cameraSchema = z.object({
 	brandName: z.string(),
 	modelName: z.string(),
 	registrationDate: z.string(),
-	isActivated: z.boolean().default(false),
+	isActivated: z.boolean(),
 	pointId: z.number(),
 	url: z.string(),
 });

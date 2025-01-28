@@ -11,7 +11,7 @@ export type CameraDto = {
 
 type RequestBody = Omit<CameraDto, 'id'>;
 
-export type CreateRequestCameraBody = RequestBody;
+export type CreateRequestCameraBody = Omit<RequestBody, 'is_activated' | 'point_id'>;
 
 export type UpdateRequestCameraBody = {
 	id: number;

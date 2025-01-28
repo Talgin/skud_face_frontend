@@ -10,9 +10,7 @@ export function AddCameraPage() {
 			serial_number: values.serialNumber,
 			brand_name: values.brandName,
 			camera_model_name: values.modelName,
-			registration_date: values.registrationDate.toDateString(),
-			is_activated: values.isActivated,
-			point_id: Number(values.pointId),
+			registration_date: values.registrationDate.toISOString().split('.')[0],
 			url: values.url,
 		}).unwrap();
 	}

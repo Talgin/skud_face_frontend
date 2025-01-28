@@ -7,8 +7,6 @@ export const submitCameraFormSchema = z.object({
 	registrationDate: z.date({
 		required_error: 'Требуется дата регистрации.',
 	}),
-	isActivated: z.boolean(),
-	pointId: z.string().min(1, { message: 'Обязательное поле' }),
 	url: z.string().min(1, { message: 'Обязательное поле' }),
 });
 
