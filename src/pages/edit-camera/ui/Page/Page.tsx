@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { CameraValues, mapCamera, SubmitCameraForm } from '@/features/camera/submit';
+import { type UpdateCameraValues, mapCamera, SubmitCameraForm, parseDateToString } from '@/features/camera/submit';
 import { useParams } from '@tanstack/react-router';
 import { useCameraQuery, useUpdateCameraMutation } from '@/entities/camera';
 
@@ -8,7 +8,7 @@ export function EditCameraPage() {
 	const [updateCamera, { isSuccess }] = useUpdateCameraMutation();
 	const { data: camera, isSuccess: isCameraSuccess } = useCameraQuery(parseInt(id));
 
-	function onSubmit(values: CameraValues) {
+	function onSubmit(values: UpdateCameraValues) {
 		if (id) {
 			updateCamera({
 				id: parseInt(id),
@@ -16,7 +16,7 @@ export function EditCameraPage() {
 					serial_number: values.serialNumber,
 					brand_name: values.brandName,
 					camera_model_name: values.modelName,
-					registration_date: values.registrationDate.toDateString(),
+					registration_date: parseDateToString(values.registrationDate),
 					is_activated: values.isActivated,
 					point_id: Number(values.pointId),
 					url: values.url,

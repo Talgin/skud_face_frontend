@@ -1,16 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { SubmitCameraForm, type CameraValues } from '@/features/camera/submit';
+import { SubmitCameraForm, type AddCameraValues, parseDateToString } from '@/features/camera/submit';
 import { useCreateCameraMutation } from '@/entities/camera';
 
 export function AddCameraPage() {
 	const [createCamera, { isSuccess }] = useCreateCameraMutation();
 
-	function onSubmit(values: CameraValues) {
+	function onSubmit(values: AddCameraValues) {
 		createCamera({
 			serial_number: values.serialNumber,
 			brand_name: values.brandName,
 			camera_model_name: values.modelName,
-			registration_date: values.registrationDate.toISOString().split('.')[0],
+			registration_date: parseDateToString(values.registrationDate),
 			url: values.url,
 		}).unwrap();
 	}

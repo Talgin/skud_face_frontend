@@ -2,14 +2,15 @@ import { useRouter } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type AddCameraFormSchema, submitCameraFormSchema } from '../../model/submitCameraFormSchema';
-import { useCallback, useEffect, useState } from 'react';
+import { updateCameraFormSchema, addCameraFormSchema } from '../../model/submitCameraFormSchema';
+import { useCallback } from 'react';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { Calendar } from '@/shared/ui/calendar';
 import { cn } from '@/shared/lib/shadcn-ui/utils';
 import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
@@ -26,16 +27,17 @@ type Props = {
 export function SubmitCameraForm(props: Props) {
 	const router = useRouter();
 	const { data: points } = usePointsQuery();
-	const form = useForm<AddCameraFormSchema>({
-		resolver: zodResolver(submitCameraFormSchema),
+	const form = useForm<CameraValues>({
+		resolver: zodResolver(props.isEditing ? updateCameraFormSchema : addCameraFormSchema),
+		defaultValues: props.defaultValues,
 	});
 
-	const onSubmitHandler = useCallback((values: AddCameraFormSchema) => {
+	const onSubmitHandler = useCallback((values: CameraValues) => {
 		props.onSubmit(values);
 	}, []);
 
 	function onNavigateToCameras() {
-		router.history.push('/point');
+		router.history.push('/camera');
 	}
 
 	return props.isSuccess ? (
@@ -100,7 +102,13 @@ export function SubmitCameraForm(props: Props) {
 											variant={'outline'}
 											className={cn('w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}
 										>
-											{field.value ? format(field.value, 'PPP') : <span>Выбериите дату</span>}
+											{field.value ? (
+												format(field.value, 'PPP', {
+													locale: ru,
+												})
+											) : (
+												<span>Выбериите дату</span>
+											)}
 											<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 										</Button>
 									</FormControl>
@@ -110,8 +118,8 @@ export function SubmitCameraForm(props: Props) {
 										mode="single"
 										selected={field.value}
 										onSelect={field.onChange}
+										locale={ru}
 										disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
-										initialFocus
 									/>
 								</PopoverContent>
 							</Popover>
@@ -143,7 +151,7 @@ export function SubmitCameraForm(props: Props) {
 							<FormItem>
 								<FormLabel>Точка:</FormLabel>
 								<FormControl>
-									<Select onValueChange={field.onChange} defaultValue={field.value}>
+									<Select onValueChange={field.onChange} defaultValue={String(field.value)}>
 										<FormControl>
 											<SelectTrigger>
 												<SelectValue placeholder="Выберите точку" />

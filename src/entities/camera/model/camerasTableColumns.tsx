@@ -3,6 +3,7 @@ import { useDeleteOrganizationMutation } from '@/entities/organization';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
 import { type Camera } from './types';
 import { Checkbox } from '@/shared/ui/checkbox';
+import { Calendar } from '@/shared/ui/calendar';
 
 const EDIT_ROUTE = '/camera/edit';
 
@@ -26,6 +27,9 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
 	{
 		accessorKey: 'registrationDate',
 		header: () => <span>Дата регистрации</span>,
+		cell: ({ row }) => {
+			return <p>{new Date(row.original.registrationDate).toLocaleDateString('ru-RU')}</p>;
+		},
 	},
 	{
 		accessorKey: 'isActivated',
@@ -37,6 +41,9 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
 	{
 		accessorKey: 'pointId',
 		header: () => <span>ИД точки</span>,
+		cell: ({ row }) => {
+			return <div>{row.original.pointId === null ? <p>Не указано</p> : row.original.pointId}</div>;
+		},
 	},
 	{
 		accessorKey: 'url',

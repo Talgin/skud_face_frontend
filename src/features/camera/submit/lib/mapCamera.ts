@@ -1,7 +1,7 @@
-import { type CameraValues } from '@/features/camera/submit';
+import { type UpdateCameraValues } from '@/features/camera/submit';
 import { type Camera } from '@/entities/camera';
 
-export function mapCamera(values: Camera): CameraValues {
+export function mapCamera(values: Camera): UpdateCameraValues {
 	return {
 		serialNumber: values.serialNumber,
 		brandName: values.brandName,
