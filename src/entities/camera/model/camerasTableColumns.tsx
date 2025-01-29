@@ -1,9 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { useDeleteOrganizationMutation } from '@/entities/organization';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
 import { type Camera } from './types';
 import { Checkbox } from '@/shared/ui/checkbox';
-import { Calendar } from '@/shared/ui/calendar';
+import { useDeleteCameraMutation } from '@/entities/camera';
 
 const EDIT_ROUTE = '/camera/edit';
 
@@ -52,7 +51,7 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
 	{
 		id: 'actions',
 		cell: ({ row }) => {
-			const [deleteCamera, { isSuccess, isLoading }] = useDeleteOrganizationMutation();
+			const [deleteCamera, { isSuccess, isLoading }] = useDeleteCameraMutation();
 
 			function onConfirm() {
 				deleteCamera(row.original.id);
