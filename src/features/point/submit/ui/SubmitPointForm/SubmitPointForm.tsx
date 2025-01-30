@@ -97,32 +97,6 @@ export function SubmitPointForm(props: Props) {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="organizationId"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Организация:</FormLabel>
-							<FormControl>
-								<Select onValueChange={field.onChange} defaultValue={field.value}>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder="Выберите организацию" />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										{organizations?.map((organization) => (
-											<SelectItem key={organization.id} value={String(organization.id)}>
-												{organization.organizationName}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
 				<Button type="submit">Добавить</Button>
 			</form>
 		</Form>

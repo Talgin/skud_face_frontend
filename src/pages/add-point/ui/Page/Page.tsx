@@ -9,7 +9,6 @@ export function AddPointPage() {
 		createPoint({
 			name: values.name,
 			address: values.address,
-			organization_id: Number(values.organizationId),
 			camera_id: Number(values.cameraId),
 		}).unwrap();
 	}

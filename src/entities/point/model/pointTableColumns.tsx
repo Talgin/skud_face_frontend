@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
 import { useDeletePointMutation } from '@/entities/point';
 import { type Point } from './types';
+import { useCameraQuery } from '@/entities/camera';
 
 const EDIT_ROUTE = '/point/edit';
 
@@ -17,6 +18,15 @@ export const pointTableColumns: ColumnDef<Point>[] = [
 	{
 		accessorKey: 'address',
 		header: () => <span>Адрес</span>,
+	},
+	{
+		accessorKey: 'cameraId',
+		header: () => <span>Камера</span>,
+		cell: ({ row }) => {
+			const { data: camera } = useCameraQuery(row.original.cameraId);
+
+			return <p>{camera?.serialNumber}</p>;
+		},
 	},
 	{
 		id: 'actions',
