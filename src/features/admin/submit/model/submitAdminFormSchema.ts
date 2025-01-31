@@ -1,18 +1,18 @@
 import { z } from 'zod';
 
 const AdminRolesSchema = z.union([
-	z.literal('admin'),
-	z.literal('operator'),
-	z.literal('registrar'),
-	z.literal('super_admin'),
+	z.literal('admin', { required_error: 'Выберите роль' }),
+	z.literal('operator', { required_error: 'Выберите роль' }),
+	z.literal('registrar', { required_error: 'Выберите роль' }),
+	z.literal('super_admin', { required_error: 'Выберите роль' }),
 ]);
 
 export const submitAdminFormSchema = z.object({
-	name: z.string().min(1, { message: 'Введите ваше имя' }),
-	surname: z.string().min(1, { message: 'Введи ваше фамилию' }),
-	cardId: z.string().min(1, { message: 'Введите ваш номер карты' }),
-	phoneNumber: z.string().min(1, { message: 'Введите номер телефона' }),
+	name: z.string({ required_error: 'Введите ваше имя' }),
+	surname: z.string({ required_error: 'Введи ваше фамилию' }),
+	cardId: z.string({ required_error: 'Введите ваш номер карты' }),
 	role: AdminRolesSchema,
-	username: z.string().min(1, { message: 'Введите имя пользователя' }),
-	password: z.string().min(1, { message: 'Введите пароль пользователя' }),
+	isActive: z.boolean().default(false),
+	username: z.string({ required_error: 'Введите имя пользователя' }),
+	password: z.string({ required_error: 'Введите пароль пользователя' }),
 });

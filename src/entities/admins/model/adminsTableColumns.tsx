@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useDeleteAdminMutation } from '@/entities/admins';
 import type { Admin } from '../model/types';
 import { TableRowActions } from '@/shared/ui/table-row-actions';
+import { Checkbox } from '@/shared/ui/checkbox';
 
 const EDIT_ROUTE = '/admin/edit';
 
@@ -19,16 +20,19 @@ export const adminsTableColumns: ColumnDef<Admin>[] = [
 		header: () => <span>Фамилия</span>,
 	},
 	{
-		accessorKey: 'organization',
-		header: () => <span>Организация</span>,
-	},
-	{
 		accessorKey: 'cardId',
 		header: () => <span>Номер карты</span>,
 	},
 	{
-		accessorKey: 'phoneNumber',
-		header: () => <span>Номер телефона</span>,
+		accessorKey: 'isActive',
+		header: () => <span>Активирован</span>,
+		cell: ({ row }) => {
+			return <Checkbox checked={row.original.isActive} disabled={true} />;
+		},
+	},
+	{
+		accessorKey: 'role',
+		header: () => <span>Роль</span>,
 	},
 	{
 		id: 'actions',

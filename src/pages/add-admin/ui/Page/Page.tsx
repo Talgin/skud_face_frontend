@@ -11,6 +11,7 @@ export function AddAdminPage() {
 			surname: values.surname,
 			card_id: values.cardId,
 			role: values.role,
+			active: values.isActive,
 			username: values.username,
 			password: values.password,
 		}).unwrap();

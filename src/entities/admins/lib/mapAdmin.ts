@@ -7,5 +7,7 @@ export function mapAdmin(dto: AdminDto): Admin {
 		name: dto.name,
 		surname: dto.surname,
 		cardId: dto.card_id,
+		isActive: dto.active,
+		role: dto.role,
 	};
 }

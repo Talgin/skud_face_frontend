@@ -5,6 +5,7 @@ export type AdminDto = {
 	name: string;
 	surname: string;
 	card_id: string;
+	active: boolean;
 	role: RoleType;
 };
 

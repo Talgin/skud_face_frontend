@@ -9,6 +9,7 @@ import { SubmitFormProps } from '@/shared/types';
 import { submitAdminFormSchema } from '../../model/submitAdminFormSchema';
 import type { AdminValues } from '../../model/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
+import { Checkbox } from '@/shared/ui/checkbox';
 
 type Props = SubmitFormProps<AdminValues>;
 
@@ -80,16 +81,16 @@ export function SubmitAdminForm(props: Props) {
 					name="role"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Камера:</FormLabel>
+							<FormLabel>Роль:</FormLabel>
 							<FormControl>
 								<Select onValueChange={field.onChange} defaultValue={field.value}>
 									<FormControl>
 										<SelectTrigger>
-											<SelectValue placeholder="Выберите камеру" />
+											<SelectValue placeholder="Выберите роль" />
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										<SelectItem value="admin">operator</SelectItem>
+										<SelectItem value="admin">admin</SelectItem>
 										<SelectItem value="operator">operator</SelectItem>
 										<SelectItem value="registrar">registrar</SelectItem>
 										<SelectItem value="super_admin">super admin</SelectItem>
@@ -115,12 +116,12 @@ export function SubmitAdminForm(props: Props) {
 				/>
 				<FormField
 					control={form.control}
-					name="username"
+					name="password"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Пароль пользователя:</FormLabel>
 							<FormControl>
-								<Input {...field} />
+								<Input type="password" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -128,12 +129,12 @@ export function SubmitAdminForm(props: Props) {
 				/>
 				<FormField
 					control={form.control}
-					name="phoneNumber"
+					name="isActive"
 					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Номер телефона:</FormLabel>
+						<FormItem className="flex flex-col">
+							<FormLabel>Активировать:</FormLabel>
 							<FormControl>
-								<Input {...field} />
+								<Checkbox checked={field.value} onCheckedChange={field.onChange} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
