@@ -10,6 +10,7 @@ import { submitAdminFormSchema } from '../../model/submitAdminFormSchema';
 import type { AdminValues } from '../../model/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select';
 import { Checkbox } from '@/shared/ui/checkbox';
+import { PasswordInput } from '@/shared/ui/password-input';
 
 type Props = SubmitFormProps<AdminValues>;
 
@@ -17,6 +18,7 @@ export function SubmitAdminForm(props: Props) {
 	const router = useRouter();
 	const form = useForm<AdminValues>({
 		resolver: zodResolver(submitAdminFormSchema),
+		defaultValues: props.defaultValues,
 	});
 
 	const onSubmitHandler = useCallback((values: AdminValues) => {
@@ -121,7 +123,7 @@ export function SubmitAdminForm(props: Props) {
 						<FormItem>
 							<FormLabel>Пароль пользователя:</FormLabel>
 							<FormControl>
-								<Input type="password" {...field} />
+								<PasswordInput {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>

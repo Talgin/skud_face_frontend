@@ -31,12 +31,7 @@ export function EditAdminPage() {
 				</CardHeader>
 				<CardContent>
 					{isAdminSuccess && (
-						<SubmitAdminForm
-							onSubmit={onSubmit}
-							isSuccess={isSuccess}
-							defaultValues={mapAdmin(admin)}
-							isEditing={true}
-						/>
+						<SubmitAdminForm onSubmit={onSubmit} isSuccess={isSuccess} defaultValues={admin} isEditing={true} />
 					)}
 				</CardContent>
 			</Card>

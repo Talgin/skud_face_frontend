@@ -9,6 +9,7 @@ import { loginFormSchema, type LoginFormSchema } from '../../model/loginFormSche
 import { useLoginMutation } from '@/entities/session';
 import { useAppDispatch } from '@/shared/model';
 import { loginThunk } from '@/features/session/login';
+import { PasswordInput } from '@/shared/ui/password-input';
 
 type Props = {
 	onComplete?: () => void;
@@ -53,7 +54,7 @@ export function LoginForm(props: Props) {
 						<FormItem>
 							<FormLabel>Пароль</FormLabel>
 							<FormControl>
-								<Input type="password" placeholder="Введите пароль" {...field} />
+								<PasswordInput placeholder="Введите пароль" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
