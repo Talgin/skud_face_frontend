@@ -6,7 +6,7 @@ export type UserDto = {
 	active: true;
 	gender: 'male' | 'female';
 	birth_date: string;
-	photo: FileList;
+	photo_path: string;
 };
 
 export enum AddBatchUsersParams {
@@ -14,12 +14,4 @@ export enum AddBatchUsersParams {
 	PHOTOS = 'photos',
 }
 
-export enum UserParams {
-	NAME = 'name',
-	SURNAME = 'surname',
-	CARD_ID = 'card_id',
-	ACTIVE = 'active',
-	GENDER = 'gender',
-	BIRTH_DATE = 'birth_date',
-	PHOTO = 'photo',
-}
+export type UserQueryParams = Partial<Omit<UserDto, 'active' | 'photo_path' | 'id'>>;

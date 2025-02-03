@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
@@ -11,22 +11,41 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { cn } from '@/shared/lib/shadcn-ui/utils';
 import { Calendar } from '@/shared/ui/calendar';
 import { SubmitFormProps } from '@/shared/types';
-import { userFormSchema } from '../../model/userFormSchema';
+import { editUserFormSchema, userFormSchema } from '../../model/userFormSchema';
 import type { UserValues } from '../../model/types';
 import { Checkbox } from '@/shared/ui/checkbox';
+import { ru } from 'date-fns/locale';
+import { useRouter } from '@tanstack/react-router';
+import { User } from '@/entities/user/model/types';
 
-type Props = SubmitFormProps<UserValues>;
+type Props = Omit<SubmitFormProps<UserValues>, 'defaultValues'> & {
+	defaultValues?: User;
+};
 
 export function SubmitUserForm(props: Props) {
+	const router = useRouter();
 	const form = useForm<UserValues>({
-		resolver: zodResolver(userFormSchema),
+		resolver: zodResolver(props.isEditing ? editUserFormSchema : userFormSchema),
+		defaultValues: props.defaultValues,
 	});
+	const [filename, setFilename] = useState<string | undefined>(undefined);
 
 	const onSubmitHandler = useCallback((values: UserValues) => {
 		props.onSubmit(values);
 	}, []);
 
-	return (
+	function onNavigate() {
+		router.history.push('/user');
+	}
+
+	return props.isSuccess ? (
+		<div>
+			<p>Пользователь успешно {props.isEditing ? 'обновлён' : 'создан'}!</p>
+			<Button className="mt-4" onClick={onNavigate}>
+				Все пользователи
+			</Button>
+		</div>
+	) : (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmitHandler)} className="space-y-8">
 				<FormField
@@ -102,7 +121,13 @@ export function SubmitUserForm(props: Props) {
 											variant={'outline'}
 											className={cn('w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}
 										>
-											{field.value ? format(field.value, 'PPP') : <span>Выбериите дату</span>}
+											{field.value ? (
+												format(field.value, 'PPP', {
+													locale: ru,
+												})
+											) : (
+												<span>Выбериите дату</span>
+											)}
 											<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 										</Button>
 									</FormControl>
@@ -112,8 +137,11 @@ export function SubmitUserForm(props: Props) {
 										mode="single"
 										selected={field.value}
 										onSelect={field.onChange}
+										locale={ru}
 										disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
-										initialFocus
+										captionLayout="dropdown"
+										fromYear={1912}
+										toYear={new Date().getFullYear()}
 									/>
 								</PopoverContent>
 							</Popover>
@@ -122,36 +150,44 @@ export function SubmitUserForm(props: Props) {
 						</FormItem>
 					)}
 				/>
+				{props.isEditing ? <img src={props.defaultValues?.photoPath} alt="photo" /> : null}
 				<FormField
 					control={form.control}
 					name="photo"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Фото:</FormLabel>
-							<FormControl>
-								<Input type="file" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
+					render={({ field }) => {
+						return (
+							<FormItem>
+								<FormLabel>Фото:</FormLabel>
+								<FormControl>
+									<Input
+										type="file"
+										name="photo"
+										value={filename}
+										onChange={(e) => {
+											setFilename(e.target.value);
+											field.onChange(e.target.files);
+										}}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						);
+					}}
 				/>
 				{props.isEditing ? (
-					<div>
-						<img src={props.defaultValues?.photo} alt="photo" />
-						<FormField
-							control={form.control}
-							name="isActive"
-							render={({ field }) => (
-								<FormItem className="flex flex-col">
-									<FormLabel>Активировать:</FormLabel>
-									<FormControl>
-										<Checkbox checked={field.value} onCheckedChange={field.onChange} />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
+					<FormField
+						control={form.control}
+						name="isActive"
+						render={({ field }) => (
+							<FormItem className="flex flex-col">
+								<FormLabel>Активировать:</FormLabel>
+								<FormControl>
+									<Checkbox checked={field.value} onCheckedChange={field.onChange} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 				) : null}
 				<Button type="submit">Создать</Button>
 			</form>

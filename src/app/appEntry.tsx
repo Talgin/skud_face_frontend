@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { RouterProvider } from './appRouter';
 import { Provider as ReduxProvider } from 'react-redux';
 import 'normalize.css';
+import 'react-day-picker/dist/style.css';
 import '@/app/styles/index.scss';
 import { appStore, persistedStore } from './appStore';
 

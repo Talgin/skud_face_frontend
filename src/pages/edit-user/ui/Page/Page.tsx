@@ -1,29 +1,33 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { SubmitUserForm, type UserValues } from '@/features/user/submit';
-import { UserParams, useUpdateUserMutation, useUserQuery } from '@/entities/user';
+import { useUpdateUserMutation, useUserQuery } from '@/entities/user';
 import { useParams } from '@tanstack/react-router';
-import { mapUser } from '@/entities/user/lib/mapUser';
+import { format } from 'date-fns';
 
 export function EditUserPage() {
 	const { id } = useParams({ strict: false });
-	const { data: user, isSuccess: isUserSuccess } = useUserQuery(parseInt(id));
+	const userId = parseInt(id);
+	const { data: user, isSuccess: isUserSuccess } = useUserQuery(userId);
 	const [updateUser, { isSuccess }] = useUpdateUserMutation();
 
 	function onSubmit(values: UserValues) {
 		const formData = new FormData();
 
-		formData.append(UserParams.NAME, values.name);
-		formData.append(UserParams.SURNAME, values.surname);
-		formData.append(UserParams.CARD_ID, values.cardId);
-		formData.append(UserParams.ACTIVE, values.cardId);
-		formData.append(UserParams.GENDER, values.gender);
-		formData.append(UserParams.BIRTH_DATE, values.birthDate.toDateString());
-		formData.append(UserParams.PHOTO, values.photo[0]);
+		formData.append('photo', values.photo?.[0] || '');
 
-		if (id) {
+		if (userId) {
 			updateUser({
-				id: parseInt(id),
-				newUser: formData,
+				id: userId,
+				newUser: {
+					queryParams: {
+						name: values.name,
+						surname: values.surname,
+						card_id: values.cardId,
+						gender: values.gender,
+						birth_date: values.birthDate && format(values.birthDate, 'yyyy-MM-dd'),
+					},
+					body: formData,
+				},
 			}).unwrap();
 		}
 	}
@@ -35,8 +39,8 @@ export function EditUserPage() {
 					<CardTitle>Изменить пользователя</CardTitle>
 				</CardHeader>
 				<CardContent>
-					{user && (
-						<SubmitUserForm onSubmit={onSubmit} isSuccess={isSuccess} defaultValues={mapUser(user)} isEditing={true} />
+					{isUserSuccess && (
+						<SubmitUserForm onSubmit={onSubmit} isSuccess={isSuccess} defaultValues={user} isEditing={true} />
 					)}
 				</CardContent>
 			</Card>

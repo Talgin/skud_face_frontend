@@ -1,5 +1,5 @@
 import { baseApi, STUDENT_TAG } from '@/shared/api';
-import { UserDto } from './types';
+import { UserDto, UserQueryParams } from './types';
 import type { User } from '../model/types';
 import { mapUser } from '../lib/mapUser';
 
@@ -17,11 +17,12 @@ export const userApi = baseApi.injectEndpoints({
 			transformResponse: (response: UserDto) => mapUser(response),
 			providesTags: [STUDENT_TAG],
 		}),
-		createUser: build.mutation<User, FormData>({
-			query: (user) => ({
+		createUser: build.mutation<User, { queryParams: UserQueryParams; body: FormData }>({
+			query: ({ queryParams, body }) => ({
 				url: basePath,
 				method: 'POST',
-				body: user,
+				params: queryParams,
+				body,
 			}),
 			invalidatesTags: [STUDENT_TAG],
 		}),
@@ -32,11 +33,18 @@ export const userApi = baseApi.injectEndpoints({
 				body: formData,
 			}),
 		}),
-		updateUser: build.mutation<User, { id: number; newUser: FormData }>({
-			query: ({ id, newUser }) => ({
+		updateUser: build.mutation<
+			User,
+			{
+				id: number;
+				newUser: { queryParams: UserQueryParams; body: FormData };
+			}
+		>({
+			query: ({ id, newUser: { queryParams, body } }) => ({
 				url: `${basePath}/${id}/update`,
 				method: 'PATCH',
-				body: newUser,
+				params: queryParams,
+				body,
 			}),
 			invalidatesTags: [STUDENT_TAG],
 		}),

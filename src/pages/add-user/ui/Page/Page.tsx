@@ -1,22 +1,27 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
 import { SubmitUserForm } from '@/features/user/submit';
-import { useCreateUserMutation, UserParams } from '@/entities/user';
-import { UserValues } from '@/features/user/submit';
+import { useCreateUserMutation } from '@/entities/user';
+import { type CreateValues } from '@/features/user/submit';
+import { format } from 'date-fns';
 
 export function AddUserPage() {
 	const [createUser, { isSuccess }] = useCreateUserMutation();
 
-	function onSubmit(values: UserValues) {
+	function onSubmit(values: CreateValues) {
 		const formData = new FormData();
 
-		formData.append(UserParams.NAME, values.name);
-		formData.append(UserParams.SURNAME, values.surname);
-		formData.append(UserParams.CARD_ID, values.cardId);
-		formData.append(UserParams.GENDER, values.gender);
-		formData.append(UserParams.BIRTH_DATE, values.birthDate.toDateString());
-		formData.append(UserParams.PHOTO, values.photo[0]);
+		formData.append('photo', values.photo[0]);
 
-		createUser(formData).unwrap();
+		createUser({
+			queryParams: {
+				name: values.name,
+				surname: values.surname,
+				card_id: values.cardId,
+				gender: values.gender,
+				birth_date: format(values.birthDate, 'yyyy-MM-dd'),
+			},
+			body: formData,
+		}).unwrap();
 	}
 
 	return (

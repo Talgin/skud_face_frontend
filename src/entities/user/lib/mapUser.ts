@@ -9,7 +9,7 @@ export function mapUser(dto: UserDto): User {
 		cardId: dto.card_id,
 		isActive: dto.active,
 		gender: dto.gender,
-		photo: dto.photo,
+		photoPath: dto.photo_path,
 		birthDate: new Date(dto.birth_date),
 	};
 }

@@ -8,7 +8,7 @@ export const userSchema = z.object({
 	isActive: z.boolean(),
 	gender: z.union([z.literal('male'), z.literal('female')]),
 	birthDate: z.date(),
-	photo: z.any(),
+	photoPath: z.string(),
 });
 
 export const usersSchema = userSchema.array();

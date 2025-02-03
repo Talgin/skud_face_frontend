@@ -8,5 +8,5 @@ export {
 	useUpdateUserMutation,
 	useDeleteUserMutation,
 } from './api/userApi';
-export { AddBatchUsersParams, UserParams, type UserDto } from './api/types';
+export { AddBatchUsersParams, type UserDto } from './api/types';
 export { mapUser } from './lib/mapUser';
