@@ -14,8 +14,8 @@ export const loginThunk = createAsyncThunk<void, Params, { state: RootState }>(
 			await dispatch(sessionApi.endpoints.login.initiate(body)).unwrap();
 		} catch (error) {
 			if (isFetchBaseQueryError(error)) {
-				if (typeof error.data === 'string') {
-					throw new TypeError(error.data);
+				if (typeof error.data.detail === 'string') {
+					throw new TypeError(error.data.detail);
 				}
 			}
 

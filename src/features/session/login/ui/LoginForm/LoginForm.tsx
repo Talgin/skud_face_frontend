@@ -27,7 +27,8 @@ export function LoginForm(props: Props) {
 			.unwrap()
 			.then(() => props.onComplete?.())
 			.catch((error) => {
-				form.setError('username', { type: 'server', message: error.message });
+				form.setError('username', { type: 'server', message: '' });
+				form.setError('password', { type: 'server', message: error.message });
 			});
 	}, []);
 
