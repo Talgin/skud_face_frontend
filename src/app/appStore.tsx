@@ -32,5 +32,5 @@ export function makeStore() {
 export const appStore = makeStore();
 export const persistedStore = persistStore(appStore);
 
-export type RootState = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<typeof appStore.getState>;
 export type AppDispatch = typeof appStore.dispatch;

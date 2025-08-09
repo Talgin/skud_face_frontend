@@ -2,9 +2,11 @@ declare global {
 	/**
 	 * Type aliases
 	 */
-	export type Id = number;
-	export type Email = string;
+	type Id = number;
+	type Email = string;
 
-	declare type RootState = import('../src/app/appStore').RootState;
-	declare type AppDispatch = import('../src/app/appStore').AppDispatch;
+	type RootState = import('../src/app/appStore').RootState;
+	type AppDispatch = import('../src/app/appStore').AppDispatch;
 }
+
+export {};
