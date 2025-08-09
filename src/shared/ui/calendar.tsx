@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { DayPicker } from 'react-day-picker';
 
 import { cn } from '@/shared/lib/shadcn-ui/utils';
@@ -47,8 +46,14 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 				...classNames,
 			}}
 			components={{
-				IconLeft: ({ className, ...props }) => <ChevronLeftIcon className={cn('h-4 w-4', className)} {...props} />,
-				IconRight: ({ className, ...props }) => <ChevronRightIcon className={cn('h-4 w-4', className)} {...props} />,
+				IconLeft: ({ className, ...props }) => {
+					const { children, ...iconProps } = props;
+					return <ChevronLeftIcon className={cn('h-4 w-4', className)} {...iconProps} />;
+				},
+				IconRight: ({ className, ...props }) => {
+					const { children, ...iconProps } = props;
+					return <ChevronRightIcon className={cn('h-4 w-4', className)} {...iconProps} />;
+				},
 			}}
 			{...props}
 		/>
