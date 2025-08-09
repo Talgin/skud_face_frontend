@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { organizationSchema } from '@/entities/organization';
+import type { z } from "zod";
+import type { organizationSchema } from "@/entities/organization";
 
 export type Organizations = z.infer<typeof organizationSchema>;
 

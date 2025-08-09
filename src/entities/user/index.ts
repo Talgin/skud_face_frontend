@@ -1,12 +1,12 @@
-export type { Users } from './model/types';
-export { usersTableColumns } from './model/usersTableColumns';
+export { AddBatchUsersParams, type UserDto } from "./api/types";
 export {
-	useUsersQuery,
-	useUserQuery,
-	useCreateUserMutation,
-	useBatchUsersMutation,
-	useUpdateUserMutation,
-	useDeleteUserMutation,
-} from './api/userApi';
-export { AddBatchUsersParams, type UserDto } from './api/types';
-export { mapUser } from './lib/mapUser';
+  useBatchUsersMutation,
+  useCreateUserMutation,
+  useDeleteUserMutation,
+  useUpdateUserMutation,
+  useUserQuery,
+  useUsersQuery,
+} from "./api/userApi";
+export { mapUser } from "./lib/mapUser";
+export type { Users } from "./model/types";
+export { usersTableColumns } from "./model/usersTableColumns";

@@ -1,2 +1,2 @@
-npm run format:fix
+npm run format
 npx lint-staged --concurrent false

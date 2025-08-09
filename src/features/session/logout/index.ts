@@ -1,3 +1,3 @@
-export { LogoutButton } from './ui/LogoutButton/LogoutButton';
-export { logoutMiddleware } from './model/logoutMiddleware';
-export { logoutThunk } from './model/logout';
+export { logoutThunk } from "./model/logout";
+export { logoutMiddleware } from "./model/logoutMiddleware";
+export { LogoutButton } from "./ui/LogoutButton/LogoutButton";

@@ -1,6 +1,6 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
-import { CamerasPage } from '@/pages/camera';
+import { createLazyFileRoute } from "@tanstack/react-router";
+import { CamerasPage } from "@/pages/camera";
 
-export const Route = createLazyFileRoute('/_auth/camera/')({
-	component: CamerasPage,
+export const Route = createLazyFileRoute("/_auth/camera/")({
+  component: CamerasPage,
 });

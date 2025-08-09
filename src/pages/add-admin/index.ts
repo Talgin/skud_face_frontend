@@ -1,1 +1,1 @@
-export { AddAdminPage } from './ui/Page/Page';
+export { AddAdminPage } from "./ui/Page/Page";

@@ -1,6 +1,6 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
-import { PointPage } from '@/pages/point';
+import { createLazyFileRoute } from "@tanstack/react-router";
+import { PointPage } from "@/pages/point";
 
-export const Route = createLazyFileRoute('/_auth/point/')({
-	component: PointPage,
+export const Route = createLazyFileRoute("/_auth/point/")({
+  component: PointPage,
 });

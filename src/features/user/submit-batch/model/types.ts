@@ -1,4 +1,4 @@
 export type BatchUserValues = {
-	excelFile: FileList;
-	photos: FileList;
+  excelFile: FileList;
+  photos: FileList;
 };

@@ -1,4 +1,4 @@
-import { z } from 'zod';
-import { submitOrganizationFormSchema } from './submitOrganizationFormSchema';
+import type { z } from "zod";
+import type { submitOrganizationFormSchema } from "./submitOrganizationFormSchema";
 
 export type OrganizationValues = z.infer<typeof submitOrganizationFormSchema>;

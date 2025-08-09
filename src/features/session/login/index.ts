@@ -1,2 +1,2 @@
-export { LoginForm } from './ui/LoginForm/LoginForm';
-export { loginThunk } from './model/login';
+export { loginThunk } from "./model/login";
+export { LoginForm } from "./ui/LoginForm/LoginForm";

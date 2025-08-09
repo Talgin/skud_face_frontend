@@ -1,9 +1,9 @@
-export type { Camera, Cameras } from './model/types';
-export { camerasTableColumns } from './model/camerasTableColumns';
 export {
-	useCamerasQuery,
-	useCameraQuery,
-	useCreateCameraMutation,
-	useUpdateCameraMutation,
-	useDeleteCameraMutation,
-} from './api/cameraApi';
+  useCameraQuery,
+  useCamerasQuery,
+  useCreateCameraMutation,
+  useDeleteCameraMutation,
+  useUpdateCameraMutation,
+} from "./api/cameraApi";
+export { camerasTableColumns } from "./model/camerasTableColumns";
+export type { Camera, Cameras } from "./model/types";

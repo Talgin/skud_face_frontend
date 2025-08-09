@@ -1,1 +1,1 @@
-export { AddCameraPage } from './ui/Page/Page';
+export { AddCameraPage } from "./ui/Page/Page";

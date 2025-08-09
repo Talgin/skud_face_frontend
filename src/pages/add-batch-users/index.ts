@@ -1,1 +1,1 @@
-export { AddBatchUsersPage } from './ui/Page/Page';
+export { AddBatchUsersPage } from "./ui/Page/Page";
