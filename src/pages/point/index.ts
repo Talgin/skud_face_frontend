@@ -1,1 +1,1 @@
-export { PointPage } from './ui/Page/Page';
+export { PointPage } from "./ui/Page/Page";

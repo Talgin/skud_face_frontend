@@ -1,4 +1,4 @@
 {
-	"src/**/*.{ts,tsx}": ["prettier --write", "eslint --fix", "eslint"],
-	"src/**/*.{json,md,yml}": ["prettier --write"]
+  "src/**/*.{ts,tsx}": ["biome format --write", "biome lint"],
+  "src/**/*.{json,md,yml}": ["biome format --write"]
 }

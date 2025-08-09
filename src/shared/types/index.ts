@@ -1,1 +1,1 @@
-export type { SubmitFormProps } from './SubmitFormProps';
+export type { SubmitFormProps } from "./SubmitFormProps";

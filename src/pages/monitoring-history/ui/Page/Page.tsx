@@ -1,3 +1,3 @@
 export function MonitoringHistoryPage() {
-	return <div>Monitoring history page</div>;
+  return <div>Monitoring history page</div>;
 }

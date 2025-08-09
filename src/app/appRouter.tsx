@@ -1,28 +1,36 @@
-import { createRouter, RouterProvider as TanstackRouterProvider } from '@tanstack/react-router';
-import { routeTree } from '@/routeTree.gen';
-import React from 'react';
-import { useAppSelector } from '@/shared/model';
-import { selectIsAuthenticated } from '@/entities/session';
+import {
+  createRouter,
+  RouterProvider as TanstackRouterProvider,
+} from "@tanstack/react-router";
+import type React from "react";
+import { selectIsAuthenticated } from "@/entities/session";
+import { routeTree } from "@/routeTree.gen";
+import { useAppSelector } from "@/shared/model";
 
 const router = createRouter({
-	routeTree,
-	defaultPreload: 'intent',
-	context: {
-		auth: undefined!,
-	},
+  routeTree,
+  defaultPreload: "intent",
+  context: {
+    auth: undefined,
+  },
 });
 
-declare module '@tanstack/react-router' {
-	interface Register {
-		router: typeof router;
-	}
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
 }
 
 export function appRouter() {
-	return router;
+  return router;
 }
 
 export const RouterProvider: React.FC = () => {
-	const isAuthenticated = useAppSelector(selectIsAuthenticated);
-	return <TanstackRouterProvider router={appRouter()} context={{ auth: { isAuthenticated } }} />;
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  return (
+    <TanstackRouterProvider
+      router={appRouter()}
+      context={{ auth: { isAuthenticated } }}
+    />
+  );
 };

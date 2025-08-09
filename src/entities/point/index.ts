@@ -1,9 +1,9 @@
-export { pointTableColumns } from './model/pointTableColumns';
-export type { Points, Point } from './model/types';
 export {
-	usePointsQuery,
-	usePointQuery,
-	useCreatePointMutation,
-	useUpdatePointMutation,
-	useDeletePointMutation,
-} from './api/pointsApi';
+  useCreatePointMutation,
+  useDeletePointMutation,
+  usePointQuery,
+  usePointsQuery,
+  useUpdatePointMutation,
+} from "./api/pointsApi";
+export { pointTableColumns } from "./model/pointTableColumns";
+export type { Point, Points } from "./model/types";

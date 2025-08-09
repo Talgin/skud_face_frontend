@@ -1,136 +1,146 @@
-import { Settings, LayoutGrid, Building, LucideIcon, UserCog, Users, MapPin, Monitor, Camera } from 'lucide-react';
+import {
+  Building,
+  Camera,
+  LayoutGrid,
+  type LucideIcon,
+  MapPin,
+  Monitor,
+  Settings,
+  UserCog,
+  Users,
+} from "lucide-react";
 
 type Submenu = {
-	href: string;
-	label: string;
-	active?: boolean;
+  href: string;
+  label: string;
+  active?: boolean;
 };
 
 type Menu = {
-	href: string;
-	label: string;
-	active?: boolean;
-	icon: LucideIcon;
-	submenus?: Submenu[];
+  href: string;
+  label: string;
+  active?: boolean;
+  icon: LucideIcon;
+  submenus?: Submenu[];
 };
 
 type Group = {
-	groupLabel: string;
-	menus: Menu[];
+  groupLabel: string;
+  menus: Menu[];
 };
 
-export function getMenuList(pathname: string): Group[] {
-	return [
-		{
-			groupLabel: '',
-			menus: [
-				{
-					href: '/monitoring',
-					label: 'Мониторинг',
-					icon: Monitor,
-					submenus: [],
-				},
-				{
-					href: '/dashboard',
-					label: 'Дашборд',
-					icon: LayoutGrid,
-					submenus: [],
-				},
-			],
-		},
-		{
-			groupLabel: 'Формы',
-			menus: [
-				{
-					href: '',
-					label: 'Организации',
-					icon: Building,
-					submenus: [
-						{
-							href: '/organization',
-							label: 'Все организаций',
-						},
-						{
-							href: '/organization/add',
-							label: 'Добавить',
-						},
-					],
-				},
-				{
-					href: '',
-					label: 'Админы',
-					icon: UserCog,
-					submenus: [
-						{
-							href: '/admin',
-							label: 'Все админы',
-						},
-						{
-							href: '/admin/add',
-							label: 'Добавить',
-						},
-					],
-				},
-				{
-					href: '/',
-					label: 'Пользователи',
-					icon: Users,
-					submenus: [
-						{
-							href: '/user',
-							label: 'Все пользователи',
-						},
-						{
-							href: '/user/add',
-							label: 'Добавить новых пользователей',
-						},
-						{
-							href: '/user/add-batch',
-							label: 'Добавить пользователя',
-						},
-					],
-				},
-				{
-					href: '/point',
-					label: 'Точки',
-					icon: MapPin,
-					submenus: [
-						{
-							href: '/point',
-							label: 'Все точки',
-						},
-						{
-							href: '/point/add',
-							label: 'Добавить точку',
-						},
-					],
-				},
-				{
-					href: '/camera',
-					label: 'Камеры',
-					icon: Camera,
-					submenus: [
-						{
-							href: '/camera',
-							label: 'Все камеры',
-						},
-						{
-							href: '/camera/add',
-							label: 'Добавить камеру',
-						},
-					],
-				},
-			],
-		},
-		{
-			groupLabel: 'Settings',
-			menus: [
-				{
-					href: '/profile',
-					label: 'Личный кабинет',
-					icon: Settings,
-				},
-			],
-		},
-	];
+export function getMenuList(_pathname: string): Group[] {
+  return [
+    {
+      groupLabel: "",
+      menus: [
+        {
+          href: "/monitoring",
+          label: "Мониторинг",
+          icon: Monitor,
+          submenus: [],
+        },
+        {
+          href: "/dashboard",
+          label: "Дашборд",
+          icon: LayoutGrid,
+          submenus: [],
+        },
+      ],
+    },
+    {
+      groupLabel: "Формы",
+      menus: [
+        {
+          href: "",
+          label: "Организации",
+          icon: Building,
+          submenus: [
+            {
+              href: "/organization",
+              label: "Все организаций",
+            },
+            {
+              href: "/organization/add",
+              label: "Добавить",
+            },
+          ],
+        },
+        {
+          href: "",
+          label: "Админы",
+          icon: UserCog,
+          submenus: [
+            {
+              href: "/admin",
+              label: "Все админы",
+            },
+            {
+              href: "/admin/add",
+              label: "Добавить",
+            },
+          ],
+        },
+        {
+          href: "/",
+          label: "Пользователи",
+          icon: Users,
+          submenus: [
+            {
+              href: "/user",
+              label: "Все пользователи",
+            },
+            {
+              href: "/user/add",
+              label: "Добавить новых пользователей",
+            },
+            {
+              href: "/user/add-batch",
+              label: "Добавить пользователя",
+            },
+          ],
+        },
+        {
+          href: "/point",
+          label: "Точки",
+          icon: MapPin,
+          submenus: [
+            {
+              href: "/point",
+              label: "Все точки",
+            },
+            {
+              href: "/point/add",
+              label: "Добавить точку",
+            },
+          ],
+        },
+        {
+          href: "/camera",
+          label: "Камеры",
+          icon: Camera,
+          submenus: [
+            {
+              href: "/camera",
+              label: "Все камеры",
+            },
+            {
+              href: "/camera/add",
+              label: "Добавить камеру",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      groupLabel: "Settings",
+      menus: [
+        {
+          href: "/profile",
+          label: "Личный кабинет",
+          icon: Settings,
+        },
+      ],
+    },
+  ];
 }

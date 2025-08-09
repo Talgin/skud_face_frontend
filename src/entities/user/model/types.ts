@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { userSchema, usersSchema } from './usersSchema';
+import type { z } from "zod";
+import type { userSchema, usersSchema } from "./usersSchema";
 
 export type Users = z.infer<typeof usersSchema>;
 

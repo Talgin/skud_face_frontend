@@ -1,24 +1,24 @@
-export type RoleType = 'admin' | 'operator' | 'registrar' | 'super_admin';
+export type RoleType = "admin" | "operator" | "registrar" | "super_admin";
 
 export type AdminDto = {
-	id: number;
-	name: string;
-	surname: string;
-	card_id: string;
-	active: boolean;
-	role: RoleType;
+  id: number;
+  name: string;
+  surname: string;
+  card_id: string;
+  active: boolean;
+  role: RoleType;
 };
 
 type AdminCredentials = {
-	username: string;
-	password: string;
+  username: string;
+  password: string;
 };
 
-type RequestBody = Omit<AdminDto, 'id'> & AdminCredentials;
+type RequestBody = Omit<AdminDto, "id"> & AdminCredentials;
 
 export type CreateAdminRequestBody = RequestBody;
 
 export type UpdateAdminRequestBody = {
-	id: number;
-	newAdmin: RequestBody;
+  id: number;
+  newAdmin: RequestBody;
 };
