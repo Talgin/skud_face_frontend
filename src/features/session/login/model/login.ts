@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { sessionApi } from "@/entities/session/api/sessionApi";
 import { isFetchBaseQueryError } from "@/shared/api";
+import { extractDetail } from "@/shared/lib";
 
 type Params = {
   username: Email;
@@ -14,11 +15,9 @@ export const loginThunk = createAsyncThunk<void, Params, { state: RootState }>(
       await dispatch(sessionApi.endpoints.login.initiate(body)).unwrap();
     } catch (error: unknown) {
       if (isFetchBaseQueryError(error)) {
-        // TODO: пофиксить
-        // @ts-ignore
-        if (typeof error.data.detail === "string") {
-          // @ts-ignore
-          throw new TypeError(error.data.detail);
+        const detail = extractDetail(error);
+        if (detail) {
+          throw new TypeError(detail);
         }
       }
 
