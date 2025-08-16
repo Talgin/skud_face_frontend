@@ -11,7 +11,9 @@ const router = createRouter({
   routeTree,
   defaultPreload: "intent",
   context: {
-    auth: undefined,
+    auth: {
+      isAuthenticated: false,
+    },
   },
 });
 
