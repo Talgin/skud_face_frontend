@@ -28,6 +28,7 @@ export function makeStore() {
       persistConfig,
       rootReducer,
     ) as unknown as typeof rootReducer,
+    devTools: true,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {

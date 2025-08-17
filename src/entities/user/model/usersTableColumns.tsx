@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { tablePermissions } from "@/entities/role";
 import { useDeleteUserMutation } from "@/entities/user";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
@@ -67,6 +68,8 @@ export const usersTableColumns: ColumnDef<User>[] = [
           onConfirm={onConfirm}
           isDeletedSuccessfully={isSuccess}
           isLoading={isLoading}
+          permissions={tablePermissions.user}
+          onDeny="hide"
         />
       );
     },

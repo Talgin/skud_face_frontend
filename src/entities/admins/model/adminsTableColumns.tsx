@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { useDeleteAdminMutation } from "@/entities/admins";
+import { tablePermissions } from "@/entities/role";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { Admin } from "../model/types";
@@ -49,6 +50,8 @@ export const adminsTableColumns: ColumnDef<Admin>[] = [
           onConfirm={onConfirm}
           isDeletedSuccessfully={isSuccess}
           isLoading={isLoading}
+          permissions={tablePermissions.admin}
+          onDeny="hide"
         />
       );
     },

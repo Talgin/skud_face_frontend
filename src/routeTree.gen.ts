@@ -12,29 +12,26 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './app/routes/__root'
 import { Route as AuthRouteImport } from './app/routes/_auth'
+import { Route as R403RouteImport } from './app/routes/403'
 import { Route as IndexRouteImport } from './app/routes/index'
+import { Route as AuthUserIndexRouteImport } from './app/routes/_auth/user/index'
+import { Route as AuthPointIndexRouteImport } from './app/routes/_auth/point/index'
+import { Route as AuthOrganizationIndexRouteImport } from './app/routes/_auth/organization/index'
+import { Route as AuthCameraIndexRouteImport } from './app/routes/_auth/camera/index'
+import { Route as AuthAdminIndexRouteImport } from './app/routes/_auth/admin/index'
 import { Route as AuthUserAddBatchRouteImport } from './app/routes/_auth/user/add-batch'
 import { Route as AuthUserAddRouteImport } from './app/routes/_auth/user/add'
+import { Route as AuthPointAddRouteImport } from './app/routes/_auth/point/add'
+import { Route as AuthOrganizationAddRouteImport } from './app/routes/_auth/organization/add'
+import { Route as AuthCameraAddRouteImport } from './app/routes/_auth/camera/add'
+import { Route as AuthAdminAddRouteImport } from './app/routes/_auth/admin/add'
 
-const AuthUserIndexLazyRouteImport = createFileRoute('/_auth/user/')()
-const AuthPointIndexLazyRouteImport = createFileRoute('/_auth/point/')()
-const AuthOrganizationIndexLazyRouteImport = createFileRoute(
-  '/_auth/organization/',
-)()
 const AuthMonitoringIndexLazyRouteImport =
   createFileRoute('/_auth/monitoring/')()
 const AuthDashboardIndexLazyRouteImport = createFileRoute('/_auth/dashboard/')()
-const AuthCameraIndexLazyRouteImport = createFileRoute('/_auth/camera/')()
-const AuthAdminIndexLazyRouteImport = createFileRoute('/_auth/admin/')()
-const AuthPointAddLazyRouteImport = createFileRoute('/_auth/point/add')()
-const AuthOrganizationAddLazyRouteImport = createFileRoute(
-  '/_auth/organization/add',
-)()
 const AuthMonitoringHistoryLazyRouteImport = createFileRoute(
   '/_auth/monitoring/history',
 )()
-const AuthCameraAddLazyRouteImport = createFileRoute('/_auth/camera/add')()
-const AuthAdminAddLazyRouteImport = createFileRoute('/_auth/admin/add')()
 const AuthUserEditIdLazyRouteImport = createFileRoute('/_auth/user/edit/$id')()
 const AuthPointEditIdLazyRouteImport = createFileRoute(
   '/_auth/point/edit/$id',
@@ -53,33 +50,16 @@ const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const R403Route = R403RouteImport.update({
+  id: '/403',
+  path: '/403',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthUserIndexLazyRoute = AuthUserIndexLazyRouteImport.update({
-  id: '/user/',
-  path: '/user/',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/user/index.lazy').then((d) => d.Route),
-)
-const AuthPointIndexLazyRoute = AuthPointIndexLazyRouteImport.update({
-  id: '/point/',
-  path: '/point/',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/point/index.lazy').then((d) => d.Route),
-)
-const AuthOrganizationIndexLazyRoute =
-  AuthOrganizationIndexLazyRouteImport.update({
-    id: '/organization/',
-    path: '/organization/',
-    getParentRoute: () => AuthRoute,
-  } as any).lazy(() =>
-    import('./app/routes/_auth/organization/index.lazy').then((d) => d.Route),
-  )
 const AuthMonitoringIndexLazyRoute = AuthMonitoringIndexLazyRouteImport.update({
   id: '/monitoring/',
   path: '/monitoring/',
@@ -94,34 +74,31 @@ const AuthDashboardIndexLazyRoute = AuthDashboardIndexLazyRouteImport.update({
 } as any).lazy(() =>
   import('./app/routes/_auth/dashboard/index.lazy').then((d) => d.Route),
 )
-const AuthCameraIndexLazyRoute = AuthCameraIndexLazyRouteImport.update({
+const AuthUserIndexRoute = AuthUserIndexRouteImport.update({
+  id: '/user/',
+  path: '/user/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthPointIndexRoute = AuthPointIndexRouteImport.update({
+  id: '/point/',
+  path: '/point/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthOrganizationIndexRoute = AuthOrganizationIndexRouteImport.update({
+  id: '/organization/',
+  path: '/organization/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthCameraIndexRoute = AuthCameraIndexRouteImport.update({
   id: '/camera/',
   path: '/camera/',
   getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/camera/index.lazy').then((d) => d.Route),
-)
-const AuthAdminIndexLazyRoute = AuthAdminIndexLazyRouteImport.update({
+} as any)
+const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
   getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/admin/index.lazy').then((d) => d.Route),
-)
-const AuthPointAddLazyRoute = AuthPointAddLazyRouteImport.update({
-  id: '/point/add',
-  path: '/point/add',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/point/add.lazy').then((d) => d.Route),
-)
-const AuthOrganizationAddLazyRoute = AuthOrganizationAddLazyRouteImport.update({
-  id: '/organization/add',
-  path: '/organization/add',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/organization/add.lazy').then((d) => d.Route),
-)
+} as any)
 const AuthMonitoringHistoryLazyRoute =
   AuthMonitoringHistoryLazyRouteImport.update({
     id: '/monitoring/history',
@@ -130,20 +107,6 @@ const AuthMonitoringHistoryLazyRoute =
   } as any).lazy(() =>
     import('./app/routes/_auth/monitoring/history.lazy').then((d) => d.Route),
   )
-const AuthCameraAddLazyRoute = AuthCameraAddLazyRouteImport.update({
-  id: '/camera/add',
-  path: '/camera/add',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/camera/add.lazy').then((d) => d.Route),
-)
-const AuthAdminAddLazyRoute = AuthAdminAddLazyRouteImport.update({
-  id: '/admin/add',
-  path: '/admin/add',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/admin/add.lazy').then((d) => d.Route),
-)
 const AuthUserAddBatchRoute = AuthUserAddBatchRouteImport.update({
   id: '/user/add-batch',
   path: '/user/add-batch',
@@ -152,6 +115,26 @@ const AuthUserAddBatchRoute = AuthUserAddBatchRouteImport.update({
 const AuthUserAddRoute = AuthUserAddRouteImport.update({
   id: '/user/add',
   path: '/user/add',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthPointAddRoute = AuthPointAddRouteImport.update({
+  id: '/point/add',
+  path: '/point/add',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthOrganizationAddRoute = AuthOrganizationAddRouteImport.update({
+  id: '/organization/add',
+  path: '/organization/add',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthCameraAddRoute = AuthCameraAddRouteImport.update({
+  id: '/camera/add',
+  path: '/camera/add',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminAddRoute = AuthAdminAddRouteImport.update({
+  id: '/admin/add',
+  path: '/admin/add',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthUserEditIdLazyRoute = AuthUserEditIdLazyRouteImport.update({
@@ -195,20 +178,21 @@ const AuthAdminEditIdLazyRoute = AuthAdminEditIdLazyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/403': typeof R403Route
+  '/admin/add': typeof AuthAdminAddRoute
+  '/camera/add': typeof AuthCameraAddRoute
+  '/organization/add': typeof AuthOrganizationAddRoute
+  '/point/add': typeof AuthPointAddRoute
   '/user/add': typeof AuthUserAddRoute
   '/user/add-batch': typeof AuthUserAddBatchRoute
-  '/admin/add': typeof AuthAdminAddLazyRoute
-  '/camera/add': typeof AuthCameraAddLazyRoute
   '/monitoring/history': typeof AuthMonitoringHistoryLazyRoute
-  '/organization/add': typeof AuthOrganizationAddLazyRoute
-  '/point/add': typeof AuthPointAddLazyRoute
-  '/admin': typeof AuthAdminIndexLazyRoute
-  '/camera': typeof AuthCameraIndexLazyRoute
+  '/admin': typeof AuthAdminIndexRoute
+  '/camera': typeof AuthCameraIndexRoute
+  '/organization': typeof AuthOrganizationIndexRoute
+  '/point': typeof AuthPointIndexRoute
+  '/user': typeof AuthUserIndexRoute
   '/dashboard': typeof AuthDashboardIndexLazyRoute
   '/monitoring': typeof AuthMonitoringIndexLazyRoute
-  '/organization': typeof AuthOrganizationIndexLazyRoute
-  '/point': typeof AuthPointIndexLazyRoute
-  '/user': typeof AuthUserIndexLazyRoute
   '/admin/edit/$id': typeof AuthAdminEditIdLazyRoute
   '/camera/edit/$id': typeof AuthCameraEditIdLazyRoute
   '/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute
@@ -217,20 +201,21 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/403': typeof R403Route
+  '/admin/add': typeof AuthAdminAddRoute
+  '/camera/add': typeof AuthCameraAddRoute
+  '/organization/add': typeof AuthOrganizationAddRoute
+  '/point/add': typeof AuthPointAddRoute
   '/user/add': typeof AuthUserAddRoute
   '/user/add-batch': typeof AuthUserAddBatchRoute
-  '/admin/add': typeof AuthAdminAddLazyRoute
-  '/camera/add': typeof AuthCameraAddLazyRoute
   '/monitoring/history': typeof AuthMonitoringHistoryLazyRoute
-  '/organization/add': typeof AuthOrganizationAddLazyRoute
-  '/point/add': typeof AuthPointAddLazyRoute
-  '/admin': typeof AuthAdminIndexLazyRoute
-  '/camera': typeof AuthCameraIndexLazyRoute
+  '/admin': typeof AuthAdminIndexRoute
+  '/camera': typeof AuthCameraIndexRoute
+  '/organization': typeof AuthOrganizationIndexRoute
+  '/point': typeof AuthPointIndexRoute
+  '/user': typeof AuthUserIndexRoute
   '/dashboard': typeof AuthDashboardIndexLazyRoute
   '/monitoring': typeof AuthMonitoringIndexLazyRoute
-  '/organization': typeof AuthOrganizationIndexLazyRoute
-  '/point': typeof AuthPointIndexLazyRoute
-  '/user': typeof AuthUserIndexLazyRoute
   '/admin/edit/$id': typeof AuthAdminEditIdLazyRoute
   '/camera/edit/$id': typeof AuthCameraEditIdLazyRoute
   '/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute
@@ -240,21 +225,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/403': typeof R403Route
   '/_auth': typeof AuthRouteWithChildren
+  '/_auth/admin/add': typeof AuthAdminAddRoute
+  '/_auth/camera/add': typeof AuthCameraAddRoute
+  '/_auth/organization/add': typeof AuthOrganizationAddRoute
+  '/_auth/point/add': typeof AuthPointAddRoute
   '/_auth/user/add': typeof AuthUserAddRoute
   '/_auth/user/add-batch': typeof AuthUserAddBatchRoute
-  '/_auth/admin/add': typeof AuthAdminAddLazyRoute
-  '/_auth/camera/add': typeof AuthCameraAddLazyRoute
   '/_auth/monitoring/history': typeof AuthMonitoringHistoryLazyRoute
-  '/_auth/organization/add': typeof AuthOrganizationAddLazyRoute
-  '/_auth/point/add': typeof AuthPointAddLazyRoute
-  '/_auth/admin/': typeof AuthAdminIndexLazyRoute
-  '/_auth/camera/': typeof AuthCameraIndexLazyRoute
+  '/_auth/admin/': typeof AuthAdminIndexRoute
+  '/_auth/camera/': typeof AuthCameraIndexRoute
+  '/_auth/organization/': typeof AuthOrganizationIndexRoute
+  '/_auth/point/': typeof AuthPointIndexRoute
+  '/_auth/user/': typeof AuthUserIndexRoute
   '/_auth/dashboard/': typeof AuthDashboardIndexLazyRoute
   '/_auth/monitoring/': typeof AuthMonitoringIndexLazyRoute
-  '/_auth/organization/': typeof AuthOrganizationIndexLazyRoute
-  '/_auth/point/': typeof AuthPointIndexLazyRoute
-  '/_auth/user/': typeof AuthUserIndexLazyRoute
   '/_auth/admin/edit/$id': typeof AuthAdminEditIdLazyRoute
   '/_auth/camera/edit/$id': typeof AuthCameraEditIdLazyRoute
   '/_auth/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute
@@ -265,20 +251,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/user/add'
-    | '/user/add-batch'
+    | '/403'
     | '/admin/add'
     | '/camera/add'
-    | '/monitoring/history'
     | '/organization/add'
     | '/point/add'
+    | '/user/add'
+    | '/user/add-batch'
+    | '/monitoring/history'
     | '/admin'
     | '/camera'
-    | '/dashboard'
-    | '/monitoring'
     | '/organization'
     | '/point'
     | '/user'
+    | '/dashboard'
+    | '/monitoring'
     | '/admin/edit/$id'
     | '/camera/edit/$id'
     | '/organization/edit/$id'
@@ -287,20 +274,21 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/user/add'
-    | '/user/add-batch'
+    | '/403'
     | '/admin/add'
     | '/camera/add'
-    | '/monitoring/history'
     | '/organization/add'
     | '/point/add'
+    | '/user/add'
+    | '/user/add-batch'
+    | '/monitoring/history'
     | '/admin'
     | '/camera'
-    | '/dashboard'
-    | '/monitoring'
     | '/organization'
     | '/point'
     | '/user'
+    | '/dashboard'
+    | '/monitoring'
     | '/admin/edit/$id'
     | '/camera/edit/$id'
     | '/organization/edit/$id'
@@ -309,21 +297,22 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/403'
     | '/_auth'
-    | '/_auth/user/add'
-    | '/_auth/user/add-batch'
     | '/_auth/admin/add'
     | '/_auth/camera/add'
-    | '/_auth/monitoring/history'
     | '/_auth/organization/add'
     | '/_auth/point/add'
+    | '/_auth/user/add'
+    | '/_auth/user/add-batch'
+    | '/_auth/monitoring/history'
     | '/_auth/admin/'
     | '/_auth/camera/'
-    | '/_auth/dashboard/'
-    | '/_auth/monitoring/'
     | '/_auth/organization/'
     | '/_auth/point/'
     | '/_auth/user/'
+    | '/_auth/dashboard/'
+    | '/_auth/monitoring/'
     | '/_auth/admin/edit/$id'
     | '/_auth/camera/edit/$id'
     | '/_auth/organization/edit/$id'
@@ -333,6 +322,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R403Route: typeof R403Route
   AuthRoute: typeof AuthRouteWithChildren
 }
 
@@ -345,33 +335,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/403': {
+      id: '/403'
+      path: '/403'
+      fullPath: '/403'
+      preLoaderRoute: typeof R403RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_auth/user/': {
-      id: '/_auth/user/'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof AuthUserIndexLazyRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/point/': {
-      id: '/_auth/point/'
-      path: '/point'
-      fullPath: '/point'
-      preLoaderRoute: typeof AuthPointIndexLazyRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/organization/': {
-      id: '/_auth/organization/'
-      path: '/organization'
-      fullPath: '/organization'
-      preLoaderRoute: typeof AuthOrganizationIndexLazyRouteImport
-      parentRoute: typeof AuthRoute
     }
     '/_auth/monitoring/': {
       id: '/_auth/monitoring/'
@@ -387,32 +363,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardIndexLazyRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/user/': {
+      id: '/_auth/user/'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof AuthUserIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/point/': {
+      id: '/_auth/point/'
+      path: '/point'
+      fullPath: '/point'
+      preLoaderRoute: typeof AuthPointIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/organization/': {
+      id: '/_auth/organization/'
+      path: '/organization'
+      fullPath: '/organization'
+      preLoaderRoute: typeof AuthOrganizationIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/camera/': {
       id: '/_auth/camera/'
       path: '/camera'
       fullPath: '/camera'
-      preLoaderRoute: typeof AuthCameraIndexLazyRouteImport
+      preLoaderRoute: typeof AuthCameraIndexRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/admin/': {
       id: '/_auth/admin/'
       path: '/admin'
       fullPath: '/admin'
-      preLoaderRoute: typeof AuthAdminIndexLazyRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/point/add': {
-      id: '/_auth/point/add'
-      path: '/point/add'
-      fullPath: '/point/add'
-      preLoaderRoute: typeof AuthPointAddLazyRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/organization/add': {
-      id: '/_auth/organization/add'
-      path: '/organization/add'
-      fullPath: '/organization/add'
-      preLoaderRoute: typeof AuthOrganizationAddLazyRouteImport
+      preLoaderRoute: typeof AuthAdminIndexRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/monitoring/history': {
@@ -420,20 +403,6 @@ declare module '@tanstack/react-router' {
       path: '/monitoring/history'
       fullPath: '/monitoring/history'
       preLoaderRoute: typeof AuthMonitoringHistoryLazyRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/camera/add': {
-      id: '/_auth/camera/add'
-      path: '/camera/add'
-      fullPath: '/camera/add'
-      preLoaderRoute: typeof AuthCameraAddLazyRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/admin/add': {
-      id: '/_auth/admin/add'
-      path: '/admin/add'
-      fullPath: '/admin/add'
-      preLoaderRoute: typeof AuthAdminAddLazyRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/user/add-batch': {
@@ -448,6 +417,34 @@ declare module '@tanstack/react-router' {
       path: '/user/add'
       fullPath: '/user/add'
       preLoaderRoute: typeof AuthUserAddRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/point/add': {
+      id: '/_auth/point/add'
+      path: '/point/add'
+      fullPath: '/point/add'
+      preLoaderRoute: typeof AuthPointAddRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/organization/add': {
+      id: '/_auth/organization/add'
+      path: '/organization/add'
+      fullPath: '/organization/add'
+      preLoaderRoute: typeof AuthOrganizationAddRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/camera/add': {
+      id: '/_auth/camera/add'
+      path: '/camera/add'
+      fullPath: '/camera/add'
+      preLoaderRoute: typeof AuthCameraAddRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admin/add': {
+      id: '/_auth/admin/add'
+      path: '/admin/add'
+      fullPath: '/admin/add'
+      preLoaderRoute: typeof AuthAdminAddRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/user/edit/$id': {
@@ -489,20 +486,20 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthRouteChildren {
+  AuthAdminAddRoute: typeof AuthAdminAddRoute
+  AuthCameraAddRoute: typeof AuthCameraAddRoute
+  AuthOrganizationAddRoute: typeof AuthOrganizationAddRoute
+  AuthPointAddRoute: typeof AuthPointAddRoute
   AuthUserAddRoute: typeof AuthUserAddRoute
   AuthUserAddBatchRoute: typeof AuthUserAddBatchRoute
-  AuthAdminAddLazyRoute: typeof AuthAdminAddLazyRoute
-  AuthCameraAddLazyRoute: typeof AuthCameraAddLazyRoute
   AuthMonitoringHistoryLazyRoute: typeof AuthMonitoringHistoryLazyRoute
-  AuthOrganizationAddLazyRoute: typeof AuthOrganizationAddLazyRoute
-  AuthPointAddLazyRoute: typeof AuthPointAddLazyRoute
-  AuthAdminIndexLazyRoute: typeof AuthAdminIndexLazyRoute
-  AuthCameraIndexLazyRoute: typeof AuthCameraIndexLazyRoute
+  AuthAdminIndexRoute: typeof AuthAdminIndexRoute
+  AuthCameraIndexRoute: typeof AuthCameraIndexRoute
+  AuthOrganizationIndexRoute: typeof AuthOrganizationIndexRoute
+  AuthPointIndexRoute: typeof AuthPointIndexRoute
+  AuthUserIndexRoute: typeof AuthUserIndexRoute
   AuthDashboardIndexLazyRoute: typeof AuthDashboardIndexLazyRoute
   AuthMonitoringIndexLazyRoute: typeof AuthMonitoringIndexLazyRoute
-  AuthOrganizationIndexLazyRoute: typeof AuthOrganizationIndexLazyRoute
-  AuthPointIndexLazyRoute: typeof AuthPointIndexLazyRoute
-  AuthUserIndexLazyRoute: typeof AuthUserIndexLazyRoute
   AuthAdminEditIdLazyRoute: typeof AuthAdminEditIdLazyRoute
   AuthCameraEditIdLazyRoute: typeof AuthCameraEditIdLazyRoute
   AuthOrganizationEditIdLazyRoute: typeof AuthOrganizationEditIdLazyRoute
@@ -511,20 +508,20 @@ interface AuthRouteChildren {
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthAdminAddRoute: AuthAdminAddRoute,
+  AuthCameraAddRoute: AuthCameraAddRoute,
+  AuthOrganizationAddRoute: AuthOrganizationAddRoute,
+  AuthPointAddRoute: AuthPointAddRoute,
   AuthUserAddRoute: AuthUserAddRoute,
   AuthUserAddBatchRoute: AuthUserAddBatchRoute,
-  AuthAdminAddLazyRoute: AuthAdminAddLazyRoute,
-  AuthCameraAddLazyRoute: AuthCameraAddLazyRoute,
   AuthMonitoringHistoryLazyRoute: AuthMonitoringHistoryLazyRoute,
-  AuthOrganizationAddLazyRoute: AuthOrganizationAddLazyRoute,
-  AuthPointAddLazyRoute: AuthPointAddLazyRoute,
-  AuthAdminIndexLazyRoute: AuthAdminIndexLazyRoute,
-  AuthCameraIndexLazyRoute: AuthCameraIndexLazyRoute,
+  AuthAdminIndexRoute: AuthAdminIndexRoute,
+  AuthCameraIndexRoute: AuthCameraIndexRoute,
+  AuthOrganizationIndexRoute: AuthOrganizationIndexRoute,
+  AuthPointIndexRoute: AuthPointIndexRoute,
+  AuthUserIndexRoute: AuthUserIndexRoute,
   AuthDashboardIndexLazyRoute: AuthDashboardIndexLazyRoute,
   AuthMonitoringIndexLazyRoute: AuthMonitoringIndexLazyRoute,
-  AuthOrganizationIndexLazyRoute: AuthOrganizationIndexLazyRoute,
-  AuthPointIndexLazyRoute: AuthPointIndexLazyRoute,
-  AuthUserIndexLazyRoute: AuthUserIndexLazyRoute,
   AuthAdminEditIdLazyRoute: AuthAdminEditIdLazyRoute,
   AuthCameraEditIdLazyRoute: AuthCameraEditIdLazyRoute,
   AuthOrganizationEditIdLazyRoute: AuthOrganizationEditIdLazyRoute,
@@ -536,6 +533,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R403Route: R403Route,
   AuthRoute: AuthRouteWithChildren,
 }
 export const routeTree = rootRouteImport

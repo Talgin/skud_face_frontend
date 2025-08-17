@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { useDeleteOrganizationMutation } from "@/entities/organization";
+import { tablePermissions } from "@/entities/role";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { Organization } from "./types";
 
@@ -43,6 +44,8 @@ export const organizationTableColumns: ColumnDef<Organization>[] = [
           onConfirm={onConfirm}
           isDeletedSuccessfully={isSuccess}
           isLoading={isLoading}
+          permissions={tablePermissions.organization}
+          onDeny="hide"
         />
       );
     },

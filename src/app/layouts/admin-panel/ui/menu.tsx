@@ -2,6 +2,7 @@
 
 import { Link, useLocation } from "@tanstack/react-router";
 import { Ellipsis } from "lucide-react";
+import { Roles, useRoleQuery } from "@/entities/role";
 import { LogoutButton } from "@/features/session/logout";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { Button } from "@/shared/ui/button";
@@ -21,7 +22,9 @@ interface MenuProps {
 
 export function Menu({ isOpen }: MenuProps) {
   const { pathname } = useLocation();
-  const menuList = getMenuList(pathname);
+  const { data } = useRoleQuery();
+
+  const menuList = getMenuList(data?.role ?? Roles.OPERATOR);
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block">

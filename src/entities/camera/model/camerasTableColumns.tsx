@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { useDeleteCameraMutation } from "@/entities/camera";
+import { tablePermissions } from "@/entities/role";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { Camera } from "./types";
@@ -76,6 +77,8 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
           onConfirm={onConfirm}
           isDeletedSuccessfully={isSuccess}
           isLoading={isLoading}
+          permissions={tablePermissions.camera}
+          onDeny="disable"
         />
       );
     },

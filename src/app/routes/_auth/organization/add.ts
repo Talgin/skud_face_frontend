@@ -1,14 +1,14 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { canAny } from "@/entities/role";
-import { AddBatchUsersPage } from "@/pages/add-batch-users";
+import { AddOrganizationPage } from "@/pages/add-organization";
 
-export const Route = createFileRoute("/_auth/user/add-batch")({
+export const Route = createFileRoute("/_auth/organization/add")({
   beforeLoad: ({ context }) => {
     const role = context.auth.role;
     if (!role) return null;
-    if (!canAny(role, "user.batchCreate")) {
+    if (!canAny(role, "org.create")) {
       throw redirect({ to: "/403" });
     }
   },
-  component: AddBatchUsersPage,
+  component: AddOrganizationPage,
 });
