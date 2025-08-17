@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { useDeletePointMutation } from "@/entities/point";
+import { tablePermissions } from "@/entities/role";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { Point } from "./types";
 
@@ -37,6 +38,8 @@ export const pointTableColumns: ColumnDef<Point>[] = [
           onConfirm={onConfirm}
           isDeletedSuccessfully={isSuccess}
           isLoading={isLoading}
+          permissions={tablePermissions.point}
+          onDeny="disable"
         />
       );
     },

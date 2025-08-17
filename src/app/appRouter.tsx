@@ -3,6 +3,7 @@ import {
   RouterProvider as TanstackRouterProvider,
 } from "@tanstack/react-router";
 import type React from "react";
+import { useRoleQuery } from "@/entities/role";
 import { selectIsAuthenticated } from "@/entities/session";
 import { routeTree } from "@/routeTree.gen";
 import { useAppSelector } from "@/shared/model";
@@ -13,6 +14,7 @@ const router = createRouter({
   context: {
     auth: {
       isAuthenticated: false,
+      role: undefined,
     },
   },
 });
@@ -29,10 +31,17 @@ export function appRouter() {
 
 export const RouterProvider: React.FC = () => {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const accessToken = useAppSelector((state) => state.session.accessToken);
+  const { data } = useRoleQuery(undefined, {
+    skip: !accessToken,
+  });
+
   return (
     <TanstackRouterProvider
       router={appRouter()}
-      context={{ auth: { isAuthenticated } }}
+      context={{
+        auth: { isAuthenticated, role: data?.role },
+      }}
     />
   );
 };

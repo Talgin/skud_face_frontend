@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 
 import { Pencil } from "lucide-react";
 import { useEffect } from "react";
+import { type AccessReq, useCan } from "@/entities/role";
 import { useConfirmModal } from "@/shared/lib/useConfirmModal";
 import { Button } from "@/shared/ui/button";
 import {
@@ -19,17 +20,33 @@ export type TableRowActionsProps = {
   onConfirm: () => void;
   isDeletedSuccessfully: boolean;
   isLoading: boolean;
+  permissions?: {
+    edit?: AccessReq;
+    delete?: AccessReq;
+  };
+  onDeny?: "hide" | "disable";
 };
 
 export function TableRowActions(props: TableRowActionsProps) {
   const confirmRemoveModal = useConfirmModal();
   const navigate = useNavigate();
+  const { can } = useCan();
+
+  const canEdit = props.permissions?.edit ? can(props.permissions.edit) : true;
+  const canDelete = props.permissions?.delete
+    ? can(props.permissions.delete)
+    : true;
+
+  const showEdit = props.onDeny === "hide" ? canEdit : true;
+  const showDelete = props.onDeny === "hide" ? canDelete : true;
 
   const handleEditButtonClick = () => {
+    if (!canEdit) return;
     navigate({ to: props.editRouteTo });
   };
 
   const handleRemoveButtonClick = () => {
+    if (!canDelete) return;
     confirmRemoveModal.show({
       onCancel: () => confirmRemoveModal.remove(),
       onConfirm: () => {
@@ -57,20 +74,26 @@ export function TableRowActions(props: TableRowActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem onClick={handleEditButtonClick}>
-          Редактировать
-          <DropdownMenuShortcut>
-            <Pencil size={16} />
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleRemoveButtonClick}>
-          Удалить
-          <DropdownMenuShortcut>
-            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-          </DropdownMenuShortcut>
-        </DropdownMenuItem>
+        {showEdit && (
+          <DropdownMenuItem onClick={handleEditButtonClick} disabled={!canEdit}>
+            Редактировать
+            <DropdownMenuShortcut>
+              <Pencil size={16} />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        )}
+        {showEdit && showDelete && <DropdownMenuSeparator />}
+        {showDelete && (
+          <DropdownMenuItem
+            onClick={handleRemoveButtonClick}
+            disabled={!canDelete}
+          >
+            Удалить
+            <DropdownMenuShortcut>
+              <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
