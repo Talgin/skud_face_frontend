@@ -23,6 +23,7 @@ import { Route as AuthUserAddBatchRouteImport } from './app/routes/_auth/user/ad
 import { Route as AuthUserAddRouteImport } from './app/routes/_auth/user/add'
 import { Route as AuthPointAddRouteImport } from './app/routes/_auth/point/add'
 import { Route as AuthOrganizationAddRouteImport } from './app/routes/_auth/organization/add'
+import { Route as AuthMonitoringIdRouteImport } from './app/routes/_auth/monitoring/$id'
 import { Route as AuthCameraAddRouteImport } from './app/routes/_auth/camera/add'
 import { Route as AuthAdminAddRouteImport } from './app/routes/_auth/admin/add'
 
@@ -127,6 +128,11 @@ const AuthOrganizationAddRoute = AuthOrganizationAddRouteImport.update({
   path: '/organization/add',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthMonitoringIdRoute = AuthMonitoringIdRouteImport.update({
+  id: '/monitoring/$id',
+  path: '/monitoring/$id',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthCameraAddRoute = AuthCameraAddRouteImport.update({
   id: '/camera/add',
   path: '/camera/add',
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/403': typeof R403Route
   '/admin/add': typeof AuthAdminAddRoute
   '/camera/add': typeof AuthCameraAddRoute
+  '/monitoring/$id': typeof AuthMonitoringIdRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
   '/user/add': typeof AuthUserAddRoute
@@ -204,6 +211,7 @@ export interface FileRoutesByTo {
   '/403': typeof R403Route
   '/admin/add': typeof AuthAdminAddRoute
   '/camera/add': typeof AuthCameraAddRoute
+  '/monitoring/$id': typeof AuthMonitoringIdRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
   '/user/add': typeof AuthUserAddRoute
@@ -229,6 +237,7 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/_auth/admin/add': typeof AuthAdminAddRoute
   '/_auth/camera/add': typeof AuthCameraAddRoute
+  '/_auth/monitoring/$id': typeof AuthMonitoringIdRoute
   '/_auth/organization/add': typeof AuthOrganizationAddRoute
   '/_auth/point/add': typeof AuthPointAddRoute
   '/_auth/user/add': typeof AuthUserAddRoute
@@ -254,6 +263,7 @@ export interface FileRouteTypes {
     | '/403'
     | '/admin/add'
     | '/camera/add'
+    | '/monitoring/$id'
     | '/organization/add'
     | '/point/add'
     | '/user/add'
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/403'
     | '/admin/add'
     | '/camera/add'
+    | '/monitoring/$id'
     | '/organization/add'
     | '/point/add'
     | '/user/add'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/_auth/admin/add'
     | '/_auth/camera/add'
+    | '/_auth/monitoring/$id'
     | '/_auth/organization/add'
     | '/_auth/point/add'
     | '/_auth/user/add'
@@ -433,6 +445,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrganizationAddRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/monitoring/$id': {
+      id: '/_auth/monitoring/$id'
+      path: '/monitoring/$id'
+      fullPath: '/monitoring/$id'
+      preLoaderRoute: typeof AuthMonitoringIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/camera/add': {
       id: '/_auth/camera/add'
       path: '/camera/add'
@@ -488,6 +507,7 @@ declare module '@tanstack/react-router' {
 interface AuthRouteChildren {
   AuthAdminAddRoute: typeof AuthAdminAddRoute
   AuthCameraAddRoute: typeof AuthCameraAddRoute
+  AuthMonitoringIdRoute: typeof AuthMonitoringIdRoute
   AuthOrganizationAddRoute: typeof AuthOrganizationAddRoute
   AuthPointAddRoute: typeof AuthPointAddRoute
   AuthUserAddRoute: typeof AuthUserAddRoute
@@ -510,6 +530,7 @@ interface AuthRouteChildren {
 const AuthRouteChildren: AuthRouteChildren = {
   AuthAdminAddRoute: AuthAdminAddRoute,
   AuthCameraAddRoute: AuthCameraAddRoute,
+  AuthMonitoringIdRoute: AuthMonitoringIdRoute,
   AuthOrganizationAddRoute: AuthOrganizationAddRoute,
   AuthPointAddRoute: AuthPointAddRoute,
   AuthUserAddRoute: AuthUserAddRoute,
