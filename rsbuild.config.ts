@@ -17,6 +17,19 @@ export default defineConfig({
     },
     define: publicVars,
   },
+  server: {
+    proxy: {
+      "/api/monitoring": {
+        target: "http://10.1.22.5:50002",
+        changeOrigin: true,
+        secure: false,
+        ws: false,
+        pathRewrite: (path) => path.replace(/^\/api\/monitoring/, ""),
+        proxyTimeout: 0,
+        timeout: 0,
+      },
+    },
+  },
   tools: {
     rspack: {
       plugins: [
