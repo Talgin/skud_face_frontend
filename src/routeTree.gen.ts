@@ -17,22 +17,19 @@ import { Route as IndexRouteImport } from './app/routes/index'
 import { Route as AuthUserIndexRouteImport } from './app/routes/_auth/user/index'
 import { Route as AuthPointIndexRouteImport } from './app/routes/_auth/point/index'
 import { Route as AuthOrganizationIndexRouteImport } from './app/routes/_auth/organization/index'
+import { Route as AuthMonitoringIndexRouteImport } from './app/routes/_auth/monitoring/index'
 import { Route as AuthCameraIndexRouteImport } from './app/routes/_auth/camera/index'
 import { Route as AuthAdminIndexRouteImport } from './app/routes/_auth/admin/index'
 import { Route as AuthUserAddBatchRouteImport } from './app/routes/_auth/user/add-batch'
 import { Route as AuthUserAddRouteImport } from './app/routes/_auth/user/add'
 import { Route as AuthPointAddRouteImport } from './app/routes/_auth/point/add'
 import { Route as AuthOrganizationAddRouteImport } from './app/routes/_auth/organization/add'
+import { Route as AuthMonitoringHistoryRouteImport } from './app/routes/_auth/monitoring/history'
 import { Route as AuthMonitoringIdRouteImport } from './app/routes/_auth/monitoring/$id'
 import { Route as AuthCameraAddRouteImport } from './app/routes/_auth/camera/add'
 import { Route as AuthAdminAddRouteImport } from './app/routes/_auth/admin/add'
 
-const AuthMonitoringIndexLazyRouteImport =
-  createFileRoute('/_auth/monitoring/')()
 const AuthDashboardIndexLazyRouteImport = createFileRoute('/_auth/dashboard/')()
-const AuthMonitoringHistoryLazyRouteImport = createFileRoute(
-  '/_auth/monitoring/history',
-)()
 const AuthUserEditIdLazyRouteImport = createFileRoute('/_auth/user/edit/$id')()
 const AuthPointEditIdLazyRouteImport = createFileRoute(
   '/_auth/point/edit/$id',
@@ -61,13 +58,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthMonitoringIndexLazyRoute = AuthMonitoringIndexLazyRouteImport.update({
-  id: '/monitoring/',
-  path: '/monitoring/',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() =>
-  import('./app/routes/_auth/monitoring/index.lazy').then((d) => d.Route),
-)
 const AuthDashboardIndexLazyRoute = AuthDashboardIndexLazyRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
@@ -90,6 +80,11 @@ const AuthOrganizationIndexRoute = AuthOrganizationIndexRouteImport.update({
   path: '/organization/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthMonitoringIndexRoute = AuthMonitoringIndexRouteImport.update({
+  id: '/monitoring/',
+  path: '/monitoring/',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthCameraIndexRoute = AuthCameraIndexRouteImport.update({
   id: '/camera/',
   path: '/camera/',
@@ -100,14 +95,6 @@ const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthMonitoringHistoryLazyRoute =
-  AuthMonitoringHistoryLazyRouteImport.update({
-    id: '/monitoring/history',
-    path: '/monitoring/history',
-    getParentRoute: () => AuthRoute,
-  } as any).lazy(() =>
-    import('./app/routes/_auth/monitoring/history.lazy').then((d) => d.Route),
-  )
 const AuthUserAddBatchRoute = AuthUserAddBatchRouteImport.update({
   id: '/user/add-batch',
   path: '/user/add-batch',
@@ -126,6 +113,11 @@ const AuthPointAddRoute = AuthPointAddRouteImport.update({
 const AuthOrganizationAddRoute = AuthOrganizationAddRouteImport.update({
   id: '/organization/add',
   path: '/organization/add',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMonitoringHistoryRoute = AuthMonitoringHistoryRouteImport.update({
+  id: '/monitoring/history',
+  path: '/monitoring/history',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthMonitoringIdRoute = AuthMonitoringIdRouteImport.update({
@@ -188,18 +180,18 @@ export interface FileRoutesByFullPath {
   '/admin/add': typeof AuthAdminAddRoute
   '/camera/add': typeof AuthCameraAddRoute
   '/monitoring/$id': typeof AuthMonitoringIdRoute
+  '/monitoring/history': typeof AuthMonitoringHistoryRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
   '/user/add': typeof AuthUserAddRoute
   '/user/add-batch': typeof AuthUserAddBatchRoute
-  '/monitoring/history': typeof AuthMonitoringHistoryLazyRoute
   '/admin': typeof AuthAdminIndexRoute
   '/camera': typeof AuthCameraIndexRoute
+  '/monitoring': typeof AuthMonitoringIndexRoute
   '/organization': typeof AuthOrganizationIndexRoute
   '/point': typeof AuthPointIndexRoute
   '/user': typeof AuthUserIndexRoute
   '/dashboard': typeof AuthDashboardIndexLazyRoute
-  '/monitoring': typeof AuthMonitoringIndexLazyRoute
   '/admin/edit/$id': typeof AuthAdminEditIdLazyRoute
   '/camera/edit/$id': typeof AuthCameraEditIdLazyRoute
   '/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute
@@ -212,18 +204,18 @@ export interface FileRoutesByTo {
   '/admin/add': typeof AuthAdminAddRoute
   '/camera/add': typeof AuthCameraAddRoute
   '/monitoring/$id': typeof AuthMonitoringIdRoute
+  '/monitoring/history': typeof AuthMonitoringHistoryRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
   '/user/add': typeof AuthUserAddRoute
   '/user/add-batch': typeof AuthUserAddBatchRoute
-  '/monitoring/history': typeof AuthMonitoringHistoryLazyRoute
   '/admin': typeof AuthAdminIndexRoute
   '/camera': typeof AuthCameraIndexRoute
+  '/monitoring': typeof AuthMonitoringIndexRoute
   '/organization': typeof AuthOrganizationIndexRoute
   '/point': typeof AuthPointIndexRoute
   '/user': typeof AuthUserIndexRoute
   '/dashboard': typeof AuthDashboardIndexLazyRoute
-  '/monitoring': typeof AuthMonitoringIndexLazyRoute
   '/admin/edit/$id': typeof AuthAdminEditIdLazyRoute
   '/camera/edit/$id': typeof AuthCameraEditIdLazyRoute
   '/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute
@@ -238,18 +230,18 @@ export interface FileRoutesById {
   '/_auth/admin/add': typeof AuthAdminAddRoute
   '/_auth/camera/add': typeof AuthCameraAddRoute
   '/_auth/monitoring/$id': typeof AuthMonitoringIdRoute
+  '/_auth/monitoring/history': typeof AuthMonitoringHistoryRoute
   '/_auth/organization/add': typeof AuthOrganizationAddRoute
   '/_auth/point/add': typeof AuthPointAddRoute
   '/_auth/user/add': typeof AuthUserAddRoute
   '/_auth/user/add-batch': typeof AuthUserAddBatchRoute
-  '/_auth/monitoring/history': typeof AuthMonitoringHistoryLazyRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
   '/_auth/camera/': typeof AuthCameraIndexRoute
+  '/_auth/monitoring/': typeof AuthMonitoringIndexRoute
   '/_auth/organization/': typeof AuthOrganizationIndexRoute
   '/_auth/point/': typeof AuthPointIndexRoute
   '/_auth/user/': typeof AuthUserIndexRoute
   '/_auth/dashboard/': typeof AuthDashboardIndexLazyRoute
-  '/_auth/monitoring/': typeof AuthMonitoringIndexLazyRoute
   '/_auth/admin/edit/$id': typeof AuthAdminEditIdLazyRoute
   '/_auth/camera/edit/$id': typeof AuthCameraEditIdLazyRoute
   '/_auth/organization/edit/$id': typeof AuthOrganizationEditIdLazyRoute
@@ -264,18 +256,18 @@ export interface FileRouteTypes {
     | '/admin/add'
     | '/camera/add'
     | '/monitoring/$id'
+    | '/monitoring/history'
     | '/organization/add'
     | '/point/add'
     | '/user/add'
     | '/user/add-batch'
-    | '/monitoring/history'
     | '/admin'
     | '/camera'
+    | '/monitoring'
     | '/organization'
     | '/point'
     | '/user'
     | '/dashboard'
-    | '/monitoring'
     | '/admin/edit/$id'
     | '/camera/edit/$id'
     | '/organization/edit/$id'
@@ -288,18 +280,18 @@ export interface FileRouteTypes {
     | '/admin/add'
     | '/camera/add'
     | '/monitoring/$id'
+    | '/monitoring/history'
     | '/organization/add'
     | '/point/add'
     | '/user/add'
     | '/user/add-batch'
-    | '/monitoring/history'
     | '/admin'
     | '/camera'
+    | '/monitoring'
     | '/organization'
     | '/point'
     | '/user'
     | '/dashboard'
-    | '/monitoring'
     | '/admin/edit/$id'
     | '/camera/edit/$id'
     | '/organization/edit/$id'
@@ -313,18 +305,18 @@ export interface FileRouteTypes {
     | '/_auth/admin/add'
     | '/_auth/camera/add'
     | '/_auth/monitoring/$id'
+    | '/_auth/monitoring/history'
     | '/_auth/organization/add'
     | '/_auth/point/add'
     | '/_auth/user/add'
     | '/_auth/user/add-batch'
-    | '/_auth/monitoring/history'
     | '/_auth/admin/'
     | '/_auth/camera/'
+    | '/_auth/monitoring/'
     | '/_auth/organization/'
     | '/_auth/point/'
     | '/_auth/user/'
     | '/_auth/dashboard/'
-    | '/_auth/monitoring/'
     | '/_auth/admin/edit/$id'
     | '/_auth/camera/edit/$id'
     | '/_auth/organization/edit/$id'
@@ -361,13 +353,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/monitoring/': {
-      id: '/_auth/monitoring/'
-      path: '/monitoring'
-      fullPath: '/monitoring'
-      preLoaderRoute: typeof AuthMonitoringIndexLazyRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/dashboard/': {
       id: '/_auth/dashboard/'
       path: '/dashboard'
@@ -396,6 +381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrganizationIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/monitoring/': {
+      id: '/_auth/monitoring/'
+      path: '/monitoring'
+      fullPath: '/monitoring'
+      preLoaderRoute: typeof AuthMonitoringIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/camera/': {
       id: '/_auth/camera/'
       path: '/camera'
@@ -408,13 +400,6 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthAdminIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/monitoring/history': {
-      id: '/_auth/monitoring/history'
-      path: '/monitoring/history'
-      fullPath: '/monitoring/history'
-      preLoaderRoute: typeof AuthMonitoringHistoryLazyRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/user/add-batch': {
@@ -443,6 +428,13 @@ declare module '@tanstack/react-router' {
       path: '/organization/add'
       fullPath: '/organization/add'
       preLoaderRoute: typeof AuthOrganizationAddRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/monitoring/history': {
+      id: '/_auth/monitoring/history'
+      path: '/monitoring/history'
+      fullPath: '/monitoring/history'
+      preLoaderRoute: typeof AuthMonitoringHistoryRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/monitoring/$id': {
@@ -508,18 +500,18 @@ interface AuthRouteChildren {
   AuthAdminAddRoute: typeof AuthAdminAddRoute
   AuthCameraAddRoute: typeof AuthCameraAddRoute
   AuthMonitoringIdRoute: typeof AuthMonitoringIdRoute
+  AuthMonitoringHistoryRoute: typeof AuthMonitoringHistoryRoute
   AuthOrganizationAddRoute: typeof AuthOrganizationAddRoute
   AuthPointAddRoute: typeof AuthPointAddRoute
   AuthUserAddRoute: typeof AuthUserAddRoute
   AuthUserAddBatchRoute: typeof AuthUserAddBatchRoute
-  AuthMonitoringHistoryLazyRoute: typeof AuthMonitoringHistoryLazyRoute
   AuthAdminIndexRoute: typeof AuthAdminIndexRoute
   AuthCameraIndexRoute: typeof AuthCameraIndexRoute
+  AuthMonitoringIndexRoute: typeof AuthMonitoringIndexRoute
   AuthOrganizationIndexRoute: typeof AuthOrganizationIndexRoute
   AuthPointIndexRoute: typeof AuthPointIndexRoute
   AuthUserIndexRoute: typeof AuthUserIndexRoute
   AuthDashboardIndexLazyRoute: typeof AuthDashboardIndexLazyRoute
-  AuthMonitoringIndexLazyRoute: typeof AuthMonitoringIndexLazyRoute
   AuthAdminEditIdLazyRoute: typeof AuthAdminEditIdLazyRoute
   AuthCameraEditIdLazyRoute: typeof AuthCameraEditIdLazyRoute
   AuthOrganizationEditIdLazyRoute: typeof AuthOrganizationEditIdLazyRoute
@@ -531,18 +523,18 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthAdminAddRoute: AuthAdminAddRoute,
   AuthCameraAddRoute: AuthCameraAddRoute,
   AuthMonitoringIdRoute: AuthMonitoringIdRoute,
+  AuthMonitoringHistoryRoute: AuthMonitoringHistoryRoute,
   AuthOrganizationAddRoute: AuthOrganizationAddRoute,
   AuthPointAddRoute: AuthPointAddRoute,
   AuthUserAddRoute: AuthUserAddRoute,
   AuthUserAddBatchRoute: AuthUserAddBatchRoute,
-  AuthMonitoringHistoryLazyRoute: AuthMonitoringHistoryLazyRoute,
   AuthAdminIndexRoute: AuthAdminIndexRoute,
   AuthCameraIndexRoute: AuthCameraIndexRoute,
+  AuthMonitoringIndexRoute: AuthMonitoringIndexRoute,
   AuthOrganizationIndexRoute: AuthOrganizationIndexRoute,
   AuthPointIndexRoute: AuthPointIndexRoute,
   AuthUserIndexRoute: AuthUserIndexRoute,
   AuthDashboardIndexLazyRoute: AuthDashboardIndexLazyRoute,
-  AuthMonitoringIndexLazyRoute: AuthMonitoringIndexLazyRoute,
   AuthAdminEditIdLazyRoute: AuthAdminEditIdLazyRoute,
   AuthCameraEditIdLazyRoute: AuthCameraEditIdLazyRoute,
   AuthOrganizationEditIdLazyRoute: AuthOrganizationEditIdLazyRoute,

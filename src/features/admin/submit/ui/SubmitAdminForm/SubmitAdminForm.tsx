@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@tanstack/react-router";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { useOrganizationsQuery } from "@/entities/organization";
 import type { SubmitFormProps } from "@/shared/types";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -28,11 +29,16 @@ import type { AdminValues } from "../../model/types";
 type Props = SubmitFormProps<AdminValues>;
 
 export function SubmitAdminForm(props: Props) {
+  console.log(props.defaultValues);
   const router = useRouter();
   const form = useForm<AdminValues>({
     resolver: zodResolver(submitAdminFormSchema),
     defaultValues: props.defaultValues,
   });
+
+  const { data: organizations } = useOrganizationsQuery();
+
+  console.log(organizations);
 
   const onSubmitHandler = useCallback(
     (values: AdminValues) => {
@@ -89,6 +95,38 @@ export function SubmitAdminForm(props: Props) {
               <FormLabel>Номер карты:</FormLabel>
               <FormControl>
                 <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="organizationId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Организация:</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={(value) => field.onChange(Number(value))}
+                  defaultValue={field.value?.toString() ?? ""}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Выберите организацию" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {organizations?.map((organization) => (
+                      <SelectItem
+                        key={organization.id}
+                        value={String(organization.id)}
+                      >
+                        {organization.organizationName}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -6,6 +6,7 @@ import {
   useGetEventsQuery,
   useRejectEventMutation,
 } from "@/entities/monitoring";
+import { Can } from "@/entities/role";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
@@ -112,20 +113,22 @@ export function MonitoringDetails() {
         >
           ← Назад
         </Button>
-        <Button
-          variant="success"
-          onClick={() => confirm(event.id)}
-          disabled={confirming}
-        >
-          ✅ Подтвердить
-        </Button>
-        <Button
-          variant="destructive"
-          onClick={() => reject(event.id)}
-          disabled={rejecting}
-        >
-          🛑 Отклонить
-        </Button>
+        <Can req={{ anyOf: ["monitoring-approve", "monitoring-reject"] }}>
+          <Button
+            variant="success"
+            onClick={() => confirm(event.id)}
+            disabled={confirming}
+          >
+            ✅ Подтвердить
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={() => reject(event.id)}
+            disabled={rejecting}
+          >
+            🛑 Отклонить
+          </Button>
+        </Can>
       </div>
     </div>
   );

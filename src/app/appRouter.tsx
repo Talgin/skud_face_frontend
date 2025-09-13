@@ -32,9 +32,13 @@ export function appRouter() {
 export const RouterProvider: React.FC = () => {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const accessToken = useAppSelector((state) => state.session.accessToken);
-  const { data } = useRoleQuery(undefined, {
+  const { data, isLoading } = useRoleQuery(undefined, {
     skip: !accessToken,
   });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <TanstackRouterProvider

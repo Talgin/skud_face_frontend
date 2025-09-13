@@ -14,6 +14,7 @@ export function AddAdminPage() {
       active: values.isActive,
       username: values.username,
       password: values.password,
+      organization_id: values.organizationId,
     }).unwrap();
   }
 
