@@ -1,3 +1,5 @@
+import { HistoryTable } from "@/widgets/HistoryTable";
+
 export function MonitoringHistoryPage() {
-  return <div>Monitoring history page</div>;
+  return <HistoryTable />;
 }

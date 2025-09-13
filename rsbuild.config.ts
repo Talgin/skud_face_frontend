@@ -20,11 +20,20 @@ export default defineConfig({
   server: {
     proxy: {
       "/api/monitoring": {
-        target: "http://10.1.22.5:50002",
+        target: "http://10.1.22.5:50008",
         changeOrigin: true,
         secure: false,
         ws: false,
         pathRewrite: (path) => path.replace(/^\/api\/monitoring/, ""),
+        proxyTimeout: 0,
+        timeout: 0,
+      },
+      "/api/events": {
+        target: "http://10.1.22.5:50002",
+        changeOrigin: true,
+        secure: false,
+        ws: false,
+        pathRewrite: (path) => path.replace(/^\/api\/events/, ""),
         proxyTimeout: 0,
         timeout: 0,
       },

@@ -1,10 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { MonitoringEvent } from "../types";
+import type {
+  GetHistoryParams,
+  HistoryResponse,
+  MonitoringEvent,
+} from "../types";
 import { parseMonitoringEvent } from "../utils";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://10.1.22.5:50002",
-  credentials: "include",
+  baseUrl: "/",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 export const monitoringApi = createApi({
@@ -19,7 +25,7 @@ export const monitoringApi = createApi({
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
       ) {
         await cacheDataLoaded;
-        const source = new EventSource("/api/monitoring/events/");
+        const source = new EventSource("/api/events/events/");
         source.addEventListener("new_message", (event) => {
           try {
             const parsed = parseMonitoringEvent(event.data);
@@ -42,6 +48,13 @@ export const monitoringApi = createApi({
         await cacheEntryRemoved;
         source.close();
       },
+    }),
+    getHistory: builder.query<HistoryResponse, GetHistoryParams>({
+      query: (params) => ({
+        url: "api/monitoring/history/",
+        method: "GET",
+        params,
+      }),
     }),
     confirmEvent: builder.mutation<void, string>({
       query: (eventId) => ({
@@ -87,6 +100,7 @@ export const monitoringApi = createApi({
 });
 export const {
   useGetEventsQuery,
+  useGetHistoryQuery,
   useConfirmEventMutation,
   useRejectEventMutation,
 } = monitoringApi;

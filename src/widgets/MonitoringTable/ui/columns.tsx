@@ -35,85 +35,95 @@ import { RejectButton } from "@/features/monitoring/rejectEvent";
 '_id': ObjectId('68b43504a1fd37097674a12a')}
  */
 
-export const columns: ColumnDef<MonitoringEvent>[] = [
-  {
-    accessorKey: "crop_image_url",
-    header: "Image",
-    cell: ({ row }) => {
-      const url = row.getValue<string>("crop_image_url");
-      return (
-        <img
-          src={url}
-          alt="face"
-          className="h-24 w-24 object-cover rounded-md"
-        />
-      );
+export const getMonitoringColumns: (
+  canActions: boolean,
+) => ColumnDef<MonitoringEvent>[] = (canActions) => {
+  const columns: ColumnDef<MonitoringEvent>[] = [
+    {
+      accessorKey: "crop_image_url",
+      header: "Image",
+      cell: ({ row }) => {
+        const url = row.getValue<string>("crop_image_url");
+        return (
+          <img
+            src={url}
+            alt="face"
+            className="h-24 w-24 object-cover rounded-md"
+          />
+        );
+      },
+      enableSorting: false,
     },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "frame_image_url",
-    header: "Frame Image",
-    cell: ({ row }) => {
-      const url = row.getValue<string>("frame_image_url");
-      return (
-        <img
-          src={url}
-          alt="face"
-          className="h-24 w-24 object-cover rounded-md"
-        />
-      );
+    {
+      accessorKey: "frame_image_url",
+      header: "Frame Image",
+      cell: ({ row }) => {
+        const url = row.getValue<string>("frame_image_url");
+        return (
+          <img
+            src={url}
+            alt="face"
+            className="h-24 w-24 object-cover rounded-md"
+          />
+        );
+      },
+      enableSorting: false,
     },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "camera",
-    header: "Камера",
-    cell: ({ row }) => {
-      const room = `Камера ${row.original.camera_host}:${row.original.camera_id}`;
-      return <>{room}</>;
+    {
+      accessorKey: "camera",
+      header: "Камера",
+      cell: ({ row }) => {
+        const room = `Камера ${row.original.camera_host}:${row.original.camera_id}`;
+        return <>{room}</>;
+      },
     },
-  },
-  {
-    accessorKey: "recognition_confidence",
-    header: "Точность",
-    cell: ({ getValue }) => {
-      const conf: number = getValue<number>() * 100;
-      const display = conf.toFixed(1) + "%";
-      return conf >= 80 ? (
-        <span className="text-green-600">{display}</span>
-      ) : conf >= 50 ? (
-        <span className="text-yellow-600">{display}</span>
-      ) : (
-        <span className="text-red-600">{display}</span>
-      );
+    {
+      accessorKey: "recognition_confidence",
+      header: "Точность",
+      cell: ({ getValue }) => {
+        const conf: number = getValue<number>() * 100;
+        const display = conf.toFixed(1) + "%";
+        return conf >= 80 ? (
+          <span className="text-green-600">{display}</span>
+        ) : conf >= 50 ? (
+          <span className="text-yellow-600">{display}</span>
+        ) : (
+          <span className="text-red-600">{display}</span>
+        );
+      },
+      sortingFn: "basic",
     },
-    sortingFn: "basic",
-  },
-  {
-    accessorKey: "datetime",
-    header: "Время",
-    cell: ({ getValue }) => {
-      const iso = getValue<string>();
-      const date = new Date(iso);
-      return format(date, "HH:mm:ss");
+    {
+      accessorKey: "datetime",
+      header: "Время",
+      cell: ({ getValue }) => {
+        const iso = getValue<string>();
+        const date = new Date(iso);
+        return format(date, "HH:mm:ss");
+      },
+      sortingFn: "datetime",
     },
-    sortingFn: "datetime",
-  },
-  {
-    id: "actions",
-    header: "Действия",
-    cell: ({ row }) => {
-      const event = row.original;
-      return (
-        <div className="flex flex-col gap-2">
-          <ConfirmButton eventId={event.id} />
-          <RejectButton eventId={event.id} />
-        </div>
-      );
-    },
-    enableSorting: false,
-    enableColumnFilter: false,
-    enableGlobalFilter: false,
-  },
-];
+  ];
+
+  if (canActions) {
+    columns.push({
+      id: "actions",
+      header: "Действия",
+      cell: ({ row }) => {
+        const event = row.original;
+
+        return (
+          <div className="flex flex-col gap-2">
+            <ConfirmButton eventId={event.id} />
+            <RejectButton eventId={event.id} />
+          </div>
+        );
+      },
+      enableSorting: false,
+      enableColumnFilter: false,
+      enableGlobalFilter: false,
+    });
+  }
+
+  return columns;
+};

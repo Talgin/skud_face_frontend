@@ -6,6 +6,10 @@ export enum Roles {
 }
 
 export type Permission =
+  | "monitoring.view"
+  | "monitoring-history.view"
+  | "monitoring-approve"
+  | "monitoring-reject"
   | "org.view"
   | "org.create"
   | "org.update"

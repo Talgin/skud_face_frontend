@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import type { MonitoringEvent } from "@/entities/monitoring";
+import { useCan } from "@/entities/role";
 import {
   Table,
   TableBody,
@@ -17,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui/table";
-import { columns } from "./columns";
+import { getMonitoringColumns } from "./columns";
 
 interface MonitoringTableProps {
   events: MonitoringEvent[];
@@ -29,6 +30,12 @@ export function MonitoringTable({ events, isLoading }: MonitoringTableProps) {
   const [globalFilter, setGlobalFilter] = useState("");
 
   const navigate = useNavigate();
+
+  const { can } = useCan();
+
+  const columns = getMonitoringColumns(
+    can({ anyOf: ["monitoring-approve", "monitoring-reject"] }),
+  );
 
   const table = useReactTable({
     data: events,

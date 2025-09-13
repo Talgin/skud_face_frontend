@@ -7,6 +7,7 @@ export type AdminDto = {
   card_id: string;
   active: boolean;
   role: RoleType;
+  organization_id: number;
 };
 
 type AdminCredentials = {

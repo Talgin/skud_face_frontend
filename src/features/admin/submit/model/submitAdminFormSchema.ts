@@ -12,6 +12,10 @@ export const submitAdminFormSchema = z.object({
   surname: z.string({ required_error: "Введи ваше фамилию" }),
   cardId: z.string({ required_error: "Введите ваш номер карты" }),
   role: AdminRolesSchema,
+  organizationId: z.preprocess(
+    (val) => (typeof val === "string" ? Number(val) : val),
+    z.number({ required_error: "Выберите организацию" }),
+  ),
   isActive: z.boolean().default(false),
   username: z.string({ required_error: "Введите имя пользователя" }),
   password: z.string({ required_error: "Введите пароль пользователя" }),

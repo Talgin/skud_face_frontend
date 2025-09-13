@@ -2,6 +2,10 @@ import { type AccessReq, type Permission, Roles } from "./types";
 
 export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
   [Roles.SUPER_ADMIN]: [
+    "monitoring.view",
+    "monitoring-history.view",
+    "monitoring-approve",
+    "monitoring-reject",
     "org.view",
     "org.create",
     "org.update",
@@ -25,6 +29,8 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
     "camera.delete",
   ],
   [Roles.ADMIN]: [
+    "monitoring.view",
+    "monitoring-history.view",
     "org.view",
     "admin.view",
     "user.view",
@@ -41,7 +47,15 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
     "camera.update",
     "camera.delete",
   ],
-  [Roles.OPERATOR]: ["point.view", "camera.view", "user.view"],
+  [Roles.OPERATOR]: [
+    "monitoring.view",
+    "monitoring-history.view",
+    "monitoring-approve",
+    "monitoring-reject",
+    "point.view",
+    "camera.view",
+    "user.view",
+  ],
   [Roles.REGISTRAR]: [
     "user.view",
     "user.create",
