@@ -3,6 +3,8 @@ import type {
   GetHistoryParams,
   HistoryResponse,
   MonitoringEvent,
+  UniqueCountParams,
+  UniqueCountResponse,
 } from "../types";
 import { parseMonitoringEvent } from "../utils";
 
@@ -56,6 +58,12 @@ export const monitoringApi = createApi({
         params,
       }),
     }),
+    getUniqueCount: builder.query<UniqueCountResponse, UniqueCountParams>({
+      query: ({ start_date, end_date } = {}) => ({
+        url: "api/monitoring/history/unique-count/",
+        params: { start_date, end_date },
+      }),
+    }),
     confirmEvent: builder.mutation<void, string>({
       query: (eventId) => ({
         url: `/api/events/${eventId}/confirm`,
@@ -101,6 +109,7 @@ export const monitoringApi = createApi({
 export const {
   useGetEventsQuery,
   useGetHistoryQuery,
+  useGetUniqueCountQuery,
   useConfirmEventMutation,
   useRejectEventMutation,
 } = monitoringApi;

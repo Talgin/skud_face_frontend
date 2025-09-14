@@ -3,6 +3,7 @@ export {
   useConfirmEventMutation,
   useGetEventsQuery,
   useGetHistoryQuery,
+  useGetUniqueCountQuery,
   useRejectEventMutation,
 } from "./api/monitoringApi";
 export type { HistoryRecord, MonitoringEvent } from "./types";

@@ -73,3 +73,14 @@ export interface HistoryResponse {
   total_records: number;
   records: HistoryRecord[];
 }
+
+export interface UniqueCountResponse {
+  unique_person_count: number;
+  start_date: string | null;
+  end_date: string | null;
+}
+
+export interface UniqueCountParams {
+  start_date?: string;
+  end_date?: string;
+}
