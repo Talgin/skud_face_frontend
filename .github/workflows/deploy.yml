@@ -44,8 +44,17 @@ jobs:
           passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
-            set -e
+            set -euo pipefail
+
+            SUDO=""
+            if [ "$(id -u)" -ne 0 ]; then
+              SUDO="sudo"
+            fi
+
             cd /root/skud_face_frontend
-            docker compose down || true
-            docker compose up -d --build
-            docker ps
+
+            $SUDO docker compose down --remove-orphans || true
+            $SUDO docker rm -f skud_face_frontend-nginx-react-1 || true
+            $SUDO docker compose build --pull
+            $SUDO docker compose up -d --remove-orphans
+            $SUDO docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"

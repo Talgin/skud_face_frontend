@@ -1,3 +1,5 @@
+name: skud_face_frontend
+
 version: "3.8"
 
 services:
