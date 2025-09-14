@@ -1,8 +1,11 @@
-version: '3'
+version: "3.8"
+
 services:
-  nginx-react:
+  skud_frontend:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: skud_frontend
     ports:
-      - '80:80'
+      - "80:80"
+    restart: always
