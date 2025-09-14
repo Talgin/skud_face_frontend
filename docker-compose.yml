@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        PUBLIC_API_BASE_URL: ${PUBLIC_API_BASE_URL}
     container_name: skud_frontend
     ports:
       - "80:80"
