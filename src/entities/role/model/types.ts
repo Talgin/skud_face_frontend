@@ -10,6 +10,7 @@ export type Permission =
   | "monitoring-history.view"
   | "monitoring-approve"
   | "monitoring-reject"
+  | "dashboard.view"
   | "org.view"
   | "org.create"
   | "org.update"

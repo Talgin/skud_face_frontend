@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import { useGetHistoryQuery } from "@/entities/monitoring";
+import { DateFilter } from "@/shared/ui/date-filter";
 import { Slider } from "@/shared/ui/slider";
 import {
   Table,
@@ -20,7 +21,6 @@ import {
 } from "@/shared/ui/table";
 import { DataTablePagination } from "@/widgets/DataTable/ui/DataTablePagination";
 import { historyColumns } from "./columns";
-import { DateFilter } from "./DateFilter";
 
 type Filters = {
   start_date?: string;

@@ -6,6 +6,7 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
     "monitoring-history.view",
     "monitoring-approve",
     "monitoring-reject",
+    "dashboard.view",
     "org.view",
     "org.create",
     "org.update",
@@ -31,6 +32,7 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
   [Roles.ADMIN]: [
     "monitoring.view",
     "monitoring-history.view",
+    "dashboard.view",
     "org.view",
     "admin.view",
     "user.view",
@@ -50,6 +52,7 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
   [Roles.OPERATOR]: [
     "monitoring.view",
     "monitoring-history.view",
+    "dashboard.view",
     "monitoring-approve",
     "monitoring-reject",
     "point.view",
