@@ -4,7 +4,6 @@ version: "3.8"
 services:
   skud_frontend:
     image: ${IMAGE_REPO}:${IMAGE_TAG}
-    container_name: skud_frontend
     ports:
       - "80:80"
     restart: always
