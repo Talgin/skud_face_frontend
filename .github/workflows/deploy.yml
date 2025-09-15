@@ -4,6 +4,13 @@ on:
   push:
     branches: ["main"]
 
+permissions:
+  contents: read
+  packages: write
+
+env:
+  PUBLIC_API_BASE_URL: /api/v1
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -18,12 +25,30 @@ jobs:
           node-version: "18.x"
 
       - name: Install deps
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Build (rsbuild)
         run: npm run build
 
-      - name: Copy repo to server via SCP
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:latest
+          build-args: |
+            PUBLIC_API_BASE_URL=${{ env.PUBLIC_API_BASE_URL }}
+
+      - name: Copy repo to server
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -35,7 +60,7 @@ jobs:
           target: "/root/skud_face_frontend"
           rm: true
 
-      - name: Build & restart container over SSH
+      - name: Pull & restart container over SSH
         uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -47,30 +72,14 @@ jobs:
             set -euo pipefail
             cd /root/skud_face_frontend
 
-            echo "== docker info =="
-            docker info | egrep -i 'Server Version|Cgroup' || true
+            docker login ghcr.io -u "${{ secrets.GHCR_USER }}" -p "${{ secrets.GHCR_TOKEN }}"
 
-            echo "== compose down (remove orphans) =="
-            if ! docker compose down --remove-orphans; then
-              echo "compose down failed; will try restart docker"
-            fi
-
-            docker rm -f skud_face_frontend-nginx-react-1 2>/dev/null || true
-            docker rm -f skud_frontend 2>/dev/null || true
-
-            docker ps -a --format '{{.ID}}\t{{.Names}}' | awk '/skud_frontend|nginx-react/ {print $1}' | xargs -r docker kill || true
-            docker ps -a --format '{{.ID}}\t{{.Names}}' | awk '/skud_frontend|nginx-react/ {print $1}' | xargs -r docker rm -f || true
-
-            echo "== restart docker daemon (just in case) =="
-            systemctl restart docker
+            export GITHUB_REPOSITORY="${{ github.repository }}"
+            export IMAGE_TAG="${{ github.sha }}"
+            echo "Using image: ghcr.io/${GITHUB_REPOSITORY}:${IMAGE_TAG}"
 
             docker compose down --remove-orphans || true
-
-            echo "== compose build --pull =="
-            docker compose build --pull
-
-            echo "== compose up (force recreate, remove orphans) =="
+            docker compose pull
             docker compose up -d --force-recreate --remove-orphans
 
-            echo "== running containers =="
             docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
