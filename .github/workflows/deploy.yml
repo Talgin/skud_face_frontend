@@ -89,7 +89,7 @@ jobs:
             export IMAGE_REPO IMAGE_TAG
 
             echo "== stop old containers =="
-            docker compose down --remove-orphans || true
+            docker rm -f $(docker ps -aq) || true
             docker compose rm -fs skud_frontend || true
 
             echo "== pull new image =="
