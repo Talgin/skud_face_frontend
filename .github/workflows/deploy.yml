@@ -88,11 +88,14 @@ jobs:
 
             export IMAGE_REPO IMAGE_TAG
 
+            echo "== stop old containers =="
             docker compose down --remove-orphans || true
-            docker rm -f skud_frontend 2>/dev/null || true
+            docker compose rm -fs skud_frontend || true
 
+            echo "== pull new image =="
             docker compose pull
 
+            echo "== start new container =="
             docker compose up -d --force-recreate --remove-orphans
 
             echo "== running containers =="
