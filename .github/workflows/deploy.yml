@@ -36,8 +36,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ secrets.GHCR_USER }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Normalize repo name to lowercase
         id: repo
@@ -49,8 +49,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/skud_face_frontend:${{ github.sha }}
-            ghcr.io/${{ github.repository }}/skud_face_frontend:latest
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}:${{ env.IMAGE_SHA }}
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}:latest
           build-args: |
             PUBLIC_API_BASE_URL=${{ env.PUBLIC_API_BASE_URL }}
 
@@ -78,19 +78,21 @@ jobs:
             set -euo pipefail
             cd /root/skud_face_frontend
 
-            echo "*** Logging into GHCR ***"
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
 
-            export IMAGE_REPO="ghcr.io/${GITHUB_REPOSITORY,,}/skud_face_frontend"
-            export IMAGE_TAG="${GITHUB_SHA}"
+            REPO_RAW="${{ github.repository }}"
+            REPO_LC="$(echo "${REPO_RAW}" | tr '[:upper:]' '[:lower:]')"
+            IMAGE_REPO="ghcr.io/${REPO_LC}"
+            IMAGE_TAG="${{ github.sha }}"
+            echo "Using image: ${IMAGE_REPO}:${IMAGE_TAG}"
 
-            echo "== stop old containers =="
+            export IMAGE_REPO IMAGE_TAG
+
             docker compose down --remove-orphans || true
+            docker rm -f skud_frontend 2>/dev/null || true
 
-            echo "== pull new image =="
             docker compose pull
 
-            echo "== start new container =="
             docker compose up -d --force-recreate --remove-orphans
 
             echo "== running containers =="
