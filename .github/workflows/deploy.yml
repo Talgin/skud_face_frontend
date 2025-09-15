@@ -44,8 +44,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ env.IMAGE_REPO }}:${{ github.sha }}
-            ghcr.io/${{ env.IMAGE_REPO }}:latest
+            ${{ env.IMAGE_REPO }}:${{ github.sha }}
+            ${{ env.IMAGE_REPO }}:latest
           build-args: |
             PUBLIC_API_BASE_URL=${{ env.PUBLIC_API_BASE_URL }}
 
