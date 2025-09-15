@@ -78,14 +78,21 @@ jobs:
             set -euo pipefail
             cd /root/skud_face_frontend
 
-            docker login ghcr.io -u "${{ secrets.GHCR_USER }}" -p "${{ secrets.GHCR_TOKEN }}"
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
 
-            export GITHUB_REPOSITORY="${{ github.repository }}"
-            export IMAGE_TAG="${{ github.sha }}"
-            echo "Using image: ghcr.io/${GITHUB_REPOSITORY}:${IMAGE_TAG}"
+            REPO_RAW="${{ github.repository }}"
+            REPO_LC="$(echo "${REPO_RAW}" | tr '[:upper:]' '[:lower:]')"
+            IMAGE_REPO="ghcr.io/${REPO_LC}"
+            IMAGE_TAG="${{ github.sha }}"
+            echo "Using image: ${IMAGE_REPO}:${IMAGE_TAG}"
+
+            export IMAGE_REPO IMAGE_TAG
 
             docker compose down --remove-orphans || true
+            docker rm -f skud_frontend 2>/dev/null || true
+
             docker compose pull
             docker compose up -d --force-recreate --remove-orphans
 
+            echo "== running containers =="
             docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
