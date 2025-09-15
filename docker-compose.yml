@@ -3,7 +3,7 @@ name: skud_face_frontend
 version: "3.8"
 services:
   skud_frontend:
-    image: ghcr.io/${GITHUB_REPOSITORY}:${IMAGE_TAG}
+    image: ${IMAGE_REPO}:${IMAGE_TAG}
     container_name: skud_frontend
     ports:
       - "80:80"
