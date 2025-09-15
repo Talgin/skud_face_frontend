@@ -10,7 +10,7 @@ permissions:
 
 env:
   PUBLIC_API_BASE_URL: /api/v1
-  IMAGE_REPO: ${{ format('ghcr.io/{0}/skud_face_frontend', github.repository_owner)
+  IMAGE_REPO: ${{ format('ghcr.io/{0}/skud_face_frontend', github.repository_owner) }}
 
 jobs:
   deploy:
