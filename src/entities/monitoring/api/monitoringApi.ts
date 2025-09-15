@@ -27,7 +27,7 @@ export const monitoringApi = createApi({
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
       ) {
         await cacheDataLoaded;
-        const source = new EventSource("http://10.1.22.5:50002/events/");
+        const source = new EventSource("http://10.1.22.5:50002/events");
         source.addEventListener("new_message", (event) => {
           try {
             const parsed = parseMonitoringEvent(event.data);
