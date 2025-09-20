@@ -4,6 +4,12 @@ import { UserPage } from "@/pages/user";
 
 export const Route = createFileRoute("/_auth/user/")({
   beforeLoad: ({ context }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({
+        to: "/",
+        search: { redirect: location.href },
+      });
+    }
     const role = context.auth.role;
     if (!role) return null;
     if (!canAny(role, "user.view")) {

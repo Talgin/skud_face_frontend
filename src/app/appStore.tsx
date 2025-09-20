@@ -13,6 +13,7 @@ import {
 import storage from "redux-persist/lib/storage";
 import { monitoringApi } from "@/entities/monitoring";
 import { sessionSlice } from "@/entities/session";
+import { authListener } from "@/features/session/login";
 import { logoutMiddleware } from "@/features/session/logout";
 import { baseApi } from "@/shared/api/baseApi";
 import { rootReducer } from "./rootReducer";
@@ -35,11 +36,13 @@ export function makeStore() {
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-      }).concat(
-        baseApi.middleware,
-        logoutMiddleware.middleware,
-        monitoringApi.middleware,
-      ),
+      })
+        .prepend(authListener.middleware)
+        .concat(
+          baseApi.middleware,
+          logoutMiddleware.middleware,
+          monitoringApi.middleware,
+        ),
   });
 
   setupListeners(store.dispatch);
