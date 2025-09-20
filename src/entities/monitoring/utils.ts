@@ -1,38 +1,37 @@
-import type { MonitoringEvent, MonitoringEventRaw } from "./types";
+import { type MonitoringEventRaw, MonitoringEventSchema } from "./types";
 
-const sanitizePythonishJson = (input: string): string => {
-  let s = input.trim();
+function pythonishToJson(s: string): string {
+  let out = s.trim();
 
-  s = s.replace(/ObjectId\('([^']+)'\)/g, (_m, id) => `"${id}"`);
+  out = out.replace(/ObjectId\('([0-9a-fA-F]+)'\)/g, '"$1"');
 
-  s = s
-    .replace(/\bNone\b/g, "null")
+  out = out
     .replace(/\bTrue\b/g, "true")
-    .replace(/\bFalse\b/g, "false");
+    .replace(/\bFalse\b/g, "false")
+    .replace(/\bNone\b/g, "null");
 
-  s = s.replace(/'([^']*)'/g, (_m, g1) => `"${g1.replace(/"/g, '\\"')}"`);
+  out = out
+    .replace(/'([^']*)'(?=\s*:)/g, '"$1"')
+    .replace(/:\s*'([^']*)'/g, ': "$1"');
 
-  return s;
-};
+  return out;
+}
 
-export const parseMonitoringEvent = (
-  rawData: string,
-): MonitoringEvent | null => {
+export function parseMonitoringEvent(raw: string): MonitoringEventRaw | null {
+  const tryParse = (text: string) => {
+    const obj = JSON.parse(text);
+    return MonitoringEventSchema.parse(obj);
+  };
+
   try {
-    const json = sanitizePythonishJson(rawData);
-    const obj = JSON.parse(json) as MonitoringEventRaw;
-
-    if (!obj.id || !obj.datetime || !obj.crop_image_url) return null;
-
-    return {
-      ...obj,
-      confidencePct: Math.max(
-        0,
-        Math.min(100, (obj.recognition_confidence ?? 0) * 100),
-      ),
-    };
-  } catch (e) {
-    console.error("SSE parse error", e, rawData);
-    return null;
+    return tryParse(raw);
+  } catch {
+    try {
+      const fixed = pythonishToJson(raw);
+      return tryParse(fixed);
+    } catch (e) {
+      console.error("SSE parse error", e, raw);
+      return null;
+    }
   }
-};
+}

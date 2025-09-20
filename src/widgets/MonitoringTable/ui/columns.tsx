@@ -1,7 +1,7 @@
 // widgets/monitoringTable/columns.tsx
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import type { MonitoringEvent } from "@/entities/monitoring";
+import type { MonitoringEventRaw } from "@/entities/monitoring";
 import { ConfirmButton } from "@/features/monitoring/confirmEvent";
 import { RejectButton } from "@/features/monitoring/rejectEvent";
 
@@ -37,8 +37,8 @@ import { RejectButton } from "@/features/monitoring/rejectEvent";
 
 export const getMonitoringColumns: (
   canActions: boolean,
-) => ColumnDef<MonitoringEvent>[] = (canActions) => {
-  const columns: ColumnDef<MonitoringEvent>[] = [
+) => ColumnDef<MonitoringEventRaw>[] = (canActions) => {
+  const columns: ColumnDef<MonitoringEventRaw>[] = [
     {
       accessorKey: "crop_image_url",
       header: "Image",
@@ -114,8 +114,8 @@ export const getMonitoringColumns: (
 
         return (
           <div className="flex flex-col gap-2">
-            <ConfirmButton eventId={event.id} />
-            <RejectButton eventId={event.id} />
+            <ConfirmButton eventId={event.event_id} />
+            <RejectButton eventId={event.event_id} />
           </div>
         );
       },

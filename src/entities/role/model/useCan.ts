@@ -5,7 +5,6 @@ import type { AccessReq, Permission } from "./types";
 export function useCan() {
   const { auth } = useRouteContext({ from: "__root__" });
   const role = auth.role;
-  console.log("Role:", role);
   if (!role) {
     throw new Error("No role found");
   }

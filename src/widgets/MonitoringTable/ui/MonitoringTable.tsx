@@ -8,7 +8,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import type { MonitoringEvent } from "@/entities/monitoring";
+
+import type { MonitoringEventRaw } from "@/entities/monitoring/types";
 import { useCan } from "@/entities/role";
 import {
   Table,
@@ -21,7 +22,7 @@ import {
 import { getMonitoringColumns } from "./columns";
 
 interface MonitoringTableProps {
-  events: MonitoringEvent[];
+  events: MonitoringEventRaw[];
   isLoading?: boolean;
 }
 
@@ -106,19 +107,22 @@ export function MonitoringTable({ events, isLoading }: MonitoringTableProps) {
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => {
-                const ev = row.original as MonitoringEvent;
+                const ev = row.original as MonitoringEventRaw;
                 return (
                   <TableRow
                     key={row.id}
                     className="cursor-pointer hover:bg-muted/50"
                     onClick={() =>
-                      navigate({ to: "/monitoring/$id", params: { id: ev.id } })
+                      navigate({
+                        to: "/monitoring/$id",
+                        params: { id: ev.event_id },
+                      })
                     }
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
                         navigate({
                           to: "/monitoring/$id",
-                          params: { id: ev.id },
+                          params: { id: ev.event_id },
                         });
                       }
                     }}
