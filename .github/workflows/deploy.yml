@@ -82,21 +82,45 @@ jobs:
 
             REPO_RAW="${{ github.repository }}"
             REPO_LC="$(echo "${REPO_RAW}" | tr '[:upper:]' '[:lower:]')"
-            IMAGE_REPO="ghcr.io/${REPO_LC}"
-            IMAGE_TAG="${{ github.sha }}"
+            export IMAGE_REPO="ghcr.io/${REPO_LC}"
+            export IMAGE_TAG="${{ github.sha }}"
+            export COMPOSE_PROJECT_NAME="skud_face_frontend"
             echo "Using image: ${IMAGE_REPO}:${IMAGE_TAG}"
+            echo "Project: ${COMPOSE_PROJECT_NAME}"
 
-            export IMAGE_REPO IMAGE_TAG
+            cleanup_frontend() {
+              echo "[cleanup] remove only frontend containers & networks (project-scoped)"
 
-            echo "== stop old containers =="
-            docker ps -aq --filter "name=skud_face_frontend" | xargs -r docker rm -f || true
-            docker compose down --remove-orphans || true
+              docker ps -aq --filter "name=^${COMPOSE_PROJECT_NAME}-" | xargs -r docker rm -f || true
 
-            echo "== pull new image =="
+              docker network ls --format '{{.Name}}' | grep -E "^${COMPOSE_PROJECT_NAME}(_|$)" | xargs -r docker network rm || true
+            }
+
             docker compose pull
 
-            echo "== start new container =="
+            set +e
             docker compose up -d --force-recreate --remove-orphans
+            RC=$?
+            set -e
+
+            if [ "$RC" -ne 0 ]; then
+              echo "[warn] compose up failed (rc=$RC). Try graceful stop & cleanup…"
+              docker compose down --remove-orphans --timeout 0 || true
+              cleanup_frontend
+
+              echo "[info] retry compose up once"
+              set +e
+              docker compose up -d --force-recreate --remove-orphans
+              RC2=$?
+              set -e
+              if [ "$RC2" -ne 0 ]; then
+                echo "[warn] second attempt failed. Restarting docker daemon and doing targeted cleanup…"
+                systemctl restart docker
+                sleep 3
+                cleanup_frontend
+                docker compose up -d --force-recreate --remove-orphans
+              fi
+            fi
 
             echo "== running containers =="
             docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
