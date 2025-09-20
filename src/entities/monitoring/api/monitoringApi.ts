@@ -64,12 +64,18 @@ export const monitoringApi = createApi({
         params: { start_date, end_date },
       }),
     }),
-    confirmEvent: builder.mutation<void, string>({
-      query: (eventId) => ({
-        url: `/api/events/${eventId}/confirm`,
-        method: "POST",
+    approveEvent: builder.mutation<
+      void,
+      { eventId: string; isApproved: boolean }
+    >({
+      query: ({ eventId, isApproved }) => ({
+        url: `api/monitoring/history/${eventId}`,
+        method: "PATCH",
+        body: {
+          is_approved: isApproved,
+        },
       }),
-      async onQueryStarted(eventId, { dispatch, queryFulfilled }) {
+      async onQueryStarted(params, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
           dispatch(
@@ -77,27 +83,9 @@ export const monitoringApi = createApi({
               "getEvents",
               undefined,
               (draft) => {
-                return draft.filter((event) => event.event_id !== eventId);
-              },
-            ),
-          );
-        } catch {}
-      },
-    }),
-    rejectEvent: builder.mutation<void, string>({
-      query: (eventId) => ({
-        url: `/api/events/${eventId}/reject`,
-        method: "POST",
-      }),
-      async onQueryStarted(eventId, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          dispatch(
-            monitoringApi.util.updateQueryData(
-              "getEvents",
-              undefined,
-              (draft) => {
-                return draft.filter((event) => event.event_id !== eventId);
+                return draft.filter(
+                  (event) => event.event_id !== params.eventId,
+                );
               },
             ),
           );
@@ -110,6 +98,5 @@ export const {
   useGetEventsQuery,
   useGetHistoryQuery,
   useGetUniqueCountQuery,
-  useConfirmEventMutation,
-  useRejectEventMutation,
+  useApproveEventMutation,
 } = monitoringApi;

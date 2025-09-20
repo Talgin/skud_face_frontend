@@ -2,9 +2,8 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 
 import {
   type MonitoringEventRaw,
-  useConfirmEventMutation,
+  useApproveEventMutation,
   useGetEventsQuery,
-  useRejectEventMutation,
 } from "@/entities/monitoring";
 import { Can } from "@/entities/role";
 import { Button } from "@/shared/ui/button";
@@ -26,8 +25,7 @@ export function MonitoringDetails() {
     | MonitoringEventRaw
     | undefined;
 
-  const [confirm, { isLoading: confirming }] = useConfirmEventMutation();
-  const [reject, { isLoading: rejecting }] = useRejectEventMutation();
+  const [approve, { isLoading: approving }] = useApproveEventMutation();
 
   if (!event) {
     return (
@@ -118,15 +116,21 @@ export function MonitoringDetails() {
         <Can req={{ anyOf: ["monitoring-approve", "monitoring-reject"] }}>
           <Button
             variant="success"
-            onClick={() => confirm(event.event_id)}
-            disabled={confirming}
+            onClick={() => {
+              approve({ eventId: event.event_id, isApproved: true });
+              navigate({ to: "/monitoring" });
+            }}
+            disabled={approving}
           >
             ✅ Подтвердить
           </Button>
           <Button
             variant="destructive"
-            onClick={() => reject(event.event_id)}
-            disabled={rejecting}
+            onClick={() => {
+              approve({ eventId: event.event_id, isApproved: false });
+              navigate({ to: "/monitoring" });
+            }}
+            disabled={approving}
           >
             🛑 Отклонить
           </Button>
