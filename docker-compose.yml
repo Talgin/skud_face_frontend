@@ -9,7 +9,7 @@ services:
       - 8.8.8.8
     ports:
       - "80:80"
-    restart: always
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ > /dev/null || exit 1"]
       interval: 10s
