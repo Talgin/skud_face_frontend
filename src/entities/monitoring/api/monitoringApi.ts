@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type {
   GetHistoryParams,
   HistoryResponse,
-  MonitoringEvent,
+  MonitoringEventRaw,
   UniqueCountParams,
   UniqueCountResponse,
 } from "../types";
@@ -19,8 +19,8 @@ export const monitoringApi = createApi({
   reducerPath: "monitoringApi",
   baseQuery,
   endpoints: (builder) => ({
-    getEvents: builder.query<MonitoringEvent[], void>({
-      queryFn: () => ({ data: [] as MonitoringEvent[] }),
+    getEvents: builder.query<MonitoringEventRaw[], void>({
+      queryFn: () => ({ data: [] as MonitoringEventRaw[] }),
       keepUnusedDataFor: 0,
       async onCacheEntryAdded(
         _arg,
@@ -77,7 +77,7 @@ export const monitoringApi = createApi({
               "getEvents",
               undefined,
               (draft) => {
-                return draft.filter((event) => event.id !== eventId);
+                return draft.filter((event) => event.event_id !== eventId);
               },
             ),
           );
@@ -97,7 +97,7 @@ export const monitoringApi = createApi({
               "getEvents",
               undefined,
               (draft) => {
-                return draft.filter((event) => event.id !== eventId);
+                return draft.filter((event) => event.event_id !== eventId);
               },
             ),
           );

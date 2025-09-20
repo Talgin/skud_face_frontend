@@ -46,15 +46,20 @@ export function HistoryTable() {
     filters.min_similarity || 0,
   );
 
-  const { data, isFetching } = useGetHistoryQuery({
-    // start_date: "2025-08-01T00:00:00Z",
-    // end_date: "2025-09-06T12:00:00Z",
-    // min_similarity: 0.75,
-    // gender: "male",
-    page: pagination.pageIndex + 1,
-    page_size: pagination.pageSize,
-    ...filters,
-  });
+  const { data, isFetching } = useGetHistoryQuery(
+    {
+      // start_date: "2025-08-01T00:00:00Z",
+      // end_date: "2025-09-06T12:00:00Z",
+      // min_similarity: 0.75,
+      // gender: "male",
+      page: pagination.pageIndex + 1,
+      page_size: pagination.pageSize,
+      ...filters,
+    },
+    {
+      skip: filters.min_similarity === undefined,
+    },
+  );
 
   const table = useReactTable({
     data: data?.records || [],

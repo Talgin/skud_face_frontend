@@ -6,5 +6,5 @@ export {
   useGetUniqueCountQuery,
   useRejectEventMutation,
 } from "./api/monitoringApi";
-export type { HistoryRecord, MonitoringEvent } from "./types";
+export type { HistoryRecord, MonitoringEventRaw } from "./types";
 export { parseMonitoringEvent } from "./utils";

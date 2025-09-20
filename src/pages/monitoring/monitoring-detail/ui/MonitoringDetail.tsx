@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 
 import {
-  type MonitoringEvent,
+  type MonitoringEventRaw,
   useConfirmEventMutation,
   useGetEventsQuery,
   useRejectEventMutation,
@@ -22,7 +22,9 @@ export function MonitoringDetails() {
   const navigate = useNavigate();
   const { id } = useParams({ from: "/_auth/monitoring/$id" });
   const { data: events = [] } = useGetEventsQuery();
-  const event = events.find((e) => e.id === id) as MonitoringEvent | undefined;
+  const event = events.find((e) => e.event_id === id) as
+    | MonitoringEventRaw
+    | undefined;
 
   const [confirm, { isLoading: confirming }] = useConfirmEventMutation();
   const [reject, { isLoading: rejecting }] = useRejectEventMutation();
@@ -68,7 +70,7 @@ export function MonitoringDetails() {
           </CardHeader>
           <CardContent>
             <img
-              src={event.frame_image_url}
+              src={event.frame_image_url ?? ""}
               alt="frame"
               className="w-full max-h-[420px] object-contain rounded-lg border"
             />
@@ -84,7 +86,7 @@ export function MonitoringDetails() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div>
               <div className="text-xs text-muted-foreground">ID</div>
-              <div className="font-medium break-all">{event.id}</div>
+              <div className="font-medium break-all">{event.event_id}</div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground">Камера</div>
@@ -93,7 +95,7 @@ export function MonitoringDetails() {
             <div>
               <div className="text-xs text-muted-foreground">Точность</div>
               <div className="text-4xl font-bold">
-                {formatConfidence(event.recognition_confidence)}
+                {formatConfidence(event.recognition_confidence ?? 0)}
               </div>
             </div>
             <div>
@@ -116,14 +118,14 @@ export function MonitoringDetails() {
         <Can req={{ anyOf: ["monitoring-approve", "monitoring-reject"] }}>
           <Button
             variant="success"
-            onClick={() => confirm(event.id)}
+            onClick={() => confirm(event.event_id)}
             disabled={confirming}
           >
             ✅ Подтвердить
           </Button>
           <Button
             variant="destructive"
-            onClick={() => reject(event.id)}
+            onClick={() => reject(event.event_id)}
             disabled={rejecting}
           >
             🛑 Отклонить
