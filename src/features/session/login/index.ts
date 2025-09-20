@@ -1,2 +1,3 @@
+export { authListener } from "./model/authMiddleware";
 export { loginThunk } from "./model/login";
 export { LoginForm } from "./ui/LoginForm/LoginForm";

@@ -38,6 +38,7 @@ export async function baseQueryWithReauth(
     AUTH_ERROR_CODES.has(result.error.status)
   ) {
     api.dispatch(apiAccessTokenIsBrokenEvent());
+    return result;
   }
 
   return result;
