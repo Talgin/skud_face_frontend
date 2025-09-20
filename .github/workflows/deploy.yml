@@ -78,6 +78,8 @@ jobs:
             set -euo pipefail
             cd /root/skud_face_frontend
 
+            systemctl stop openfortivpn || true
+
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USER }}" --password-stdin
 
             REPO_RAW="${{ github.repository }}"
@@ -88,14 +90,6 @@ jobs:
             echo "Using image: ${IMAGE_REPO}:${IMAGE_TAG}"
             echo "Project: ${COMPOSE_PROJECT_NAME}"
 
-            cleanup_frontend() {
-              echo "[cleanup] remove only frontend containers & networks (project-scoped)"
-
-              docker ps -aq --filter "name=^${COMPOSE_PROJECT_NAME}-" | xargs -r docker rm -f || true
-
-              docker network ls --format '{{.Name}}' | grep -E "^${COMPOSE_PROJECT_NAME}(_|$)" | xargs -r docker network rm || true
-            }
-
             docker compose pull
 
             set +e
@@ -104,23 +98,37 @@ jobs:
             set -e
 
             if [ "$RC" -ne 0 ]; then
-              echo "[warn] compose up failed (rc=$RC). Try graceful stop & cleanup…"
-              docker compose down --remove-orphans --timeout 0 || true
-              cleanup_frontend
+              echo "[warn] compose up failed (rc=$RC). Start targeted cleanup…"
 
-              echo "[info] retry compose up once"
-              set +e
-              docker compose up -d --force-recreate --remove-orphans
-              RC2=$?
-              set -e
-              if [ "$RC2" -ne 0 ]; then
-                echo "[warn] second attempt failed. Restarting docker daemon and doing targeted cleanup…"
-                systemctl restart docker
-                sleep 3
-                cleanup_frontend
-                docker compose up -d --force-recreate --remove-orphans
+              docker ps -a --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME}" -q | xargs -r docker update --restart=no || true
+
+              docker compose down --remove-orphans --timeout 0 || true
+
+              CIDS="$(docker ps -a --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME}" -q)"
+              if [ -n "${CIDS}" ]; then
+                for id in ${CIDS}; do
+                  pgrep -a -f "containerd-shim.*${id}" | awk '{print $1}' | xargs -r kill -9 || true
+                done
+                echo "${CIDS}" | xargs -r docker rm -f || true
               fi
+
+              docker network ls --format '{{.Name}}' \
+                --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME}" \
+                | xargs -r docker network rm || true
+
+              systemctl restart docker
+              sleep 3
+
+              docker ps -a --format '{{.ID}}\t{{.Names}}' \
+                | awk '/skud_face_frontend-skud_frontend-1/ {print $1}' \
+                | xargs -r docker rm -f || true
+
+              docker rm -f skud_face_frontend-skud_frontend-1 2>/dev/null || true
+
+              docker compose up -d --force-recreate --remove-orphans
             fi
 
             echo "== running containers =="
             docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+            systemctl start openfortivpn || true
