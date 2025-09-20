@@ -1,4 +1,4 @@
-import { useRejectEventMutation } from "@/entities/monitoring";
+import { useApproveEventMutation } from "@/entities/monitoring";
 import { Button } from "@/shared/ui/button";
 
 interface RejectButtonProps {
@@ -6,11 +6,11 @@ interface RejectButtonProps {
 }
 
 export function RejectButton({ eventId }: RejectButtonProps) {
-  const [rejectEvent, { isLoading }] = useRejectEventMutation();
+  const [rejectEvent, { isLoading }] = useApproveEventMutation();
 
   const handleReject = (e: React.MouseEvent) => {
     e.stopPropagation();
-    rejectEvent(eventId);
+    rejectEvent({ eventId, isApproved: false });
   };
 
   return (
