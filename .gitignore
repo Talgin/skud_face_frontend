@@ -3,6 +3,7 @@
 *.local
 *.log*
 *.bak
+*.env
 
 # Dist
 node_modules
