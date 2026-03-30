@@ -3,10 +3,7 @@ name: skud_face_frontend
 version: "3.8"
 services:
   skud_frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: skud_face_frontend:latest
+    image: ${IMAGE_REPO}:${IMAGE_TAG}
     dns:
       - 1.1.1.1
       - 8.8.8.8
