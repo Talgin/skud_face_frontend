@@ -8,6 +8,8 @@ import { loadEnv } from "@rsbuild/core";
 // By default, `publicVars` are variables prefixed with `PUBLIC_`
 const { publicVars } = loadEnv();
 
+const SERVER_IP = process.env.SERVER_IP ?? "10.1.10.89";
+
 export default defineConfig({
   plugins: [pluginReact(), pluginSass()],
   source: {
@@ -20,12 +22,12 @@ export default defineConfig({
   server: {
     proxy: {
       "/api/v1": {
-        target: "http://85.159.27.224:9000",
+        target: `http://${SERVER_IP}:9000`,
         changeOrigin: true,
         secure: false,
       },
       "/api/monitoring": {
-        target: "http://85.159.27.224:50008",
+        target: `http://${SERVER_IP}:50008`,
         changeOrigin: true,
         secure: false,
         ws: false,
@@ -34,7 +36,7 @@ export default defineConfig({
         timeout: 0,
       },
       "/api/events": {
-        target: "http://85.159.27.224:50002",
+        target: `http://${SERVER_IP}:50002`,
         changeOrigin: true,
         secure: false,
         ws: false,
