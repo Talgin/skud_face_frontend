@@ -1,7 +1,12 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { useDeleteCameraMutation } from "@/entities/camera";
+import { Loader2 } from "lucide-react";
+import {
+  useActivateCameraMutation,
+  useDeactivateCameraMutation,
+  useDeleteCameraMutation,
+} from "@/entities/camera";
 import { tablePermissions } from "@/entities/role";
-import { Checkbox } from "@/shared/ui/checkbox";
+import { Button } from "@/shared/ui/button";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { Camera } from "./types";
 
@@ -37,9 +42,38 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
   },
   {
     accessorKey: "isActivated",
-    header: () => <span>Активирована</span>,
+    header: () => <span>Статус</span>,
     cell: ({ row }) => {
-      return <Checkbox checked={row.original.isActivated} disabled={true} />;
+      const [activate, { isLoading: activating }] = useActivateCameraMutation();
+      const [deactivate, { isLoading: deactivating }] =
+        useDeactivateCameraMutation();
+      const isLoading = activating || deactivating;
+      const isActive = row.original.isActivated;
+
+      function handleToggle() {
+        if (isActive) {
+          deactivate(row.original.id);
+        } else {
+          activate(row.original.id);
+        }
+      }
+
+      return (
+        <Button
+          size="sm"
+          variant={isActive ? "destructive" : "default"}
+          disabled={isLoading}
+          onClick={handleToggle}
+        >
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : isActive ? (
+            "Остановить"
+          ) : (
+            "Запустить"
+          )}
+        </Button>
+      );
     },
   },
   {
