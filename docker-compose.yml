@@ -13,7 +13,7 @@ services:
     ports:
       - "80:80"
     environment:
-      SERVER_IP: "${SERVER_IP:-10.1.10.89}"
+      SERVER_IP: "10.1.10.89"
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ > /dev/null || exit 1"]
