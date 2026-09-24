@@ -1,8 +1,11 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 
 import {
+  AgeCell,
+  formatGender,
   formatSimilarity,
   type MonitoringEventRaw,
+  PersonCell,
   useApproveEventMutation,
   useGetEventsQuery,
 } from "@/entities/monitoring";
@@ -87,6 +90,22 @@ export function MonitoringDetails() {
             <div>
               <div className="text-xs text-muted-foreground">Камера</div>
               <div className="font-medium">{cameraStr}</div>
+            </div>
+            <div>
+              <div className="text-xs text-muted-foreground">Человек</div>
+              <div className="text-lg">
+                <PersonCell event={event} />
+              </div>
+            </div>
+            <div>
+              <div className="text-xs text-muted-foreground">Пол</div>
+              <div className="font-medium">{formatGender(event.gender)}</div>
+            </div>
+            <div>
+              <div className="text-xs text-muted-foreground">Возраст</div>
+              <div className="font-medium">
+                <AgeCell event={event} />
+              </div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground">Сходство</div>

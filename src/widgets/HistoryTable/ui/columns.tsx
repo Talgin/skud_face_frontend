@@ -1,5 +1,11 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatSimilarity, type HistoryRecord } from "@/entities/monitoring";
+import {
+  AgeCell,
+  formatGender,
+  formatSimilarity,
+  type HistoryRecord,
+  PersonCell,
+} from "@/entities/monitoring";
 
 export const historyColumns: ColumnDef<HistoryRecord>[] = [
   {
@@ -35,6 +41,11 @@ export const historyColumns: ColumnDef<HistoryRecord>[] = [
     },
   },
   {
+    id: "person",
+    header: "Человек",
+    cell: ({ row }) => <PersonCell event={row.original} />,
+  },
+  {
     accessorKey: "recognition_confidence",
     header: "Сходство",
     cell: ({ getValue }) => {
@@ -46,26 +57,11 @@ export const historyColumns: ColumnDef<HistoryRecord>[] = [
   {
     accessorKey: "gender",
     header: "Пол",
-    cell: ({ getValue }) => getValue<string>() ?? "-",
+    cell: ({ getValue }) => formatGender(getValue<string | null>()),
   },
   {
     accessorKey: "age",
     header: "Возраст",
-    cell: ({ getValue }) => getValue<number | null>() ?? "-",
-  },
-  {
-    accessorKey: "glasses",
-    header: "Очки",
-    cell: ({ getValue }) => (getValue<boolean | null>() ? "Да" : "Нет"),
-  },
-  {
-    accessorKey: "mask",
-    header: "Маска",
-    cell: ({ getValue }) => (getValue<boolean | null>() ? "Да" : "Нет"),
-  },
-  {
-    accessorKey: "emotion",
-    header: "Эмоция",
-    cell: ({ getValue }) => getValue<string>() ?? "-",
+    cell: ({ row }) => <AgeCell event={row.original} />,
   },
 ];

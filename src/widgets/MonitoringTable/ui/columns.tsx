@@ -1,7 +1,13 @@
 // widgets/monitoringTable/columns.tsx
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { formatSimilarity, type MonitoringEventRaw } from "@/entities/monitoring";
+import {
+  AgeCell,
+  formatGender,
+  formatSimilarity,
+  type MonitoringEventRaw,
+  PersonCell,
+} from "@/entities/monitoring";
 import { ConfirmButton } from "@/features/monitoring/confirmEvent";
 import { RejectButton } from "@/features/monitoring/rejectEvent";
 
@@ -76,6 +82,21 @@ export const getMonitoringColumns: (
         const room = `Камера ${row.original.camera_host}:${row.original.camera_id}`;
         return <>{room}</>;
       },
+    },
+    {
+      id: "person",
+      header: "Человек",
+      cell: ({ row }) => <PersonCell event={row.original} />,
+    },
+    {
+      accessorKey: "gender",
+      header: "Пол",
+      cell: ({ getValue }) => formatGender(getValue<string | null>()),
+    },
+    {
+      accessorKey: "age",
+      header: "Возраст",
+      cell: ({ row }) => <AgeCell event={row.original} />,
     },
     {
       accessorKey: "recognition_confidence",

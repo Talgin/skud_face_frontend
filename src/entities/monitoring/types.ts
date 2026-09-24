@@ -11,6 +11,11 @@ export const MonitoringEventSchema = z.object({
   face_image_url: z.string().url().nullable().optional(),
   frame_image_url: z.string().url().nullable().optional(),
   recognition_confidence: z.number().nullable().optional(),
+  is_known: z.boolean().nullable().optional(),
+  person_name: z.string().nullable().optional(),
+  person_surname: z.string().nullable().optional(),
+  person_birth_date: z.string().nullable().optional(),
+  person_age: z.number().nullable().optional(),
   h: z.number(),
   w: z.number(),
   x: z.number(),
@@ -65,6 +70,11 @@ export interface HistoryRecord {
   datetime: string;
 
   recognition_confidence: number | null;
+  is_known?: boolean | null;
+  person_name?: string | null;
+  person_surname?: string | null;
+  person_birth_date?: string | null;
+  person_age?: number | null;
 
   age: number | null;
   beard: boolean | null;
