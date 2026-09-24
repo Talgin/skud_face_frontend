@@ -23,22 +23,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select";
-import { submitAdminFormSchema } from "../../model/submitAdminFormSchema";
+import {
+  editAdminFormSchema,
+  submitAdminFormSchema,
+} from "../../model/submitAdminFormSchema";
 import type { AdminValues } from "../../model/types";
 
 type Props = SubmitFormProps<AdminValues>;
 
 export function SubmitAdminForm(props: Props) {
-  console.log(props.defaultValues);
   const router = useRouter();
   const form = useForm<AdminValues>({
-    resolver: zodResolver(submitAdminFormSchema),
+    resolver: zodResolver(
+      props.isEditing ? editAdminFormSchema : submitAdminFormSchema,
+    ),
     defaultValues: props.defaultValues,
   });
 
   const { data: organizations } = useOrganizationsQuery();
-
-  console.log(organizations);
 
   const onSubmitHandler = useCallback(
     (values: AdminValues) => {

@@ -14,6 +14,7 @@ export const adminSchema = z.object({
   cardId: z.string(),
   role: AdminRolesSchema,
   isActive: z.boolean(),
+  organizationId: z.number().nullable(),
 });
 
 export const adminsSchema = adminSchema.array();

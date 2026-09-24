@@ -21,5 +21,6 @@ export type CreateAdminRequestBody = RequestBody;
 
 export type UpdateAdminRequestBody = {
   id: number;
-  newAdmin: RequestBody;
+  // partial: username/password are only sent when changed
+  newAdmin: Partial<RequestBody>;
 };
