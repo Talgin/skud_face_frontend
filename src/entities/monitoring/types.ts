@@ -65,8 +65,11 @@ export interface HistoryRecord {
   face_id: string;
 
   camera_id: number;
+  camera_host?: string | null;
   crop_image_url: string;
   frame_image_url?: string;
+  face_image_url?: string | null;
+  is_approved?: boolean | null;
   datetime: string;
 
   recognition_confidence: number | null;

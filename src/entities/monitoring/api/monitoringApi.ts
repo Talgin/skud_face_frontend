@@ -6,7 +6,16 @@ import type {
   UniqueCountParams,
   UniqueCountResponse,
 } from "../types";
+import {
+  historyRecordToEvent,
+  mergeEvents,
+  openLiveStream,
+} from "../lib/liveEvents";
+import { setLiveStatus } from "../lib/liveStatus";
 import { parseMonitoringEvent } from "../utils";
+
+// events already saved are shown right away; live ones are added on top
+const RECENT_EVENTS_ON_OPEN = 50;
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "/",
@@ -20,35 +29,44 @@ export const monitoringApi = createApi({
   baseQuery,
   endpoints: (builder) => ({
     getEvents: builder.query<MonitoringEventRaw[], void>({
-      queryFn: () => ({ data: [] as MonitoringEventRaw[] }),
+      async queryFn(_arg, _api, _extra, fetchWithBaseQuery) {
+        const result = await fetchWithBaseQuery({
+          url: "api/monitoring/history/",
+          params: { page: 1, page_size: RECENT_EVENTS_ON_OPEN },
+        });
+        if (result.error) {
+          // still open the live stream even if history is unavailable
+          return { data: [] as MonitoringEventRaw[] };
+        }
+        const records = (result.data as HistoryResponse).records ?? [];
+        return { data: records.map(historyRecordToEvent) };
+      },
       keepUnusedDataFor: 0,
       async onCacheEntryAdded(
         _arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
       ) {
-        await cacheDataLoaded;
-        const source = new EventSource("/api/events/events");
-        source.addEventListener("new_message", (event) => {
-          try {
-            const parsed = parseMonitoringEvent(event.data);
-            if (!parsed) return;
-
-            updateCachedData((draft) => {
-              draft.unshift(parsed);
-              if (draft.length > 1000) {
-                draft.pop();
-              }
-            });
-          } catch (e) {
-            console.error("Failed to parse SSE event", e);
-          }
+        try {
+          await cacheDataLoaded;
+        } catch {
+          return;
+        }
+        const close = openLiveStream({
+          url: "/api/events/events",
+          eventName: "new_message",
+          onStatus: setLiveStatus,
+          onMessage: (data) => {
+            try {
+              const parsed = parseMonitoringEvent(data);
+              if (!parsed) return;
+              updateCachedData((draft) => mergeEvents(draft, [parsed]));
+            } catch (e) {
+              console.error("Failed to parse SSE event", e);
+            }
+          },
         });
-        source.onerror = (err) => {
-          console.error("SSE error", err);
-          source.close();
-        };
         await cacheEntryRemoved;
-        source.close();
+        close();
       },
     }),
     getHistory: builder.query<HistoryResponse, GetHistoryParams>({

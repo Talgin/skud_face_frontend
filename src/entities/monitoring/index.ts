@@ -15,4 +15,6 @@ export {
   yearsLabel,
 } from "./lib/formatPerson";
 export { formatSimilarity } from "./lib/formatSimilarity";
+export { buildHistoryQuery, type HistoryFilters } from "./lib/historyQuery";
+export { useLiveStatus } from "./lib/liveStatus";
 export { AgeCell, PersonCell } from "./ui/PersonCells";

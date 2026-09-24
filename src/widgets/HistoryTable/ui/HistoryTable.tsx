@@ -8,7 +8,12 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import { useGetHistoryQuery } from "@/entities/monitoring";
+import {
+  buildHistoryQuery,
+  type HistoryFilters,
+  useGetHistoryQuery,
+} from "@/entities/monitoring";
+import { Button } from "@/shared/ui/button";
 import { DateFilter } from "@/shared/ui/date-filter";
 import { Slider } from "@/shared/ui/slider";
 import {
@@ -22,13 +27,6 @@ import {
 import { DataTablePagination } from "@/widgets/DataTable/ui/DataTablePagination";
 import { historyColumns } from "./columns";
 
-type Filters = {
-  start_date?: string;
-  end_date?: string;
-  min_similarity?: number;
-  gender?: string;
-};
-
 export function HistoryTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -36,30 +34,22 @@ export function HistoryTable() {
     pageIndex: 0,
     pageSize: 30,
   });
-  const [filters, setFilters] = useState<Filters>({
-    start_date: undefined,
-    end_date: undefined,
-    min_similarity: undefined,
-    gender: undefined,
-  });
-  const [minSimValue, setMinSimValue] = useState<number>(
-    filters.min_similarity || 0,
-  );
+  const [filters, setFilters] = useState<HistoryFilters>({});
+  const [minSimValue, setMinSimValue] = useState<number>(0);
 
   const { data, isFetching } = useGetHistoryQuery(
-    {
-      // start_date: "2025-08-01T00:00:00Z",
-      // end_date: "2025-09-06T12:00:00Z",
-      // min_similarity: 0.75,
-      // gender: "male",
-      page: pagination.pageIndex + 1,
-      page_size: pagination.pageSize,
-      ...filters,
-    },
-    {
-      skip: filters.min_similarity === undefined,
-    },
+    buildHistoryQuery(filters, pagination.pageIndex + 1, pagination.pageSize),
   );
+
+  function resetFilters() {
+    setMinSimValue(0);
+    setFilters({});
+  }
+  const hasFilters =
+    !!filters.startDate ||
+    !!filters.endDate ||
+    !!filters.gender ||
+    minSimValue > 0;
 
   const table = useReactTable({
     data: data?.records || [],
@@ -86,7 +76,7 @@ export function HistoryTable() {
 
   useEffect(() => {
     const t = setTimeout(() => {
-      setFilters((f) => ({ ...f, min_similarity: minSimValue }));
+      setFilters((f) => ({ ...f, minSimilarity: minSimValue }));
     }, 400);
     return () => clearTimeout(t);
   }, [minSimValue]);
@@ -105,12 +95,8 @@ export function HistoryTable() {
               Начало
             </label>
             <DateFilter
-              value={
-                filters.start_date ? new Date(filters.start_date) : undefined
-              }
-              onChange={(d) =>
-                setFilters((f) => ({ ...f, start_date: d?.toISOString() }))
-              }
+              value={filters.startDate}
+              onChange={(d) => setFilters((f) => ({ ...f, startDate: d }))}
             />
           </div>
 
@@ -122,10 +108,8 @@ export function HistoryTable() {
               Конец
             </label>
             <DateFilter
-              value={filters.end_date ? new Date(filters.end_date) : undefined}
-              onChange={(d) =>
-                setFilters((f) => ({ ...f, end_date: d?.toISOString() }))
-              }
+              value={filters.endDate}
+              onChange={(d) => setFilters((f) => ({ ...f, endDate: d }))}
             />
           </div>
 
@@ -134,9 +118,11 @@ export function HistoryTable() {
               className="text-xs text-muted-foreground mb-1"
               htmlFor="min_similarity"
             >
-              Min similarity:{" "}
+              Мин. сходство:{" "}
               <span className="font-medium">
-                {(minSimValue * 100).toFixed(0)}%
+                {minSimValue > 0
+                  ? `${(minSimValue * 100).toFixed(0)}% (только узнанные)`
+                  : "не задано"}
               </span>
             </label>
             <Slider
@@ -164,7 +150,7 @@ export function HistoryTable() {
             </label>
             <select
               id="gender"
-              value={filters.gender}
+              value={filters.gender ?? ""}
               onChange={(e) =>
                 setFilters((f) => ({ ...f, gender: e.target.value }))
               }
@@ -175,6 +161,15 @@ export function HistoryTable() {
               <option value="female">Женский</option>
             </select>
           </div>
+
+          {hasFilters && (
+            <Button variant="outline" size="sm" onClick={resetFilters}>
+              Сбросить
+            </Button>
+          )}
+          <span className="text-sm text-muted-foreground">
+            {isFetching ? "Загрузка…" : `Найдено: ${data?.total_records ?? 0}`}
+          </span>
         </div>
       </div>
 
