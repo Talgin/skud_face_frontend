@@ -1,4 +1,5 @@
 import { useApproveEventMutation } from "@/entities/monitoring";
+import { currentUsername } from "@/entities/session";
 import { Button } from "@/shared/ui/button";
 
 interface ConfirmButtonProps {
@@ -10,7 +11,7 @@ export function ConfirmButton({ eventId }: ConfirmButtonProps) {
 
   const handleConfirm = (e: React.MouseEvent) => {
     e.stopPropagation();
-    confirmEvent({ eventId, isApproved: true });
+    confirmEvent({ eventId, isApproved: true, reviewedBy: currentUsername() });
   };
 
   return (

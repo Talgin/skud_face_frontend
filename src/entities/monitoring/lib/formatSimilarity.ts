@@ -1,26 +1,24 @@
-// Cosine similarity to an enrolled person (0..1), as sent by trt-processor.
-// null/undefined means the face did not match anyone in the face database.
-export const SIMILARITY_HIGH = 0.6;
-export const SIMILARITY_MEDIUM = 0.45;
+// Cosine similarity (0..1) to the closest person in «База лиц», as sent by trt-processor.
+// It is present for every face once anyone is enrolled; `isKnown` says whether it counts as a match.
+// null/undefined means nobody is enrolled (or there was no face embedding).
 
 export interface FormattedSimilarity {
   text: string;
   className: string;
 }
 
-export function formatSimilarity(value?: number | null): FormattedSimilarity {
+export function formatSimilarity(
+  value?: number | null,
+  isKnown?: boolean | null,
+): FormattedSimilarity {
   if (value === null || value === undefined || Number.isNaN(value)) {
     return { text: "—", className: "text-muted-foreground" };
   }
 
   const clamped = Math.max(0, Math.min(1, value));
-  const text = `${(clamped * 100).toFixed(1)}%`;
-  const className =
-    clamped >= SIMILARITY_HIGH
-      ? "text-green-600"
-      : clamped >= SIMILARITY_MEDIUM
-        ? "text-yellow-600"
-        : "text-red-600";
+  const text = `${Math.round(clamped * 100)}%`;
+  // recognized faces stand out; for the rest it is only the distance to the nearest enrolled person
+  const className = isKnown ? "font-semibold text-green-600" : "text-muted-foreground";
 
   return { text, className };
 }

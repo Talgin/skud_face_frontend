@@ -101,8 +101,11 @@ export const getMonitoringColumns: (
     {
       accessorKey: "recognition_confidence",
       header: "Сходство",
-      cell: ({ getValue }) => {
-        const { text, className } = formatSimilarity(getValue<number | null>());
+      cell: ({ row }) => {
+        const { text, className } = formatSimilarity(
+          row.original.recognition_confidence,
+          row.original.is_known,
+        );
         return <span className={className}>{text}</span>;
       },
       sortingFn: "basic",

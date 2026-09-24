@@ -2,37 +2,34 @@ import { describe, expect, it } from "vitest";
 import { formatSimilarity } from "./formatSimilarity";
 
 describe("formatSimilarity", () => {
-  it.each([null, undefined, Number.NaN])("shows a dash for %s (no match)", (value) => {
+  it.each([null, undefined, Number.NaN])("shows a dash for %s (nobody enrolled)", (value) => {
     expect(formatSimilarity(value)).toEqual({
       text: "—",
       className: "text-muted-foreground",
     });
   });
 
-  it("formats as a percentage with one decimal", () => {
-    expect(formatSimilarity(0.6789).text).toBe("67.9%");
+  it("shows a whole percentage", () => {
+    expect(formatSimilarity(0.4567, true).text).toBe("46%");
+    expect(formatSimilarity(0.45, false).text).toBe("45%");
   });
 
-  it("colors high similarity green", () => {
-    expect(formatSimilarity(0.6).className).toBe("text-green-600");
-    expect(formatSimilarity(0.95).className).toBe("text-green-600");
+  it("shows small similarities too", () => {
+    expect(formatSimilarity(0.03, false).text).toBe("3%");
+    expect(formatSimilarity(0, false).text).toBe("0%");
   });
 
-  it("colors medium similarity yellow", () => {
-    expect(formatSimilarity(0.45).className).toBe("text-yellow-600");
-    expect(formatSimilarity(0.59).className).toBe("text-yellow-600");
+  it("highlights recognized faces", () => {
+    expect(formatSimilarity(0.56, true).className).toContain("text-green-600");
   });
 
-  it("colors low similarity red", () => {
-    expect(formatSimilarity(0.44).className).toBe("text-red-600");
+  it("mutes faces that are only the nearest enrolled person", () => {
+    expect(formatSimilarity(0.36, false).className).toBe("text-muted-foreground");
+    expect(formatSimilarity(0.36).className).toBe("text-muted-foreground");
   });
 
-  it("keeps a real zero instead of treating it as no match", () => {
-    expect(formatSimilarity(0)).toEqual({ text: "0.0%", className: "text-red-600" });
-  });
-
-  it("clamps values outside 0..1", () => {
-    expect(formatSimilarity(1.2).text).toBe("100.0%");
-    expect(formatSimilarity(-0.3).text).toBe("0.0%");
+  it("clamps values outside 0..1 (cosine can be slightly negative)", () => {
+    expect(formatSimilarity(1.2, true).text).toBe("100%");
+    expect(formatSimilarity(-0.3, false).text).toBe("0%");
   });
 });

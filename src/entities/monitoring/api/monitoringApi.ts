@@ -11,6 +11,7 @@ import {
   mergeEvents,
   openLiveStream,
 } from "../lib/liveEvents";
+import { isReviewed } from "../lib/formatReview";
 import { setLiveStatus } from "../lib/liveStatus";
 import { parseMonitoringEvent } from "../utils";
 
@@ -39,7 +40,12 @@ export const monitoringApi = createApi({
           return { data: [] as MonitoringEventRaw[] };
         }
         const records = (result.data as HistoryResponse).records ?? [];
-        return { data: records.map(historyRecordToEvent) };
+        // already confirmed/rejected events are not shown again
+        return {
+          data: records
+            .filter((record) => !isReviewed(record))
+            .map(historyRecordToEvent),
+        };
       },
       keepUnusedDataFor: 0,
       async onCacheEntryAdded(
@@ -84,13 +90,14 @@ export const monitoringApi = createApi({
     }),
     approveEvent: builder.mutation<
       void,
-      { eventId: string; isApproved: boolean }
+      { eventId: string; isApproved: boolean; reviewedBy?: string | null }
     >({
-      query: ({ eventId, isApproved }) => ({
+      query: ({ eventId, isApproved, reviewedBy }) => ({
         url: `api/monitoring/history/${eventId}`,
         method: "PATCH",
         body: {
           is_approved: isApproved,
+          reviewed_by: reviewedBy ?? null,
         },
       }),
       async onQueryStarted(params, { dispatch, queryFulfilled }) {

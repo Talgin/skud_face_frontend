@@ -121,7 +121,7 @@ export function HistoryTable() {
               Мин. сходство:{" "}
               <span className="font-medium">
                 {minSimValue > 0
-                  ? `${(minSimValue * 100).toFixed(0)}% (только узнанные)`
+                  ? `${(minSimValue * 100).toFixed(0)}%`
                   : "не задано"}
               </span>
             </label>

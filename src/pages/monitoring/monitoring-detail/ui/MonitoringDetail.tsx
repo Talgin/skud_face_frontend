@@ -10,11 +10,12 @@ import {
   useGetEventsQuery,
 } from "@/entities/monitoring";
 import { Can } from "@/entities/role";
+import { currentUsername } from "@/entities/session";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-function renderSimilarity(value?: number | null) {
-  const { text, className } = formatSimilarity(value);
+function renderSimilarity(value?: number | null, isKnown?: boolean | null) {
+  const { text, className } = formatSimilarity(value, isKnown);
   return <span className={className}>{text}</span>;
 }
 
@@ -110,7 +111,7 @@ export function MonitoringDetails() {
             <div>
               <div className="text-xs text-muted-foreground">Сходство</div>
               <div className="text-4xl font-bold">
-                {renderSimilarity(event.recognition_confidence)}
+                {renderSimilarity(event.recognition_confidence, event.is_known)}
               </div>
             </div>
             <div>
@@ -134,7 +135,11 @@ export function MonitoringDetails() {
           <Button
             variant="success"
             onClick={() => {
-              approve({ eventId: event.event_id, isApproved: true });
+              approve({
+                eventId: event.event_id,
+                isApproved: true,
+                reviewedBy: currentUsername(),
+              });
               navigate({ to: "/monitoring" });
             }}
             disabled={approving}
@@ -144,7 +149,11 @@ export function MonitoringDetails() {
           <Button
             variant="destructive"
             onClick={() => {
-              approve({ eventId: event.event_id, isApproved: false });
+              approve({
+                eventId: event.event_id,
+                isApproved: false,
+                reviewedBy: currentUsername(),
+              });
               navigate({ to: "/monitoring" });
             }}
             disabled={approving}

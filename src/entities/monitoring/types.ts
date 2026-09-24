@@ -37,6 +37,10 @@ export const MonitoringEventSchema = z.object({
   emotion: z.string().nullable().optional(),
   liveness_score: z.number().nullable().optional(),
   is_approved: z.boolean().nullable().optional(),
+  review_status: z.string().nullable().optional(),
+  reviewed_by: z.string().nullable().optional(),
+  reviewed_at: z.string().nullable().optional(),
+  nearest_person_id: z.string().nullable().optional(),
   _id: z.string().nullable().optional(),
 });
 
@@ -70,6 +74,10 @@ export interface HistoryRecord {
   frame_image_url?: string;
   face_image_url?: string | null;
   is_approved?: boolean | null;
+  review_status?: string | null;
+  reviewed_by?: string | null;
+  reviewed_at?: string | null;
+  nearest_person_id?: string | null;
   datetime: string;
 
   recognition_confidence: number | null;

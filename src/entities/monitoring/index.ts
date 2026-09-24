@@ -14,6 +14,7 @@ export {
   registeredAge,
   yearsLabel,
 } from "./lib/formatPerson";
+export { formatReview, isReviewed } from "./lib/formatReview";
 export { formatSimilarity } from "./lib/formatSimilarity";
 export { buildHistoryQuery, type HistoryFilters } from "./lib/historyQuery";
 export { useLiveStatus } from "./lib/liveStatus";

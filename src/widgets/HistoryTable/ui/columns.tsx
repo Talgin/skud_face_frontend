@@ -2,6 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import {
   AgeCell,
   formatGender,
+  formatReview,
   formatSimilarity,
   type HistoryRecord,
   PersonCell,
@@ -48,8 +49,11 @@ export const historyColumns: ColumnDef<HistoryRecord>[] = [
   {
     accessorKey: "recognition_confidence",
     header: "Сходство",
-    cell: ({ getValue }) => {
-      const { text, className } = formatSimilarity(getValue<number | null>());
+    cell: ({ row }) => {
+      const { text, className } = formatSimilarity(
+        row.original.recognition_confidence,
+        row.original.is_known,
+      );
       return <span className={className}>{text}</span>;
     },
     sortingFn: "basic",
@@ -63,5 +67,13 @@ export const historyColumns: ColumnDef<HistoryRecord>[] = [
     accessorKey: "age",
     header: "Возраст",
     cell: ({ row }) => <AgeCell event={row.original} />,
+  },
+  {
+    accessorKey: "review_status",
+    header: "Проверка",
+    cell: ({ row }) => {
+      const { text, className } = formatReview(row.original);
+      return <span className={className}>{text}</span>;
+    },
   },
 ];

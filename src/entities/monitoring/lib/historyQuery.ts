@@ -17,8 +17,8 @@ export interface HistoryQueryParams {
 }
 
 // Query for GET /history. Dates are whole local days (the calendar returns local midnight, which as an end
-// bound excluded the chosen day). A similarity of 0 is not sent: any similarity filter only matches recognized
-// people, and "≥ 0%" silently hid every unknown face.
+// bound excluded the chosen day). A similarity of 0 is not sent: events without a similarity (nobody enrolled
+// yet, old events) would be hidden by "≥ 0%".
 export function buildHistoryQuery(
   filters: HistoryFilters,
   page: number,
