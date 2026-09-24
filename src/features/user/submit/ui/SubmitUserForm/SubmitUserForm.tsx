@@ -173,8 +173,12 @@ export function SubmitUserForm(props: Props) {
             </FormItem>
           )}
         />
-        {props.isEditing ? (
-          <img src={props.defaultValues?.photoPath} alt="User Edited" />
+        {props.isEditing && props.defaultValues?.facePhotoUrl ? (
+          <img
+            src={props.defaultValues.facePhotoUrl}
+            alt="User Edited"
+            className="h-32 w-32 rounded object-cover"
+          />
         ) : null}
         <FormField
           control={form.control}

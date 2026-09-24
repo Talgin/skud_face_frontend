@@ -47,11 +47,18 @@ export const usersTableColumns: ColumnDef<User>[] = [
     },
   },
   {
-    accessorKey: "photoPath",
+    accessorKey: "facePhotoUrl",
     header: () => <span>Фото</span>,
-    cell: ({ row }) => (
-      <img src={row.original.photoPath} alt={row.original.name} />
-    ),
+    cell: ({ row }) =>
+      row.original.facePhotoUrl ? (
+        <img
+          src={row.original.facePhotoUrl}
+          alt={row.original.name}
+          className="h-16 w-16 rounded object-cover"
+        />
+      ) : (
+        <span className="text-muted-foreground">—</span>
+      ),
   },
   {
     id: "actions",

@@ -9,6 +9,7 @@ export const userSchema = z.object({
   gender: z.union([z.literal("male"), z.literal("female")]),
   birthDate: z.date(),
   photoPath: z.string(),
+  facePhotoUrl: z.string().nullable(),
 });
 
 export const usersSchema = userSchema.array();

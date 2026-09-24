@@ -7,6 +7,7 @@ export type UserDto = {
   gender: "male" | "female";
   birth_date: string;
   photo_path: string;
+  face_photo_url?: string | null;
 };
 
 export enum AddBatchUsersParams {
@@ -15,5 +16,5 @@ export enum AddBatchUsersParams {
 }
 
 export type UserQueryParams = Partial<
-  Omit<UserDto, "active" | "photo_path" | "id">
+  Omit<UserDto, "active" | "photo_path" | "face_photo_url" | "id">
 >;
