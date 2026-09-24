@@ -1,14 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { canAny } from "@/entities/role";
-import { AddUserPage } from "@/pages/add-user";
 
+// old URL, kept so bookmarks keep working - the section moved to /faces
 export const Route = createFileRoute("/_auth/user/add")({
-  beforeLoad: ({ context }) => {
-    const role = context.auth.role;
-    if (!role) return null;
-    if (!canAny(role, "user.create")) {
-      throw redirect({ to: "/403" });
-    }
+  beforeLoad: () => {
+    throw redirect({ to: "/faces/add", replace: true });
   },
-  component: AddUserPage,
 });

@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_auth/monitoring/")({
     if (!role) return null;
     if (!canAny(role, "monitoring.view")) {
       if (role === Roles.REGISTRAR) {
-        throw redirect({ to: "/user", search: { redirect: location.href } });
+        throw redirect({ to: "/faces", search: { redirect: location.href } });
       }
       throw redirect({ to: "/403" });
     }

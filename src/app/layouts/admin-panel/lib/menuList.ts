@@ -120,23 +120,23 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
         },
         {
           href: "/",
-          label: "Пользователи",
+          label: "База лиц",
           icon: Users,
           required: { anyOf: ["user.view", "user.create", "user.batchCreate"] },
           submenus: [
             {
-              href: "/user",
-              label: "Все пользователи",
+              href: "/faces",
+              label: "Все люди в базе",
               required: { anyOf: ["user.view"] },
             },
             {
-              href: "/user/add",
-              label: "Добавить нового пользователя",
+              href: "/faces/add",
+              label: "Добавить человека",
               required: { anyOf: ["user.create"] },
             },
             {
-              href: "/user/add-batch",
-              label: "Добавить пользователей",
+              href: "/faces/import",
+              label: "Импорт из Excel",
               required: { anyOf: ["user.batchCreate"] },
             },
           ],

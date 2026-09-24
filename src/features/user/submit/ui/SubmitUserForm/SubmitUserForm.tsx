@@ -53,14 +53,14 @@ export function SubmitUserForm(props: Props) {
   );
 
   function onNavigate() {
-    router.history.push("/user");
+    router.history.push("/faces");
   }
 
   return props.isSuccess ? (
     <div>
-      <p>Пользователь успешно {props.isEditing ? "обновлён" : "создан"}!</p>
+      <p>{props.isEditing ? "Данные человека обновлены" : "Человек добавлен в базу лиц"}!</p>
       <Button className="mt-4" onClick={onNavigate}>
-        Все пользователи
+        Все люди в базе
       </Button>
     </div>
   ) : (

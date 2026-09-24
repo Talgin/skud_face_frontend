@@ -4,11 +4,13 @@ import type { User } from "../model/types";
 import type { UserDto, UserQueryParams } from "./types";
 
 const basePath = "/student";
+// the backend defaults to 10 records per request
+const LIST_LIMIT = 1000;
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     users: build.query<User[], void>({
-      query: () => ({ url: basePath }),
+      query: () => ({ url: basePath, params: { limit: LIST_LIMIT } }),
       transformResponse: (response: UserDto[]) => response.map(mapUser),
       providesTags: [STUDENT_TAG],
     }),
@@ -31,7 +33,7 @@ export const userApi = baseApi.injectEndpoints({
     }),
     batchUsers: build.mutation<void, FormData>({
       query: (formData) => ({
-        url: `${basePath}/add-batch`,
+        url: `${basePath}/add_batch`,
         method: "POST",
         body: formData,
       }),

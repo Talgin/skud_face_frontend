@@ -27,7 +27,7 @@ export function AddUserPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Добавить пользователя</CardTitle>
+          <CardTitle>Добавить человека в базу лиц</CardTitle>
         </CardHeader>
         <CardContent>
           {/* TODO: пофиксить */

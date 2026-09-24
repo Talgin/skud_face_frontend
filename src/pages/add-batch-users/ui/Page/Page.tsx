@@ -28,7 +28,7 @@ export function AddBatchUsersPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Добавить пользователей</CardTitle>
+          <CardTitle>Импорт людей из Excel</CardTitle>
         </CardHeader>
         <CardContent>
           <SubmitBatchUserForm onSubmit={onSubmit} isSuccess={isSuccess} />

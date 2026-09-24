@@ -1,14 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { canAny } from "@/entities/role";
-import { AddBatchUsersPage } from "@/pages/add-batch-users";
 
+// old URL, kept so bookmarks keep working - the section moved to /faces
 export const Route = createFileRoute("/_auth/user/add-batch")({
-  beforeLoad: ({ context }) => {
-    const role = context.auth.role;
-    if (!role) return null;
-    if (!canAny(role, "user.batchCreate")) {
-      throw redirect({ to: "/403" });
-    }
+  beforeLoad: () => {
+    throw redirect({ to: "/faces/import", replace: true });
   },
-  component: AddBatchUsersPage,
 });
