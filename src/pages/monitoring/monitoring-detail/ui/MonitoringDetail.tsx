@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 
 import {
+  formatSimilarity,
   type MonitoringEventRaw,
   useApproveEventMutation,
   useGetEventsQuery,
@@ -9,12 +10,9 @@ import { Can } from "@/entities/role";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-function formatConfidence(c0to1?: number) {
-  const v = Math.max(0, Math.min(1, c0to1 ?? 0)) * 100;
-  const pct = `${v.toFixed(1)}%`;
-  const cls =
-    v >= 80 ? "text-green-600" : v >= 50 ? "text-yellow-600" : "text-red-600";
-  return <span className={cls}>{pct}</span>;
+function renderSimilarity(value?: number | null) {
+  const { text, className } = formatSimilarity(value);
+  return <span className={className}>{text}</span>;
 }
 
 export function MonitoringDetails() {
@@ -91,9 +89,9 @@ export function MonitoringDetails() {
               <div className="font-medium">{cameraStr}</div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Точность</div>
+              <div className="text-xs text-muted-foreground">Сходство</div>
               <div className="text-4xl font-bold">
-                {formatConfidence(event.recognition_confidence ?? 0)}
+                {renderSimilarity(event.recognition_confidence)}
               </div>
             </div>
             <div>

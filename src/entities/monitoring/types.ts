@@ -64,7 +64,7 @@ export interface HistoryRecord {
   frame_image_url?: string;
   datetime: string;
 
-  recognition_confidence: number;
+  recognition_confidence: number | null;
 
   age: number | null;
   beard: boolean | null;

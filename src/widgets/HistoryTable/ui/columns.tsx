@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { HistoryRecord } from "@/entities/monitoring";
+import { formatSimilarity, type HistoryRecord } from "@/entities/monitoring";
 
 export const historyColumns: ColumnDef<HistoryRecord>[] = [
   {
@@ -36,17 +36,10 @@ export const historyColumns: ColumnDef<HistoryRecord>[] = [
   },
   {
     accessorKey: "recognition_confidence",
-    header: "Точность",
+    header: "Сходство",
     cell: ({ getValue }) => {
-      const val = (getValue<number>() ?? 0) * 100;
-      const pct = `${val.toFixed(1)}%`;
-      return val >= 80 ? (
-        <span className="text-green-600">{pct}</span>
-      ) : val >= 50 ? (
-        <span className="text-yellow-600">{pct}</span>
-      ) : (
-        <span className="text-red-600">{pct}</span>
-      );
+      const { text, className } = formatSimilarity(getValue<number | null>());
+      return <span className={className}>{text}</span>;
     },
     sortingFn: "basic",
   },

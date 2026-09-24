@@ -1,7 +1,7 @@
 // widgets/monitoringTable/columns.tsx
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import type { MonitoringEventRaw } from "@/entities/monitoring";
+import { formatSimilarity, type MonitoringEventRaw } from "@/entities/monitoring";
 import { ConfirmButton } from "@/features/monitoring/confirmEvent";
 import { RejectButton } from "@/features/monitoring/rejectEvent";
 
@@ -79,17 +79,10 @@ export const getMonitoringColumns: (
     },
     {
       accessorKey: "recognition_confidence",
-      header: "Точность",
+      header: "Сходство",
       cell: ({ getValue }) => {
-        const conf: number = getValue<number>() * 100;
-        const display = conf.toFixed(1) + "%";
-        return conf >= 80 ? (
-          <span className="text-green-600">{display}</span>
-        ) : conf >= 50 ? (
-          <span className="text-yellow-600">{display}</span>
-        ) : (
-          <span className="text-red-600">{display}</span>
-        );
+        const { text, className } = formatSimilarity(getValue<number | null>());
+        return <span className={className}>{text}</span>;
       },
       sortingFn: "basic",
     },

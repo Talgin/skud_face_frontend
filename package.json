@@ -12,7 +12,8 @@
     "lint-staged": "lint-staged",
     "prepare": "npx husky",
     "preview": "rsbuild preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
@@ -72,6 +73,7 @@
     "globals": "^15.10.0",
     "lint-staged": "^15.2.10",
     "tailwindcss": "^3.4.13",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.9"
   }
 }

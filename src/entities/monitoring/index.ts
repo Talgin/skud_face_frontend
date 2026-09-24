@@ -7,3 +7,4 @@ export {
 } from "./api/monitoringApi";
 export type { HistoryRecord, MonitoringEventRaw } from "./types";
 export { parseMonitoringEvent } from "./utils";
+export { formatSimilarity } from "./lib/formatSimilarity";
