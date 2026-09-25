@@ -4,6 +4,9 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
   [Roles.SUPER_ADMIN]: [
     "monitoring.view",
     "monitoring-history.view",
+    "search.view",
+    "search.eval",
+    "search.settings",
     "monitoring-approve",
     "monitoring-reject",
     "dashboard.view",
@@ -32,6 +35,7 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
   [Roles.ADMIN]: [
     "monitoring.view",
     "monitoring-history.view",
+    "search.view",
     "dashboard.view",
     "org.view",
     "admin.view",
@@ -52,6 +56,8 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
   [Roles.OPERATOR]: [
     "monitoring.view",
     "monitoring-history.view",
+    "search.view",
+    "search.eval",
     "dashboard.view",
     "monitoring-approve",
     "monitoring-reject",

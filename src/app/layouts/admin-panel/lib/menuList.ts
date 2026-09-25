@@ -57,7 +57,13 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
           href: "/",
           label: "Мониторинг",
           icon: Monitor,
-          required: { anyOf: ["monitoring.view", "monitoring-history.view"] },
+          required: {
+            anyOf: [
+              "monitoring.view",
+              "monitoring-history.view",
+              "search.view",
+            ],
+          },
           submenus: [
             {
               href: "/monitoring",
@@ -68,6 +74,11 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
               href: "/monitoring/history",
               label: "История",
               required: { anyOf: ["monitoring-history.view"] },
+            },
+            {
+              href: "/monitoring/search",
+              label: "Поиск по внешности",
+              required: { anyOf: ["search.view"] },
             },
           ],
         },

@@ -26,6 +26,7 @@ import { Route as AuthUserAddBatchRouteImport } from './app/routes/_auth/user/ad
 import { Route as AuthUserAddRouteImport } from './app/routes/_auth/user/add'
 import { Route as AuthPointAddRouteImport } from './app/routes/_auth/point/add'
 import { Route as AuthOrganizationAddRouteImport } from './app/routes/_auth/organization/add'
+import { Route as AuthMonitoringSearchRouteImport } from './app/routes/_auth/monitoring/search'
 import { Route as AuthMonitoringHistoryRouteImport } from './app/routes/_auth/monitoring/history'
 import { Route as AuthMonitoringIdRouteImport } from './app/routes/_auth/monitoring/$id'
 import { Route as AuthFacesImportRouteImport } from './app/routes/_auth/faces/import'
@@ -124,6 +125,11 @@ const AuthOrganizationAddRoute = AuthOrganizationAddRouteImport.update({
   path: '/organization/add',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthMonitoringSearchRoute = AuthMonitoringSearchRouteImport.update({
+  id: '/monitoring/search',
+  path: '/monitoring/search',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthMonitoringHistoryRoute = AuthMonitoringHistoryRouteImport.update({
   id: '/monitoring/history',
   path: '/monitoring/history',
@@ -207,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/faces/import': typeof AuthFacesImportRoute
   '/monitoring/$id': typeof AuthMonitoringIdRoute
   '/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/monitoring/search': typeof AuthMonitoringSearchRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
   '/user/add': typeof AuthUserAddRoute
@@ -235,6 +242,7 @@ export interface FileRoutesByTo {
   '/faces/import': typeof AuthFacesImportRoute
   '/monitoring/$id': typeof AuthMonitoringIdRoute
   '/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/monitoring/search': typeof AuthMonitoringSearchRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
   '/user/add': typeof AuthUserAddRoute
@@ -265,6 +273,7 @@ export interface FileRoutesById {
   '/_auth/faces/import': typeof AuthFacesImportRoute
   '/_auth/monitoring/$id': typeof AuthMonitoringIdRoute
   '/_auth/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/_auth/monitoring/search': typeof AuthMonitoringSearchRoute
   '/_auth/organization/add': typeof AuthOrganizationAddRoute
   '/_auth/point/add': typeof AuthPointAddRoute
   '/_auth/user/add': typeof AuthUserAddRoute
@@ -295,6 +304,7 @@ export interface FileRouteTypes {
     | '/faces/import'
     | '/monitoring/$id'
     | '/monitoring/history'
+    | '/monitoring/search'
     | '/organization/add'
     | '/point/add'
     | '/user/add'
@@ -323,6 +333,7 @@ export interface FileRouteTypes {
     | '/faces/import'
     | '/monitoring/$id'
     | '/monitoring/history'
+    | '/monitoring/search'
     | '/organization/add'
     | '/point/add'
     | '/user/add'
@@ -352,6 +363,7 @@ export interface FileRouteTypes {
     | '/_auth/faces/import'
     | '/_auth/monitoring/$id'
     | '/_auth/monitoring/history'
+    | '/_auth/monitoring/search'
     | '/_auth/organization/add'
     | '/_auth/point/add'
     | '/_auth/user/add'
@@ -485,6 +497,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrganizationAddRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/monitoring/search': {
+      id: '/_auth/monitoring/search'
+      path: '/monitoring/search'
+      fullPath: '/monitoring/search'
+      preLoaderRoute: typeof AuthMonitoringSearchRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/monitoring/history': {
       id: '/_auth/monitoring/history'
       path: '/monitoring/history'
@@ -579,6 +598,7 @@ interface AuthRouteChildren {
   AuthFacesImportRoute: typeof AuthFacesImportRoute
   AuthMonitoringIdRoute: typeof AuthMonitoringIdRoute
   AuthMonitoringHistoryRoute: typeof AuthMonitoringHistoryRoute
+  AuthMonitoringSearchRoute: typeof AuthMonitoringSearchRoute
   AuthOrganizationAddRoute: typeof AuthOrganizationAddRoute
   AuthPointAddRoute: typeof AuthPointAddRoute
   AuthUserAddRoute: typeof AuthUserAddRoute
@@ -606,6 +626,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthFacesImportRoute: AuthFacesImportRoute,
   AuthMonitoringIdRoute: AuthMonitoringIdRoute,
   AuthMonitoringHistoryRoute: AuthMonitoringHistoryRoute,
+  AuthMonitoringSearchRoute: AuthMonitoringSearchRoute,
   AuthOrganizationAddRoute: AuthOrganizationAddRoute,
   AuthPointAddRoute: AuthPointAddRoute,
   AuthUserAddRoute: AuthUserAddRoute,
