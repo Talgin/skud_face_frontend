@@ -36,6 +36,11 @@ describe("buildSearchBody", () => {
     );
   });
 
+  it("shows 20 results by default", () => {
+    expect(DEFAULT_K).toBe(20);
+    expect(buildSearchBody({ ...base, k: 0 })?.k).toBe(20);
+  });
+
   it("clamps k", () => {
     expect(buildSearchBody({ ...base, k: 500 })?.k).toBe(MAX_K);
     expect(buildSearchBody({ ...base, k: -3 })?.k).toBe(1);

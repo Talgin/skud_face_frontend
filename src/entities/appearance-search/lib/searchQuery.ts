@@ -9,7 +9,7 @@ export interface SearchForm {
   onePerPerson: boolean;
 }
 
-export const DEFAULT_K = 12;
+export const DEFAULT_K = 20;
 export const MAX_K = 60;
 
 export function toUnixSeconds(local?: string): number | null {
