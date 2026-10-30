@@ -44,6 +44,20 @@ export const cameraApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [CAMERA_TAG],
     }),
+    activateCamera: build.mutation<void, number>({
+      query: (id: number) => ({
+        url: `${basePath}/${id}/activate`,
+        method: "PUT",
+      }),
+      invalidatesTags: [CAMERA_TAG],
+    }),
+    deactivateCamera: build.mutation<void, number>({
+      query: (id: number) => ({
+        url: `${basePath}/${id}/deactivate`,
+        method: "PUT",
+      }),
+      invalidatesTags: [CAMERA_TAG],
+    }),
   }),
 });
 
@@ -53,4 +67,6 @@ export const {
   useCreateCameraMutation,
   useUpdateCameraMutation,
   useDeleteCameraMutation,
+  useActivateCameraMutation,
+  useDeactivateCameraMutation,
 } = cameraApi;
