@@ -11,6 +11,11 @@ export const MonitoringEventSchema = z.object({
   face_image_url: z.string().url().nullable().optional(),
   frame_image_url: z.string().url().nullable().optional(),
   recognition_confidence: z.number().nullable().optional(),
+  is_known: z.boolean().nullable().optional(),
+  person_name: z.string().nullable().optional(),
+  person_surname: z.string().nullable().optional(),
+  person_birth_date: z.string().nullable().optional(),
+  person_age: z.number().nullable().optional(),
   h: z.number(),
   w: z.number(),
   x: z.number(),
@@ -32,6 +37,10 @@ export const MonitoringEventSchema = z.object({
   emotion: z.string().nullable().optional(),
   liveness_score: z.number().nullable().optional(),
   is_approved: z.boolean().nullable().optional(),
+  review_status: z.string().nullable().optional(),
+  reviewed_by: z.string().nullable().optional(),
+  reviewed_at: z.string().nullable().optional(),
+  nearest_person_id: z.string().nullable().optional(),
   _id: z.string().nullable().optional(),
 });
 
@@ -60,11 +69,23 @@ export interface HistoryRecord {
   face_id: string;
 
   camera_id: number;
+  camera_host?: string | null;
   crop_image_url: string;
   frame_image_url?: string;
+  face_image_url?: string | null;
+  is_approved?: boolean | null;
+  review_status?: string | null;
+  reviewed_by?: string | null;
+  reviewed_at?: string | null;
+  nearest_person_id?: string | null;
   datetime: string;
 
-  recognition_confidence: number;
+  recognition_confidence: number | null;
+  is_known?: boolean | null;
+  person_name?: string | null;
+  person_surname?: string | null;
+  person_birth_date?: string | null;
+  person_age?: number | null;
 
   age: number | null;
   beard: boolean | null;

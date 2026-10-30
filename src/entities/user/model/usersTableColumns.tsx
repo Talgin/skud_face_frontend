@@ -6,7 +6,7 @@ import { Checkbox } from "@/shared/ui/checkbox";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { User } from "./types";
 
-const EDIT_ROUTE = "/user/edit";
+const EDIT_ROUTE = "/faces/edit";
 
 export const usersTableColumns: ColumnDef<User>[] = [
   {
@@ -47,11 +47,18 @@ export const usersTableColumns: ColumnDef<User>[] = [
     },
   },
   {
-    accessorKey: "photoPath",
+    accessorKey: "facePhotoUrl",
     header: () => <span>Фото</span>,
-    cell: ({ row }) => (
-      <img src={row.original.photoPath} alt={row.original.name} />
-    ),
+    cell: ({ row }) =>
+      row.original.facePhotoUrl ? (
+        <img
+          src={row.original.facePhotoUrl}
+          alt={row.original.name}
+          className="h-16 w-16 rounded object-cover"
+        />
+      ) : (
+        <span className="text-muted-foreground">—</span>
+      ),
   },
   {
     id: "actions",

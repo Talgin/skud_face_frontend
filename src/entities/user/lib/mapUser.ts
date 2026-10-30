@@ -10,6 +10,7 @@ export function mapUser(dto: UserDto): User {
     isActive: dto.active,
     gender: dto.gender,
     photoPath: dto.photo_path,
+    facePhotoUrl: dto.face_photo_url ?? null,
     birthDate: new Date(dto.birth_date),
   };
 }

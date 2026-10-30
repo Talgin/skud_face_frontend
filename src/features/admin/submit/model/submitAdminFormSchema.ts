@@ -20,3 +20,9 @@ export const submitAdminFormSchema = z.object({
   username: z.string({ required_error: "Введите имя пользователя" }),
   password: z.string({ required_error: "Введите пароль пользователя" }),
 });
+
+// editing: the current username/password are not shown, so leaving them empty keeps them unchanged
+export const editAdminFormSchema = submitAdminFormSchema.extend({
+  username: z.string().optional(),
+  password: z.string().optional(),
+});

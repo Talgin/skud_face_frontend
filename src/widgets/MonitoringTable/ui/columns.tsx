@@ -1,7 +1,13 @@
 // widgets/monitoringTable/columns.tsx
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import type { MonitoringEventRaw } from "@/entities/monitoring";
+import {
+  AgeCell,
+  formatGender,
+  formatSimilarity,
+  type MonitoringEventRaw,
+  PersonCell,
+} from "@/entities/monitoring";
 import { ConfirmButton } from "@/features/monitoring/confirmEvent";
 import { RejectButton } from "@/features/monitoring/rejectEvent";
 
@@ -78,18 +84,29 @@ export const getMonitoringColumns: (
       },
     },
     {
+      id: "person",
+      header: "Человек",
+      cell: ({ row }) => <PersonCell event={row.original} />,
+    },
+    {
+      accessorKey: "gender",
+      header: "Пол",
+      cell: ({ getValue }) => formatGender(getValue<string | null>()),
+    },
+    {
+      accessorKey: "age",
+      header: "Возраст",
+      cell: ({ row }) => <AgeCell event={row.original} />,
+    },
+    {
       accessorKey: "recognition_confidence",
-      header: "Точность",
-      cell: ({ getValue }) => {
-        const conf: number = getValue<number>() * 100;
-        const display = conf.toFixed(1) + "%";
-        return conf >= 80 ? (
-          <span className="text-green-600">{display}</span>
-        ) : conf >= 50 ? (
-          <span className="text-yellow-600">{display}</span>
-        ) : (
-          <span className="text-red-600">{display}</span>
+      header: "Сходство",
+      cell: ({ row }) => {
+        const { text, className } = formatSimilarity(
+          row.original.recognition_confidence,
+          row.original.is_known,
         );
+        return <span className={className}>{text}</span>;
       },
       sortingFn: "basic",
     },

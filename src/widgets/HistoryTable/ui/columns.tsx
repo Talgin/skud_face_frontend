@@ -1,5 +1,12 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { HistoryRecord } from "@/entities/monitoring";
+import {
+  AgeCell,
+  formatGender,
+  formatReview,
+  formatSimilarity,
+  type HistoryRecord,
+  PersonCell,
+} from "@/entities/monitoring";
 
 export const historyColumns: ColumnDef<HistoryRecord>[] = [
   {
@@ -35,44 +42,38 @@ export const historyColumns: ColumnDef<HistoryRecord>[] = [
     },
   },
   {
+    id: "person",
+    header: "Человек",
+    cell: ({ row }) => <PersonCell event={row.original} />,
+  },
+  {
     accessorKey: "recognition_confidence",
-    header: "Точность",
-    cell: ({ getValue }) => {
-      const val = (getValue<number>() ?? 0) * 100;
-      const pct = `${val.toFixed(1)}%`;
-      return val >= 80 ? (
-        <span className="text-green-600">{pct}</span>
-      ) : val >= 50 ? (
-        <span className="text-yellow-600">{pct}</span>
-      ) : (
-        <span className="text-red-600">{pct}</span>
+    header: "Сходство",
+    cell: ({ row }) => {
+      const { text, className } = formatSimilarity(
+        row.original.recognition_confidence,
+        row.original.is_known,
       );
+      return <span className={className}>{text}</span>;
     },
     sortingFn: "basic",
   },
   {
     accessorKey: "gender",
     header: "Пол",
-    cell: ({ getValue }) => getValue<string>() ?? "-",
+    cell: ({ getValue }) => formatGender(getValue<string | null>()),
   },
   {
     accessorKey: "age",
     header: "Возраст",
-    cell: ({ getValue }) => getValue<number | null>() ?? "-",
+    cell: ({ row }) => <AgeCell event={row.original} />,
   },
   {
-    accessorKey: "glasses",
-    header: "Очки",
-    cell: ({ getValue }) => (getValue<boolean | null>() ? "Да" : "Нет"),
-  },
-  {
-    accessorKey: "mask",
-    header: "Маска",
-    cell: ({ getValue }) => (getValue<boolean | null>() ? "Да" : "Нет"),
-  },
-  {
-    accessorKey: "emotion",
-    header: "Эмоция",
-    cell: ({ getValue }) => getValue<string>() ?? "-",
+    accessorKey: "review_status",
+    header: "Проверка",
+    cell: ({ row }) => {
+      const { text, className } = formatReview(row.original);
+      return <span className={className}>{text}</span>;
+    },
   },
 ];

@@ -12,9 +12,20 @@ services:
       - 8.8.8.8
     ports:
       - "80:80"
+    volumes:
+      - ./ci/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - skud_face_network
+      - trt_network
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ > /dev/null || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 6
+
+networks:
+  skud_face_network:
+    external: true
+  trt_network:
+    external: true

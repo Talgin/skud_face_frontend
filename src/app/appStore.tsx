@@ -11,6 +11,7 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { searchApi } from "@/entities/appearance-search";
 import { monitoringApi } from "@/entities/monitoring";
 import { sessionSlice } from "@/entities/session";
 import { authListener } from "@/features/session/login";
@@ -42,6 +43,7 @@ export function makeStore() {
           baseApi.middleware,
           logoutMiddleware.middleware,
           monitoringApi.middleware,
+          searchApi.middleware,
         ),
   });
 

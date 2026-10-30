@@ -9,5 +9,6 @@ export function mapAdmin(dto: AdminDto): Admin {
     cardId: dto.card_id,
     isActive: dto.active,
     role: dto.role,
+    organizationId: dto.organization_id ?? null,
   };
 }

@@ -7,7 +7,7 @@ export type AdminDto = {
   card_id: string;
   active: boolean;
   role: RoleType;
-  organization_id: number;
+  organization_id: number | null;
 };
 
 type AdminCredentials = {
@@ -21,5 +21,6 @@ export type CreateAdminRequestBody = RequestBody;
 
 export type UpdateAdminRequestBody = {
   id: number;
-  newAdmin: RequestBody;
+  // partial: username/password are only sent when changed
+  newAdmin: Partial<RequestBody>;
 };

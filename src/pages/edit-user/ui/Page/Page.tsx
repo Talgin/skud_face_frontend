@@ -37,7 +37,7 @@ export function EditUserPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Изменить пользователя</CardTitle>
+          <CardTitle>Изменить данные человека</CardTitle>
         </CardHeader>
         <CardContent>
           {isUserSuccess && (

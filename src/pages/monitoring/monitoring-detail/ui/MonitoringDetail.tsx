@@ -1,20 +1,22 @@
 import { useNavigate, useParams } from "@tanstack/react-router";
 
 import {
+  AgeCell,
+  formatGender,
+  formatSimilarity,
   type MonitoringEventRaw,
+  PersonCell,
   useApproveEventMutation,
   useGetEventsQuery,
 } from "@/entities/monitoring";
 import { Can } from "@/entities/role";
+import { currentUsername } from "@/entities/session";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-function formatConfidence(c0to1?: number) {
-  const v = Math.max(0, Math.min(1, c0to1 ?? 0)) * 100;
-  const pct = `${v.toFixed(1)}%`;
-  const cls =
-    v >= 80 ? "text-green-600" : v >= 50 ? "text-yellow-600" : "text-red-600";
-  return <span className={cls}>{pct}</span>;
+function renderSimilarity(value?: number | null, isKnown?: boolean | null) {
+  const { text, className } = formatSimilarity(value, isKnown);
+  return <span className={className}>{text}</span>;
 }
 
 export function MonitoringDetails() {
@@ -91,9 +93,25 @@ export function MonitoringDetails() {
               <div className="font-medium">{cameraStr}</div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Точность</div>
+              <div className="text-xs text-muted-foreground">Человек</div>
+              <div className="text-lg">
+                <PersonCell event={event} />
+              </div>
+            </div>
+            <div>
+              <div className="text-xs text-muted-foreground">Пол</div>
+              <div className="font-medium">{formatGender(event.gender)}</div>
+            </div>
+            <div>
+              <div className="text-xs text-muted-foreground">Возраст</div>
+              <div className="font-medium">
+                <AgeCell event={event} />
+              </div>
+            </div>
+            <div>
+              <div className="text-xs text-muted-foreground">Сходство</div>
               <div className="text-4xl font-bold">
-                {formatConfidence(event.recognition_confidence ?? 0)}
+                {renderSimilarity(event.recognition_confidence, event.is_known)}
               </div>
             </div>
             <div>
@@ -117,7 +135,11 @@ export function MonitoringDetails() {
           <Button
             variant="success"
             onClick={() => {
-              approve({ eventId: event.event_id, isApproved: true });
+              approve({
+                eventId: event.event_id,
+                isApproved: true,
+                reviewedBy: currentUsername(),
+              });
               navigate({ to: "/monitoring" });
             }}
             disabled={approving}
@@ -127,7 +149,11 @@ export function MonitoringDetails() {
           <Button
             variant="destructive"
             onClick={() => {
-              approve({ eventId: event.event_id, isApproved: false });
+              approve({
+                eventId: event.event_id,
+                isApproved: false,
+                reviewedBy: currentUsername(),
+              });
               navigate({ to: "/monitoring" });
             }}
             disabled={approving}

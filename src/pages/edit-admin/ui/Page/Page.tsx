@@ -1,6 +1,10 @@
 import { useParams } from "@tanstack/react-router";
 import { useAdminQuery, useUpdateAdminMutation } from "@/entities/admins";
-import { type AdminValues, SubmitAdminForm } from "@/features/admin/submit";
+import {
+  type AdminValues,
+  buildAdminUpdateBody,
+  SubmitAdminForm,
+} from "@/features/admin/submit";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 export function EditAdminPage() {
@@ -14,14 +18,7 @@ export function EditAdminPage() {
     if (id) {
       updateAdmin({
         id: parseInt(id),
-        //TODO: пофиксить
-        // @ts-ignore
-        newAdmin: {
-          name: values.name,
-          surname: values.surname,
-          card_id: values.cardId,
-          role: values.role,
-        },
+        newAdmin: buildAdminUpdateBody(values),
       });
     }
   }
@@ -37,9 +34,19 @@ export function EditAdminPage() {
             <SubmitAdminForm
               onSubmit={onSubmit}
               isSuccess={isSuccess}
-              //TODO: пофиксить
-              // @ts-ignore
-              defaultValues={admin}
+              defaultValues={
+                admin && {
+                  name: admin.name,
+                  surname: admin.surname,
+                  cardId: admin.cardId,
+                  role: admin.role,
+                  isActive: admin.isActive,
+                  // undefined lets the form ask for it when the account has none
+                  organizationId: admin.organizationId ?? undefined,
+                  username: "",
+                  password: "",
+                } as AdminValues
+              }
               isEditing={true}
             />
           )}
