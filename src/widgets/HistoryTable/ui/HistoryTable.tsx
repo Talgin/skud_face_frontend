@@ -173,7 +173,7 @@ export function HistoryTable() {
         </div>
       </div>
 
-      <div className="overflow-auto rounded-md border">
+      <div className="overflow-auto rounded-xl border bg-card shadow-sm">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -63,8 +63,13 @@ export function CollapseMenuButton({
         asChild
       >
         <Button
-          variant={isSubmenuActive ? "secondary" : "ghost"}
-          className="w-full justify-start h-10"
+          variant="ghost"
+          className={cn(
+            "w-full justify-start h-10 font-medium",
+            isSubmenuActive
+              ? "bg-primary/15 text-primary hover:bg-primary/20 hover:text-primary"
+              : "text-muted-foreground hover:text-foreground",
+          )}
         >
           <div className="w-full items-center flex justify-between">
             <div className="flex items-center">
@@ -103,12 +108,13 @@ export function CollapseMenuButton({
           <Button
             //FIXME: Добавить key
             key={label}
-            variant={
+            variant="ghost"
+            className={cn(
+              "w-full justify-start h-10 mb-1",
               (active === undefined && pathname === href) || active
-                ? "secondary"
-                : "ghost"
-            }
-            className="w-full justify-start h-10 mb-1"
+                ? "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary"
+                : "text-muted-foreground hover:text-foreground",
+            )}
             asChild
           >
             <Link to={href}>

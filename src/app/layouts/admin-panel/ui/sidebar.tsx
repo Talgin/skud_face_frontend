@@ -1,8 +1,7 @@
 "use client";
 import { Link } from "@tanstack/react-router";
-import { PanelsTopLeft } from "lucide-react";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
-import { Button } from "@/shared/ui/button";
+import { BrandMark, BrandWordmark } from "@/shared/ui/brand-mark";
 import { useSidebar } from "../lib/useSidebar";
 import { useStore } from "../lib/useStore";
 import { Menu } from "./menu";
@@ -15,7 +14,8 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "fixed top-0 left-0 z-20 h-screen -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300",
+        // "dark" scopes the navy console palette to the sidebar only
+        "dark fixed top-0 left-0 z-20 h-screen -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300 bg-background text-foreground border-r border-border",
         !getOpenState() ? "w-[90px]" : "w-72",
         settings.disabled && "hidden",
       )}
@@ -25,30 +25,25 @@ export function Sidebar() {
         role="toolbar"
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
-        className="relative h-full flex flex-col px-3 py-4 overflow-y-auto shadow-md dark:shadow-zinc-800"
+        className="relative h-full flex flex-col px-3 py-4 overflow-y-auto bg-[radial-gradient(120%_60%_at_0%_0%,hsl(var(--primary)/0.12),transparent_60%)]"
       >
-        <Button
+        <Link
+          to="/"
           className={cn(
-            "transition-transform ease-in-out duration-300 mb-1",
-            !getOpenState() ? "translate-x-1" : "translate-x-0",
+            "flex items-center gap-3 rounded-lg px-2 py-1.5 mb-2 transition-transform ease-in-out duration-300 outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            !getOpenState() ? "translate-x-1.5" : "translate-x-0",
           )}
-          variant="link"
-          asChild
         >
-          <Link to="/" className="flex items-center gap-2">
-            <PanelsTopLeft className="w-6 h-6 mr-1" />
-            <h1
-              className={cn(
-                "font-bold text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
-                !getOpenState()
-                  ? "-translate-x-96 opacity-0 hidden"
-                  : "translate-x-0 opacity-100",
-              )}
-            >
-              Face Detection
-            </h1>
-          </Link>
-        </Button>
+          <BrandMark />
+          <BrandWordmark
+            className={cn(
+              "whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
+              !getOpenState()
+                ? "-translate-x-96 opacity-0 hidden"
+                : "translate-x-0 opacity-100",
+            )}
+          />
+        </Link>
         <Menu isOpen={getOpenState()} />
       </div>
     </aside>
