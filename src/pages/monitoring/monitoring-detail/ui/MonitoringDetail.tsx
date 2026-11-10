@@ -11,6 +11,7 @@ import {
 } from "@/entities/monitoring";
 import { Can } from "@/entities/role";
 import { currentUsername } from "@/entities/session";
+import { mediaUrl } from "@/shared/lib";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
@@ -57,7 +58,7 @@ export function MonitoringDetails() {
           </CardHeader>
           <CardContent>
             <img
-              src={event.crop_image_url}
+              src={mediaUrl(event.crop_image_url)}
               alt="crop"
               className="w-full max-h-[420px] object-contain rounded-lg border"
             />
@@ -70,7 +71,7 @@ export function MonitoringDetails() {
           </CardHeader>
           <CardContent>
             <img
-              src={event.frame_image_url ?? ""}
+              src={mediaUrl(event.frame_image_url)}
               alt="frame"
               className="w-full max-h-[420px] object-contain rounded-lg border"
             />
