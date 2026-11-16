@@ -5,6 +5,7 @@ import { ru } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { CAMERA_MODEL_KEYS, CAMERA_MODEL_LABELS } from "@/entities/camera";
 import { usePointsQuery } from "@/entities/point";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { Button } from "@/shared/ui/button";
@@ -47,7 +48,7 @@ export function SubmitCameraForm(props: Props) {
     resolver: zodResolver(
       props.isEditing ? updateCameraFormSchema : addCameraFormSchema,
     ),
-    defaultValues: props.defaultValues,
+    defaultValues: props.defaultValues ?? { models: ["face"] },
   });
 
   const onSubmitHandler = useCallback(
@@ -216,7 +217,47 @@ export function SubmitCameraForm(props: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit">Создать</Button>
+        <FormField
+          control={form.control}
+          name="models"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Модели:</FormLabel>
+              <div className="flex flex-col gap-2">
+                {CAMERA_MODEL_KEYS.map((key) => {
+                  const selected = field.value ?? [];
+                  const id = `camera-model-${key}`;
+                  return (
+                    <div key={key} className="flex items-center gap-2">
+                      <FormControl>
+                        <Checkbox
+                          id={id}
+                          checked={selected.includes(key)}
+                          onCheckedChange={(checked) =>
+                            field.onChange(
+                              CAMERA_MODEL_KEYS.filter((k) =>
+                                k === key
+                                  ? checked === true
+                                  : selected.includes(k),
+                              ),
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <label htmlFor={id} className="text-sm cursor-pointer">
+                        {CAMERA_MODEL_LABELS[key]}
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">
+          {props.isEditing ? "Сохранить" : "Создать"}
+        </Button>
       </form>
     </Form>
   );

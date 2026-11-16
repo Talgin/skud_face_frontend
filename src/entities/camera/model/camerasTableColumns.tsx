@@ -8,6 +8,7 @@ import {
 import { tablePermissions } from "@/entities/role";
 import { Button } from "@/shared/ui/button";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
+import { CAMERA_MODEL_LABELS, modelKeys } from "../lib/cameraModels";
 import type { Camera } from "./types";
 
 const EDIT_ROUTE = "/camera/edit";
@@ -39,6 +40,19 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
         </p>
       );
     },
+  },
+  {
+    accessorKey: "models",
+    header: () => <span>Модели</span>,
+    cell: ({ row }) => (
+      <div className="flex flex-col gap-1">
+        {modelKeys(row.original.models).map((key) => (
+          <span key={key} className="whitespace-nowrap">
+            {CAMERA_MODEL_LABELS[key]}
+          </span>
+        ))}
+      </div>
+    ),
   },
   {
     accessorKey: "isActivated",

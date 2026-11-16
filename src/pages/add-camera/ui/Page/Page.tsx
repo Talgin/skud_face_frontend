@@ -1,4 +1,4 @@
-import { useCreateCameraMutation } from "@/entities/camera";
+import { modelsFromKeys, useCreateCameraMutation } from "@/entities/camera";
 import {
   type AddCameraValues,
   parseDateToString,
@@ -16,6 +16,7 @@ export function AddCameraPage() {
       camera_model_name: values.modelName,
       registration_date: parseDateToString(values.registrationDate),
       url: values.url,
+      models: modelsFromKeys(values.models),
     }).unwrap();
   }
 
