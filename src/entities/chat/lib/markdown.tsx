@@ -11,9 +11,10 @@ export function renderInline(text: string, keyBase = "i"): ReactNode[] {
   const out: ReactNode[] = [];
   let last = 0;
   let n = 0;
-  for (const m of text.matchAll(INLINE)) {
+  const re = new RegExp(INLINE.source, "g");
+  for (let m = re.exec(text); m !== null; m = re.exec(text)) {
     const tok = m[0];
-    const at = m.index ?? 0;
+    const at = m.index;
     if (at > last) out.push(text.slice(last, at));
     const key = `${keyBase}-${n++}`;
     if (tok.startsWith("**")) {

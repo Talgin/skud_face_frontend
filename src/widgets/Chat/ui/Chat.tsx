@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  type ChatApiError,
   type ChatMessage,
-  ChatApiError,
   type Conversation,
   chatApi,
   Markdown,
@@ -197,8 +197,11 @@ export function Chat({ convId, onSelect }: Props) {
       return fs.filter((x) => x.key !== key);
     });
 
-  const patchAssistant = (id: string, fn: (m: ChatMessage) => ChatMessage) =>
-    setMessages((ms) => ms.map((m) => (m.id === id ? fn(m) : m)));
+  const patchAssistant = useCallback(
+    (id: string, fn: (m: ChatMessage) => ChatMessage) =>
+      setMessages((ms) => ms.map((m) => (m.id === id ? fn(m) : m))),
+    [],
+  );
 
   const send = useCallback(
     async (text?: string) => {
@@ -304,7 +307,7 @@ export function Chat({ convId, onSelect }: Props) {
         refreshConvs();
       }
     },
-    [draft, files, ensureConversation, token, refreshConvs],
+    [draft, files, ensureConversation, token, refreshConvs, patchAssistant],
   );
 
   const stop = () => abortRef.current?.abort();
@@ -461,7 +464,8 @@ export function Chat({ convId, onSelect }: Props) {
         />
       )}
 
-      {/* thread */}
+      {/* thread; the whole column is a drop zone for files */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: drag-and-drop target */}
       <section
         className="relative flex min-w-0 flex-1 flex-col"
         onDragOver={(e) => {

@@ -20,6 +20,7 @@ import { Route as AuthOrganizationIndexRouteImport } from './app/routes/_auth/or
 import { Route as AuthMonitoringIndexRouteImport } from './app/routes/_auth/monitoring/index'
 import { Route as AuthFacesIndexRouteImport } from './app/routes/_auth/faces/index'
 import { Route as AuthDashboardIndexRouteImport } from './app/routes/_auth/dashboard/index'
+import { Route as AuthChatIndexRouteImport } from './app/routes/_auth/chat/index'
 import { Route as AuthCameraIndexRouteImport } from './app/routes/_auth/camera/index'
 import { Route as AuthAdminIndexRouteImport } from './app/routes/_auth/admin/index'
 import { Route as AuthUserAddBatchRouteImport } from './app/routes/_auth/user/add-batch'
@@ -93,6 +94,11 @@ const AuthFacesIndexRoute = AuthFacesIndexRouteImport.update({
 const AuthDashboardIndexRoute = AuthDashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthChatIndexRoute = AuthChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthCameraIndexRoute = AuthCameraIndexRouteImport.update({
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/user/add-batch': typeof AuthUserAddBatchRoute
   '/admin': typeof AuthAdminIndexRoute
   '/camera': typeof AuthCameraIndexRoute
+  '/chat': typeof AuthChatIndexRoute
   '/dashboard': typeof AuthDashboardIndexRoute
   '/faces': typeof AuthFacesIndexRoute
   '/monitoring': typeof AuthMonitoringIndexRoute
@@ -249,6 +256,7 @@ export interface FileRoutesByTo {
   '/user/add-batch': typeof AuthUserAddBatchRoute
   '/admin': typeof AuthAdminIndexRoute
   '/camera': typeof AuthCameraIndexRoute
+  '/chat': typeof AuthChatIndexRoute
   '/dashboard': typeof AuthDashboardIndexRoute
   '/faces': typeof AuthFacesIndexRoute
   '/monitoring': typeof AuthMonitoringIndexRoute
@@ -280,6 +288,7 @@ export interface FileRoutesById {
   '/_auth/user/add-batch': typeof AuthUserAddBatchRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
   '/_auth/camera/': typeof AuthCameraIndexRoute
+  '/_auth/chat/': typeof AuthChatIndexRoute
   '/_auth/dashboard/': typeof AuthDashboardIndexRoute
   '/_auth/faces/': typeof AuthFacesIndexRoute
   '/_auth/monitoring/': typeof AuthMonitoringIndexRoute
@@ -311,6 +320,7 @@ export interface FileRouteTypes {
     | '/user/add-batch'
     | '/admin'
     | '/camera'
+    | '/chat'
     | '/dashboard'
     | '/faces'
     | '/monitoring'
@@ -340,6 +350,7 @@ export interface FileRouteTypes {
     | '/user/add-batch'
     | '/admin'
     | '/camera'
+    | '/chat'
     | '/dashboard'
     | '/faces'
     | '/monitoring'
@@ -370,6 +381,7 @@ export interface FileRouteTypes {
     | '/_auth/user/add-batch'
     | '/_auth/admin/'
     | '/_auth/camera/'
+    | '/_auth/chat/'
     | '/_auth/dashboard/'
     | '/_auth/faces/'
     | '/_auth/monitoring/'
@@ -453,6 +465,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthDashboardIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/chat/': {
+      id: '/_auth/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AuthChatIndexRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/camera/': {
@@ -605,6 +624,7 @@ interface AuthRouteChildren {
   AuthUserAddBatchRoute: typeof AuthUserAddBatchRoute
   AuthAdminIndexRoute: typeof AuthAdminIndexRoute
   AuthCameraIndexRoute: typeof AuthCameraIndexRoute
+  AuthChatIndexRoute: typeof AuthChatIndexRoute
   AuthDashboardIndexRoute: typeof AuthDashboardIndexRoute
   AuthFacesIndexRoute: typeof AuthFacesIndexRoute
   AuthMonitoringIndexRoute: typeof AuthMonitoringIndexRoute
@@ -633,6 +653,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthUserAddBatchRoute: AuthUserAddBatchRoute,
   AuthAdminIndexRoute: AuthAdminIndexRoute,
   AuthCameraIndexRoute: AuthCameraIndexRoute,
+  AuthChatIndexRoute: AuthChatIndexRoute,
   AuthDashboardIndexRoute: AuthDashboardIndexRoute,
   AuthFacesIndexRoute: AuthFacesIndexRoute,
   AuthMonitoringIndexRoute: AuthMonitoringIndexRoute,
