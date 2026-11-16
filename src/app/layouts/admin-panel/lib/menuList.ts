@@ -4,6 +4,7 @@ import {
   LayoutGrid,
   type LucideIcon,
   MapPin,
+  MessageSquare,
   Monitor,
   Settings,
   UserCog,
@@ -81,6 +82,13 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
               required: { anyOf: ["search.view"] },
             },
           ],
+        },
+        {
+          href: "/chat",
+          label: "Ассистент",
+          icon: MessageSquare,
+          required: { anyOf: ["chat.use"] },
+          submenus: [],
         },
         {
           href: "/dashboard",
