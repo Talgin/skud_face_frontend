@@ -1,7 +1,8 @@
 // Recognition models a camera can run. The backend writes the selection into the
-// streamer's sources.json as {"face": {}, "lpr": {...settings}}; the face streamer
-// and trt-lpr each pick up only the cameras with their key.
-export const CAMERA_MODEL_KEYS = ["face", "lpr"] as const;
+// streamer's sources.json as {"face": {}, "lpr": {...settings}}; the face streamer,
+// trt-lpr and trt-ppe (helmet / vest / clothing colors) each pick up only the
+// cameras with their key.
+export const CAMERA_MODEL_KEYS = ["face", "lpr", "ppe"] as const;
 
 export type CameraModelKey = (typeof CAMERA_MODEL_KEYS)[number];
 
@@ -10,6 +11,7 @@ export type CameraModels = Record<string, Record<string, unknown>>;
 export const CAMERA_MODEL_LABELS: Record<CameraModelKey, string> = {
   face: "Распознавание лиц",
   lpr: "Распознавание номеров",
+  ppe: "Контроль СИЗ и одежды",
 };
 
 export const DEFAULT_CAMERA_MODELS: CameraModels = { face: {} };

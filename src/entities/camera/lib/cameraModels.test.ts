@@ -5,6 +5,7 @@ describe("modelKeys", () => {
   it("lists the selected models in a fixed order", () => {
     expect(modelKeys({ lpr: { roi: [] }, face: {} })).toEqual(["face", "lpr"]);
     expect(modelKeys({ lpr: {} })).toEqual(["lpr"]);
+    expect(modelKeys({ ppe: {}, face: {} })).toEqual(["face", "ppe"]);
   });
 
   it("treats a camera without models as face-only", () => {
@@ -20,6 +21,15 @@ describe("modelKeys", () => {
 describe("modelsFromKeys", () => {
   it("builds the API object from ticked boxes", () => {
     expect(modelsFromKeys(["face", "lpr"])).toEqual({ face: {}, lpr: {} });
+  });
+
+  it("adds PPE without touching the other models' settings", () => {
+    const previous = { face: {}, lpr: { min_plate_px: 40 } };
+    expect(modelsFromKeys(["face", "lpr", "ppe"], previous)).toEqual({
+      face: {},
+      lpr: { min_plate_px: 40 },
+      ppe: {},
+    });
   });
 
   it("keeps the settings of models that stay ticked", () => {
