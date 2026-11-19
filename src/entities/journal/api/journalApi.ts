@@ -31,7 +31,12 @@ async function request<T>(token: string | undefined, path: string): Promise<T> {
 }
 
 export const journalApi = {
-  list: (token: string | undefined, filters: JournalFilters, cursor?: string | null, limit = 60) => {
+  list: (
+    token: string | undefined,
+    filters: JournalFilters,
+    cursor?: string | null,
+    limit = 60,
+  ) => {
     const p = filtersToParams(filters);
     p.set("limit", String(limit));
     if (cursor) p.set("cursor", cursor);
@@ -42,11 +47,18 @@ export const journalApi = {
 };
 
 // <img> and EventSource cannot send headers: the token goes in the query string
-export function journalImageUrl(id: string, kind: "crop" | "frame", token: string | undefined): string {
+export function journalImageUrl(
+  id: string,
+  kind: "crop" | "frame",
+  token: string | undefined,
+): string {
   return `${JOURNAL_BASE}/events/${encodeURIComponent(id)}/image/${kind}?token=${encodeURIComponent(token ?? "")}`;
 }
 
-export function journalLiveUrl(filters: JournalFilters, token: string | undefined): string {
+export function journalLiveUrl(
+  filters: JournalFilters,
+  token: string | undefined,
+): string {
   const p = filtersToParams(filters);
   p.set("token", token ?? "");
   return `${JOURNAL_BASE}/events/live?${p}`;

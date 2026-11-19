@@ -3,7 +3,11 @@ import type { JournalEvent } from "../model/types";
 // How each analytics type looks on a card and in the detail view. A new analytics type = one entry here
 // (plus its adapter in trt-journal); types without an entry fall back to the generic look.
 
-export type Field = { label: string; value: string; tone?: "bad" | "good" | "muted" };
+export type Field = {
+  label: string;
+  value: string;
+  tone?: "bad" | "good" | "muted";
+};
 
 export type TypeLook = {
   badge: string; // short label on the card
@@ -85,8 +89,20 @@ const face: TypeLook = {
   ],
   details: (e) => [
     { label: "Имя", value: e.title },
-    { label: "Возраст", value: typeof e.data.age === "number" ? String(Math.round(e.data.age)) : "—" },
-    { label: "Пол", value: e.data.gender === "male" ? "мужской" : e.data.gender === "female" ? "женский" : "—" },
+    {
+      label: "Возраст",
+      value:
+        typeof e.data.age === "number" ? String(Math.round(e.data.age)) : "—",
+    },
+    {
+      label: "Пол",
+      value:
+        e.data.gender === "male"
+          ? "мужской"
+          : e.data.gender === "female"
+            ? "женский"
+            : "—",
+    },
     { label: "Сходство", value: pct(e.data.recognition_confidence) },
     { label: "ID лица", value: String(e.data.face_id ?? "—") },
   ],
@@ -96,13 +112,29 @@ const ppe: TypeLook = {
   badge: "СИЗ",
   badgeClass: "bg-amber-600 text-white",
   fields: (e) => [
-    { label: "Каска", value: yesNo(e.data.helmet, "есть", "нет"), tone: tone(e.data.helmet) },
-    { label: "Жилет", value: yesNo(e.data.vest, "есть", "нет"), tone: tone(e.data.vest) },
+    {
+      label: "Каска",
+      value: yesNo(e.data.helmet, "есть", "нет"),
+      tone: tone(e.data.helmet),
+    },
+    {
+      label: "Жилет",
+      value: yesNo(e.data.vest, "есть", "нет"),
+      tone: tone(e.data.vest),
+    },
     ...colorFields(e).slice(0, 1),
   ],
   details: (e) => [
-    { label: "Каска", value: yesNo(e.data.helmet, "есть", "нет"), tone: tone(e.data.helmet) },
-    { label: "Жилет", value: yesNo(e.data.vest, "есть", "нет"), tone: tone(e.data.vest) },
+    {
+      label: "Каска",
+      value: yesNo(e.data.helmet, "есть", "нет"),
+      tone: tone(e.data.helmet),
+    },
+    {
+      label: "Жилет",
+      value: yesNo(e.data.vest, "есть", "нет"),
+      tone: tone(e.data.vest),
+    },
     ...colorFields(e),
     { label: "Очки", value: e.data.glasses ? "да" : "нет" },
     { label: "Кадров в треке", value: String(e.data.frames ?? "—") },

@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useCamerasQuery } from "@/entities/camera";
 import {
   EMPTY_FILTERS,
-  type JournalEvent,
   type JournalFilters as Filters,
+  type JournalEvent,
   journalApi,
   journalLiveUrl,
 } from "@/entities/journal";
@@ -106,9 +106,12 @@ export function AnalyticsJournal() {
   useEffect(() => {
     const el = sentinel.current;
     if (!el) return;
-    const io = new IntersectionObserver((entries) => entries[0]?.isIntersecting && loadMore(), {
-      rootMargin: "400px",
-    });
+    const io = new IntersectionObserver(
+      (entries) => entries[0]?.isIntersecting && loadMore(),
+      {
+        rootMargin: "400px",
+      },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, [loadMore]);
@@ -119,7 +122,9 @@ export function AnalyticsJournal() {
     const es = new EventSource(journalLiveUrl(query, token));
     es.onmessage = (msg) => {
       const e = JSON.parse(msg.data) as JournalEvent;
-      setItems((prev) => (prev.some((x) => x.id === e.id) ? prev : [e, ...prev]));
+      setItems((prev) =>
+        prev.some((x) => x.id === e.id) ? prev : [e, ...prev],
+      );
       setTotal((n) => (n === null ? n : n + 1));
       setByType((b) => ({ ...b, [e.type]: (b[e.type] ?? 0) + 1 }));
       setFresh((s) => new Set(s).add(e.id));
@@ -140,7 +145,12 @@ export function AnalyticsJournal() {
     <div className="flex gap-6 p-4 md:p-6">
       {showFilters && (
         <aside className="w-64 shrink-0 rounded-lg border bg-card p-4 h-fit sticky top-4">
-          <JournalFilters value={filters} onChange={setFilters} cameras={cameras} byType={byType} />
+          <JournalFilters
+            value={filters}
+            onChange={setFilters}
+            cameras={cameras}
+            byType={byType}
+          />
         </aside>
       )}
 
@@ -148,21 +158,35 @@ export function AnalyticsJournal() {
         <div className="flex flex-wrap items-center gap-4">
           <h1 className="text-xl font-semibold">Журнал видеоаналитики</h1>
           <span className="text-sm text-muted-foreground">
-            Событий: <span className="font-medium text-foreground">{total ?? "…"}</span>
+            Событий:{" "}
+            <span className="font-medium text-foreground">{total ?? "…"}</span>
           </span>
           <div className="ml-auto flex items-center gap-4">
             <label className="flex items-center gap-2 text-sm cursor-pointer">
-              <Checkbox checked={live} onCheckedChange={(c) => setLive(c === true)} />
+              <Checkbox
+                checked={live}
+                onCheckedChange={(c) => setLive(c === true)}
+              />
               <span>В реальном времени</span>
-              {live && <span className="h-2 w-2 rounded-full bg-green-600 animate-pulse" />}
+              {live && (
+                <span className="h-2 w-2 rounded-full bg-green-600 animate-pulse" />
+              )}
             </label>
-            <Button variant="outline" size="sm" onClick={() => setShowFilters((v) => !v)}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowFilters((v) => !v)}
+            >
               {showFilters ? "Скрыть фильтры" : "Фильтры"}
             </Button>
           </div>
         </div>
 
-        {error && <div className="rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
+        {error && (
+          <div className="rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-700">
+            {error}
+          </div>
+        )}
 
         {!loading && !error && items.length === 0 && (
           <div className="rounded-lg border border-dashed p-10 text-center text-sm text-muted-foreground">
@@ -184,7 +208,9 @@ export function AnalyticsJournal() {
         </div>
 
         <div ref={sentinel} className="h-8" />
-        {loading && <p className="text-center text-sm text-muted-foreground">Загрузка…</p>}
+        {loading && (
+          <p className="text-center text-sm text-muted-foreground">Загрузка…</p>
+        )}
         {!loading && cursor && (
           <div className="text-center">
             <Button variant="outline" onClick={loadMore}>

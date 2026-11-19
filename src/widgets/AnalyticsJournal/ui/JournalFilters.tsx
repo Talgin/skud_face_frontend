@@ -37,26 +37,40 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
       <section className="space-y-2">
         <h3 className="font-medium">Тип аналитики</h3>
         {TYPES.map((t) => (
-          <label key={t.type} className="flex items-center gap-2 cursor-pointer">
+          <label
+            key={t.type}
+            className="flex items-center gap-2 cursor-pointer"
+          >
             <Checkbox
               checked={value.types.includes(t.type)}
-              onCheckedChange={() => set({ types: toggle(value.types, t.type), tags: [] })}
+              onCheckedChange={() =>
+                set({ types: toggle(value.types, t.type), tags: [] })
+              }
             />
             <span className="flex-1">{t.label}</span>
-            <span className="text-xs text-muted-foreground">{byType?.[t.type] ?? 0}</span>
+            <span className="text-xs text-muted-foreground">
+              {byType?.[t.type] ?? 0}
+            </span>
           </label>
         ))}
       </section>
 
       <section className="space-y-2">
         <h3 className="font-medium">Камеры</h3>
-        {cameras.length === 0 && <p className="text-xs text-muted-foreground">Нет камер</p>}
+        {cameras.length === 0 && (
+          <p className="text-xs text-muted-foreground">Нет камер</p>
+        )}
         <div className="max-h-48 space-y-2 overflow-y-auto">
           {cameras.map((c) => (
-            <label key={c.id} className="flex items-center gap-2 cursor-pointer">
+            <label
+              key={c.id}
+              className="flex items-center gap-2 cursor-pointer"
+            >
               <Checkbox
                 checked={value.cameraIds.includes(c.id)}
-                onCheckedChange={() => set({ cameraIds: toggle(value.cameraIds, c.id) })}
+                onCheckedChange={() =>
+                  set({ cameraIds: toggle(value.cameraIds, c.id) })
+                }
               />
               <span className="truncate" title={c.name}>
                 {c.name}
@@ -72,7 +86,11 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
           <DateFilter value={value.since} onChange={(d) => set({ since: d })} />
           <DateFilter value={value.until} onChange={(d) => set({ until: d })} />
           {(value.since || value.until) && (
-            <Button variant="ghost" size="sm" onClick={() => set({ since: undefined, until: undefined })}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => set({ since: undefined, until: undefined })}
+            >
               Сбросить период
             </Button>
           )}
@@ -115,7 +133,9 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
                 <Button
                   key={v}
                   size="sm"
-                  variant={tagValue(value.tags, key) === v ? "default" : "outline"}
+                  variant={
+                    tagValue(value.tags, key) === v ? "default" : "outline"
+                  }
                   onClick={() => set({ tags: setTag(value.tags, key, v) })}
                 >
                   {text}
@@ -133,7 +153,11 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
                     key={c}
                     type="button"
                     title={COLOR_RU[c]}
-                    onClick={() => set({ tags: setTag(value.tags, "color", active ? "" : c) })}
+                    onClick={() =>
+                      set({
+                        tags: setTag(value.tags, "color", active ? "" : c),
+                      })
+                    }
                     className={cn(
                       "h-6 w-6 rounded-full border",
                       active && "ring-2 ring-primary ring-offset-2",
@@ -147,7 +171,11 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
         </section>
       )}
 
-      <Button variant="outline" className="w-full" onClick={() => onChange({ ...value, ...RESET })}>
+      <Button
+        variant="outline"
+        className="w-full"
+        onClick={() => onChange({ ...value, ...RESET })}
+      >
         Сбросить фильтры
       </Button>
     </div>

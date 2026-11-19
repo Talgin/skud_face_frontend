@@ -28,6 +28,7 @@ import { Route as AuthUserAddRouteImport } from './app/routes/_auth/user/add'
 import { Route as AuthPointAddRouteImport } from './app/routes/_auth/point/add'
 import { Route as AuthOrganizationAddRouteImport } from './app/routes/_auth/organization/add'
 import { Route as AuthMonitoringSearchRouteImport } from './app/routes/_auth/monitoring/search'
+import { Route as AuthMonitoringJournalRouteImport } from './app/routes/_auth/monitoring/journal'
 import { Route as AuthMonitoringHistoryRouteImport } from './app/routes/_auth/monitoring/history'
 import { Route as AuthMonitoringIdRouteImport } from './app/routes/_auth/monitoring/$id'
 import { Route as AuthFacesImportRouteImport } from './app/routes/_auth/faces/import'
@@ -136,6 +137,11 @@ const AuthMonitoringSearchRoute = AuthMonitoringSearchRouteImport.update({
   path: '/monitoring/search',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthMonitoringJournalRoute = AuthMonitoringJournalRouteImport.update({
+  id: '/monitoring/journal',
+  path: '/monitoring/journal',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthMonitoringHistoryRoute = AuthMonitoringHistoryRouteImport.update({
   id: '/monitoring/history',
   path: '/monitoring/history',
@@ -219,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/faces/import': typeof AuthFacesImportRoute
   '/monitoring/$id': typeof AuthMonitoringIdRoute
   '/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/monitoring/journal': typeof AuthMonitoringJournalRoute
   '/monitoring/search': typeof AuthMonitoringSearchRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
@@ -249,6 +256,7 @@ export interface FileRoutesByTo {
   '/faces/import': typeof AuthFacesImportRoute
   '/monitoring/$id': typeof AuthMonitoringIdRoute
   '/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/monitoring/journal': typeof AuthMonitoringJournalRoute
   '/monitoring/search': typeof AuthMonitoringSearchRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
@@ -281,6 +289,7 @@ export interface FileRoutesById {
   '/_auth/faces/import': typeof AuthFacesImportRoute
   '/_auth/monitoring/$id': typeof AuthMonitoringIdRoute
   '/_auth/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/_auth/monitoring/journal': typeof AuthMonitoringJournalRoute
   '/_auth/monitoring/search': typeof AuthMonitoringSearchRoute
   '/_auth/organization/add': typeof AuthOrganizationAddRoute
   '/_auth/point/add': typeof AuthPointAddRoute
@@ -313,6 +322,7 @@ export interface FileRouteTypes {
     | '/faces/import'
     | '/monitoring/$id'
     | '/monitoring/history'
+    | '/monitoring/journal'
     | '/monitoring/search'
     | '/organization/add'
     | '/point/add'
@@ -343,6 +353,7 @@ export interface FileRouteTypes {
     | '/faces/import'
     | '/monitoring/$id'
     | '/monitoring/history'
+    | '/monitoring/journal'
     | '/monitoring/search'
     | '/organization/add'
     | '/point/add'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/_auth/faces/import'
     | '/_auth/monitoring/$id'
     | '/_auth/monitoring/history'
+    | '/_auth/monitoring/journal'
     | '/_auth/monitoring/search'
     | '/_auth/organization/add'
     | '/_auth/point/add'
@@ -523,6 +535,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthMonitoringSearchRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/monitoring/journal': {
+      id: '/_auth/monitoring/journal'
+      path: '/monitoring/journal'
+      fullPath: '/monitoring/journal'
+      preLoaderRoute: typeof AuthMonitoringJournalRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/monitoring/history': {
       id: '/_auth/monitoring/history'
       path: '/monitoring/history'
@@ -617,6 +636,7 @@ interface AuthRouteChildren {
   AuthFacesImportRoute: typeof AuthFacesImportRoute
   AuthMonitoringIdRoute: typeof AuthMonitoringIdRoute
   AuthMonitoringHistoryRoute: typeof AuthMonitoringHistoryRoute
+  AuthMonitoringJournalRoute: typeof AuthMonitoringJournalRoute
   AuthMonitoringSearchRoute: typeof AuthMonitoringSearchRoute
   AuthOrganizationAddRoute: typeof AuthOrganizationAddRoute
   AuthPointAddRoute: typeof AuthPointAddRoute
@@ -646,6 +666,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthFacesImportRoute: AuthFacesImportRoute,
   AuthMonitoringIdRoute: AuthMonitoringIdRoute,
   AuthMonitoringHistoryRoute: AuthMonitoringHistoryRoute,
+  AuthMonitoringJournalRoute: AuthMonitoringJournalRoute,
   AuthMonitoringSearchRoute: AuthMonitoringSearchRoute,
   AuthOrganizationAddRoute: AuthOrganizationAddRoute,
   AuthPointAddRoute: AuthPointAddRoute,
