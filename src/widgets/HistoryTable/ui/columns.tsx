@@ -7,17 +7,16 @@ import {
   type HistoryRecord,
   PersonCell,
 } from "@/entities/monitoring";
-import { mediaUrl } from "@/shared/lib";
+import { EvidenceImage } from "@/shared/ui/evidence-image";
 
 export const historyColumns: ColumnDef<HistoryRecord>[] = [
   {
     accessorKey: "crop_image_url",
     header: "Фото",
     cell: ({ row }) => {
-      const url = mediaUrl(row.getValue<string>("crop_image_url"));
       return (
-        <img
-          src={url}
+        <EvidenceImage
+          url={row.getValue<string>("crop_image_url")}
           alt="face"
           className="h-16 w-16 object-cover rounded-md border"
         />

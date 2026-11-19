@@ -10,7 +10,7 @@ import {
 } from "@/entities/monitoring";
 import { ConfirmButton } from "@/features/monitoring/confirmEvent";
 import { RejectButton } from "@/features/monitoring/rejectEvent";
-import { mediaUrl } from "@/shared/lib";
+import { EvidenceImage } from "@/shared/ui/evidence-image";
 
 /*
 {
@@ -50,10 +50,9 @@ export const getMonitoringColumns: (
       accessorKey: "crop_image_url",
       header: "Image",
       cell: ({ row }) => {
-        const url = mediaUrl(row.getValue<string>("crop_image_url"));
         return (
-          <img
-            src={url}
+          <EvidenceImage
+            url={row.getValue<string>("crop_image_url")}
             alt="face"
             className="h-24 w-24 object-cover rounded-md"
           />
@@ -65,11 +64,10 @@ export const getMonitoringColumns: (
       accessorKey: "frame_image_url",
       header: "Frame Image",
       cell: ({ row }) => {
-        const url = mediaUrl(row.getValue<string>("frame_image_url"));
         return (
-          <img
-            src={url}
-            alt="face"
+          <EvidenceImage
+            url={row.getValue<string>("frame_image_url")}
+            alt="frame"
             className="h-24 w-24 object-cover rounded-md"
           />
         );

@@ -11,7 +11,7 @@ import {
 } from "@/entities/monitoring";
 import { Can } from "@/entities/role";
 import { currentUsername } from "@/entities/session";
-import { mediaUrl } from "@/shared/lib";
+import { EvidenceImage } from "@/shared/ui/evidence-image";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
@@ -57,10 +57,10 @@ export function MonitoringDetails() {
             <CardTitle>Crop image</CardTitle>
           </CardHeader>
           <CardContent>
-            <img
-              src={mediaUrl(event.crop_image_url)}
+            <EvidenceImage
+              url={event.crop_image_url}
               alt="crop"
-              className="w-full max-h-[420px] object-contain rounded-lg border"
+              className="w-full min-h-40 max-h-[420px] object-contain rounded-lg border"
             />
           </CardContent>
         </Card>
@@ -70,10 +70,10 @@ export function MonitoringDetails() {
             <CardTitle>Full frame</CardTitle>
           </CardHeader>
           <CardContent>
-            <img
-              src={mediaUrl(event.frame_image_url)}
+            <EvidenceImage
+              url={event.frame_image_url}
               alt="frame"
-              className="w-full max-h-[420px] object-contain rounded-lg border"
+              className="w-full min-h-40 max-h-[420px] object-contain rounded-lg border"
             />
           </CardContent>
         </Card>
