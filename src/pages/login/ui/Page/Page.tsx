@@ -73,7 +73,7 @@ export function LoginPage() {
         </div>
 
         <p className="relative text-xs text-muted-foreground">
-          {BRAND_NAME} {BRAND_PRODUCT} · Astana IT University
+          {BRAND_NAME} {BRAND_PRODUCT}
         </p>
       </aside>
 
