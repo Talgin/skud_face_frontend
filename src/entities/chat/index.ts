@@ -9,6 +9,7 @@ export type {
   Conversation,
   EventItem,
   FaceItem,
+  JournalItem,
   RecognitionItem,
   StreamEvent,
   ToolBlock,

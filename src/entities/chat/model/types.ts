@@ -50,6 +50,19 @@ export type RecognitionItem = {
   frame_url: string | null;
 };
 
+// journal_events: one analytics event of any type (faces, PPE, plates) from trt-journal
+export type JournalItem = {
+  id: string;
+  type: string;
+  title: string | null;
+  when: string | null;
+  camera_id: number | null;
+  camera_name: string;
+  violation: boolean;
+  has_crop: boolean;
+  has_frame: boolean;
+};
+
 export type CameraItem = {
   id?: number;
   name?: string | null;
@@ -69,6 +82,7 @@ export type BlockData =
     }
   | { type: "faces"; query_face: string | null; items: FaceItem[] }
   | { type: "recognitions"; total: number | null; items: RecognitionItem[] }
+  | { type: "journal"; total: number | null; items: JournalItem[] }
   | { type: "cameras"; items: CameraItem[] }
   | { type: "video_job"; job_id: string }
   | { type: "video_jobs"; job_ids: string[] }

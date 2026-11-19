@@ -1,6 +1,7 @@
 import {
   AlertTriangle,
   Camera,
+  ClipboardList,
   CheckCircle2,
   Film,
   Loader2,
@@ -15,11 +16,13 @@ import {
   type CameraItem,
   type EventItem,
   type FaceItem,
+  type JournalItem,
   type RecognitionItem,
   type ToolBlock,
   type VideoJob,
   chatApi,
 } from "@/entities/chat";
+import { journalImageUrl, lookOf } from "@/entities/journal";
 import { mediaUrl } from "@/shared/lib";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { Button } from "@/shared/ui/button";
@@ -39,6 +42,7 @@ function onImgError(e: React.SyntheticEvent<HTMLImageElement>) {
 }
 
 const TOOL_LABEL: Record<string, string> = {
+  journal_events: "Журнал видеоаналитики",
   search_events: "Поиск по внешности",
   find_person_by_photo: "Поиск человека по фото",
   recognition_events: "События распознавания",
@@ -50,6 +54,7 @@ const TOOL_LABEL: Record<string, string> = {
 };
 
 const TOOL_ICON: Record<string, typeof Search> = {
+  journal_events: ClipboardList,
   search_events: Search,
   find_person_by_photo: ScanFace,
   recognition_events: Users,
@@ -110,6 +115,13 @@ export function ToolCard({
           )}
           {data.type === "recognitions" && (
             <RecognitionGrid
+              items={data.items}
+              total={data.total}
+              actions={actions}
+            />
+          )}
+          {data.type === "journal" && (
+            <JournalGrid
               items={data.items}
               total={data.total}
               actions={actions}
@@ -369,6 +381,94 @@ function RecognitionGrid({
                 </div>
                 <div className="text-muted-foreground truncate">
                   {r.when?.replace("T", " ").slice(5, 16)} · {r.camera_name}
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+      <MoreButton {...c} />
+    </>
+  );
+}
+
+// Images come from trt-journal with the current token (the stored block holds no token).
+function JournalGrid({
+  items,
+  total,
+  actions,
+}: {
+  items: JournalItem[];
+  total: number | null;
+  actions: BlockActions;
+}) {
+  const c = useCollapsed(items, 10);
+  if (!items.length) return <Empty text="Событий нет" />;
+  return (
+    <>
+      {total != null && total > items.length && (
+        <div className="mb-2 text-xs text-muted-foreground">
+          показано {items.length} из {total}
+        </div>
+      )}
+      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+        {c.shown.map((e) => {
+          const look = lookOf(e.type);
+          const caption = [e.when, e.camera_name, e.title]
+            .filter(Boolean)
+            .join(" · ");
+          return (
+            <button
+              type="button"
+              key={e.id}
+              className="text-left"
+              onClick={() =>
+                actions.openImage(
+                  journalImageUrl(
+                    e.id,
+                    e.has_frame ? "frame" : "crop",
+                    actions.token,
+                  ),
+                  caption,
+                )
+              }
+              title={caption}
+            >
+              <div className="relative">
+                <img
+                  loading="lazy"
+                  src={
+                    e.has_crop
+                      ? journalImageUrl(e.id, "crop", actions.token)
+                      : NO_IMG
+                  }
+                  alt={e.title ?? look.badge}
+                  onError={onImgError}
+                  className={cn(
+                    "w-full aspect-square rounded-lg object-cover border-2",
+                    e.violation ? "border-red-500" : "border-transparent",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute left-1 top-1 rounded px-1.5 py-0.5 text-[10px] font-medium",
+                    look.badgeClass,
+                  )}
+                >
+                  {look.badge}
+                </span>
+              </div>
+              <div className="mt-1 text-[11px] leading-tight">
+                <div
+                  className={cn(
+                    "truncate",
+                    e.violation ? "font-semibold text-red-600" : "font-medium",
+                  )}
+                >
+                  {e.title}
+                </div>
+                <div className="text-muted-foreground truncate">
+                  {e.when?.slice(5, 16)} · {e.camera_name}
                 </div>
               </div>
             </button>
