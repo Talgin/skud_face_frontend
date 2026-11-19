@@ -162,16 +162,19 @@ export function AnalyticsJournal() {
             <span className="font-medium text-foreground">{total ?? "…"}</span>
           </span>
           <div className="ml-auto flex items-center gap-4">
-            <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <div className="flex items-center gap-2 text-sm">
               <Checkbox
+                id="journal-live"
                 checked={live}
                 onCheckedChange={(c) => setLive(c === true)}
               />
-              <span>В реальном времени</span>
+              <label htmlFor="journal-live" className="cursor-pointer">
+                В реальном времени
+              </label>
               {live && (
                 <span className="h-2 w-2 rounded-full bg-green-600 animate-pulse" />
               )}
-            </label>
+            </div>
             <Button
               variant="outline"
               size="sm"

@@ -37,21 +37,24 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
       <section className="space-y-2">
         <h3 className="font-medium">Тип аналитики</h3>
         {TYPES.map((t) => (
-          <label
-            key={t.type}
-            className="flex items-center gap-2 cursor-pointer"
-          >
+          <div key={t.type} className="flex items-center gap-2">
             <Checkbox
+              id={`journal-type-${t.type}`}
               checked={value.types.includes(t.type)}
               onCheckedChange={() =>
                 set({ types: toggle(value.types, t.type), tags: [] })
               }
             />
-            <span className="flex-1">{t.label}</span>
+            <label
+              htmlFor={`journal-type-${t.type}`}
+              className="flex-1 cursor-pointer"
+            >
+              {t.label}
+            </label>
             <span className="text-xs text-muted-foreground">
               {byType?.[t.type] ?? 0}
             </span>
-          </label>
+          </div>
         ))}
       </section>
 
@@ -62,20 +65,22 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
         )}
         <div className="max-h-48 space-y-2 overflow-y-auto">
           {cameras.map((c) => (
-            <label
-              key={c.id}
-              className="flex items-center gap-2 cursor-pointer"
-            >
+            <div key={c.id} className="flex items-center gap-2">
               <Checkbox
+                id={`journal-camera-${c.id}`}
                 checked={value.cameraIds.includes(c.id)}
                 onCheckedChange={() =>
                   set({ cameraIds: toggle(value.cameraIds, c.id) })
                 }
               />
-              <span className="truncate" title={c.name}>
+              <label
+                htmlFor={`journal-camera-${c.id}`}
+                className="truncate cursor-pointer"
+                title={c.name}
+              >
                 {c.name}
-              </span>
-            </label>
+              </label>
+            </div>
           ))}
         </div>
       </section>
@@ -98,13 +103,16 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
       </section>
 
       <section className="space-y-2">
-        <label className="flex items-center gap-2 cursor-pointer">
+        <div className="flex items-center gap-2">
           <Checkbox
+            id="journal-violations"
             checked={value.violationsOnly}
             onCheckedChange={(c) => set({ violationsOnly: c === true })}
           />
-          <span>Только нарушения</span>
-        </label>
+          <label htmlFor="journal-violations" className="cursor-pointer">
+            Только нарушения
+          </label>
+        </div>
         <Input
           placeholder="Имя или номер"
           value={value.q}
