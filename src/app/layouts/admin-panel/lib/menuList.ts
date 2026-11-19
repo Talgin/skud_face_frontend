@@ -67,6 +67,11 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
           },
           submenus: [
             {
+              href: "/monitoring/journal",
+              label: "Журнал видеоаналитики",
+              required: { anyOf: ["monitoring.view"] },
+            },
+            {
               href: "/monitoring",
               label: "Мониторинг",
               required: { anyOf: ["monitoring.view"] },
