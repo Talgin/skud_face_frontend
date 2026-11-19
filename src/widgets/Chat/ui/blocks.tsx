@@ -1,8 +1,8 @@
 import {
   AlertTriangle,
   Camera,
-  ClipboardList,
   CheckCircle2,
+  ClipboardList,
   Film,
   Loader2,
   ScanFace,
@@ -14,13 +14,13 @@ import { useEffect, useState } from "react";
 import { searchImageUrl } from "@/entities/appearance-search";
 import {
   type CameraItem,
+  chatApi,
   type EventItem,
   type FaceItem,
   type JournalItem,
   type RecognitionItem,
   type ToolBlock,
   type VideoJob,
-  chatApi,
 } from "@/entities/chat";
 import { journalImageUrl, lookOf } from "@/entities/journal";
 import { mediaUrl } from "@/shared/lib";
