@@ -4,6 +4,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Ellipsis } from "lucide-react";
 import { Roles, useRoleQuery } from "@/entities/role";
 import { LogoutButton } from "@/features/session/logout";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { Button } from "@/shared/ui/button";
 import { ScrollArea } from "@/shared/ui/scroll-area";
@@ -37,7 +38,7 @@ export function Menu({ isOpen }: MenuProps) {
               key={groupLabel}
             >
               {(isOpen && groupLabel) || isOpen === undefined ? (
-                <p className="text-sm font-medium text-muted-foreground px-4 pb-2 max-w-[248px] truncate">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/80 px-4 pb-2 max-w-[248px] truncate">
                   {groupLabel}
                 </p>
               ) : !isOpen && isOpen !== undefined && groupLabel ? (
@@ -64,14 +65,15 @@ export function Menu({ isOpen }: MenuProps) {
                       <Tooltip delayDuration={100}>
                         <TooltipTrigger asChild>
                           <Button
-                            variant={
+                            variant="ghost"
+                            className={cn(
+                              "w-full justify-start h-10 mb-1 font-medium",
                               (active === undefined &&
                                 pathname.startsWith(href)) ||
-                              active
-                                ? "secondary"
-                                : "ghost"
-                            }
-                            className="w-full justify-start h-10 mb-1"
+                                active
+                                ? "bg-primary/15 text-primary hover:bg-primary/20 hover:text-primary shadow-[inset_2px_0_0_hsl(var(--primary))]"
+                                : "text-muted-foreground hover:text-foreground",
+                            )}
                             asChild
                           >
                             <Link to={href}>
@@ -125,7 +127,7 @@ export function Menu({ isOpen }: MenuProps) {
                   <LogoutButton isOpen={isOpen} />
                 </TooltipTrigger>
                 {isOpen === false && (
-                  <TooltipContent side="right">Выйти</TooltipContent>
+                  <TooltipContent side="right">{t("Выйти")}</TooltipContent>
                 )}
               </Tooltip>
             </TooltipProvider>

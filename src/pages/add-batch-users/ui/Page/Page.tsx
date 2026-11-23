@@ -3,8 +3,8 @@ import {
   type BatchUserValues,
   SubmitBatchUserForm,
 } from "@/features/user/submit-batch";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function AddBatchUsersPage() {
   const [addBatchUsers, { isSuccess }] = useBatchUsersMutation();
 
@@ -28,7 +28,7 @@ export function AddBatchUsersPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Импорт людей из Excel</CardTitle>
+          <CardTitle>{t("Импорт людей из Excel")}</CardTitle>
         </CardHeader>
         <CardContent>
           <SubmitBatchUserForm onSubmit={onSubmit} isSuccess={isSuccess} />

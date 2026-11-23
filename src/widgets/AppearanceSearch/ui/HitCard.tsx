@@ -7,10 +7,10 @@ import {
   scoreBreakdown,
   searchImageUrl,
 } from "@/entities/appearance-search";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 
-const EXPIRED_IMG =
-  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='320'><rect width='100%' height='100%' fill='%23e5e7eb'/><text x='50%' y='50%' fill='%236b7280' font-size='16' text-anchor='middle'>нет изображения</text></svg>";
+const EXPIRED_IMG = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='320'><rect width='100%' height='100%' fill='%23e5e7eb'/><text x='50%' y='50%' fill='%236b7280' font-size='16' text-anchor='middle'>${encodeURIComponent(t("нет изображения"))}</text></svg>`;
 
 type Props = {
   hit: SearchHit;
@@ -65,7 +65,9 @@ export function HitCard({ hit, cameraName, label, evalMode, onLabel }: Props) {
           )}
           title={
             hit.recognition?.nearest_person_id
-              ? `ближайший в базе: ${hit.recognition.nearest_person_id}`
+              ? t("ближайший в базе: {id}", {
+                  id: hit.recognition.nearest_person_id,
+                })
               : undefined
           }
         >
@@ -82,10 +84,10 @@ export function HitCard({ hit, cameraName, label, evalMode, onLabel }: Props) {
               target="_blank"
               rel="noreferrer"
             >
-              кадр с зонами
+              {t("кадр с зонами")}
             </a>
           ) : (
-            <span>кадр удалён</span>
+            <span>{t("кадр удалён")}</span>
           )}
           {hit.vms_url && (
             <a
@@ -94,7 +96,7 @@ export function HitCard({ hit, cameraName, label, evalMode, onLabel }: Props) {
               target="_blank"
               rel="noreferrer"
             >
-              открыть в VMS
+              {t("открыть в VMS")}
             </a>
           )}
         </div>
@@ -109,7 +111,7 @@ export function HitCard({ hit, cameraName, label, evalMode, onLabel }: Props) {
               label === true && "bg-green-600 text-white border-green-600",
             )}
           >
-            ✓ верно
+            {t("✓ верно")}
           </button>
           <button
             type="button"
@@ -119,7 +121,7 @@ export function HitCard({ hit, cameraName, label, evalMode, onLabel }: Props) {
               label === false && "bg-red-600 text-white border-red-600",
             )}
           >
-            ✗ неверно
+            {t("✗ неверно")}
           </button>
         </div>
       )}

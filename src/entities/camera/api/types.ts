@@ -1,3 +1,5 @@
+import type { CameraModels } from "../lib/cameraModels";
+
 export type CameraDto = {
   id: number;
   serial_number: string;
@@ -7,6 +9,7 @@ export type CameraDto = {
   is_activated: boolean;
   url: string;
   point_id: number;
+  models: CameraModels;
 };
 
 type RequestBody = Omit<CameraDto, "id">;

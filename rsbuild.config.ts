@@ -54,6 +54,8 @@ export default defineConfig({
     },
   },
   html: {
-    title: "Face detection",
+    title: "Nception Monitoring",
+    favicon: "./src/shared/assets/favicon.svg",
+    meta: { "theme-color": "#0b1220" },
   },
 });

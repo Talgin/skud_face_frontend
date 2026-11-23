@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { ru } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { CAMERA_MODEL_KEYS, CAMERA_MODEL_LABELS } from "@/entities/camera";
 import { usePointsQuery } from "@/entities/point";
+import { dateLocale, t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { Button } from "@/shared/ui/button";
 import { Calendar } from "@/shared/ui/calendar";
@@ -47,7 +48,7 @@ export function SubmitCameraForm(props: Props) {
     resolver: zodResolver(
       props.isEditing ? updateCameraFormSchema : addCameraFormSchema,
     ),
-    defaultValues: props.defaultValues,
+    defaultValues: props.defaultValues ?? { models: ["face"] },
   });
 
   const onSubmitHandler = useCallback(
@@ -63,9 +64,13 @@ export function SubmitCameraForm(props: Props) {
 
   return props.isSuccess ? (
     <div>
-      <p>Камера успешно {props.isEditing ? "обновлена" : "создана"}!</p>
+      <p>
+        {props.isEditing
+          ? t("Камера успешно обновлена!")
+          : t("Камера успешно создана!")}
+      </p>
       <Button className="mt-4" onClick={onNavigateToCameras}>
-        Все камеры
+        {t("Все камеры")}
       </Button>
     </div>
   ) : (
@@ -76,7 +81,7 @@ export function SubmitCameraForm(props: Props) {
           name="serialNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Серийный номер:</FormLabel>
+              <FormLabel>{t("Серийный номер:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -89,7 +94,7 @@ export function SubmitCameraForm(props: Props) {
           name="brandName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Название бренда:</FormLabel>
+              <FormLabel>{t("Название бренда:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -102,7 +107,7 @@ export function SubmitCameraForm(props: Props) {
           name="modelName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Название модели:</FormLabel>
+              <FormLabel>{t("Название модели:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -115,7 +120,7 @@ export function SubmitCameraForm(props: Props) {
           name="registrationDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Дата регистрации:</FormLabel>
+              <FormLabel>{t("Дата регистрации:")}</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -128,10 +133,10 @@ export function SubmitCameraForm(props: Props) {
                     >
                       {field.value ? (
                         format(field.value, "PPP", {
-                          locale: ru,
+                          locale: dateLocale(),
                         })
                       ) : (
-                        <span>Выбериите дату</span>
+                        <span>{t("Выберите дату")}</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -142,7 +147,7 @@ export function SubmitCameraForm(props: Props) {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    locale={ru}
+                    locale={dateLocale()}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
                     }
@@ -160,7 +165,7 @@ export function SubmitCameraForm(props: Props) {
             name="isActivated"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Активировать:</FormLabel>
+                <FormLabel>{t("Активировать:")}</FormLabel>
                 <FormControl>
                   <Checkbox
                     checked={field.value}
@@ -178,7 +183,7 @@ export function SubmitCameraForm(props: Props) {
             name="pointId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Точка:</FormLabel>
+                <FormLabel>{t("Точка:")}</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -186,7 +191,7 @@ export function SubmitCameraForm(props: Props) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Выберите точку" />
+                        <SelectValue placeholder={t("Выберите точку")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -208,7 +213,7 @@ export function SubmitCameraForm(props: Props) {
           name="url"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Ссылка:</FormLabel>
+              <FormLabel>{t("Ссылка:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -216,7 +221,47 @@ export function SubmitCameraForm(props: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit">Создать</Button>
+        <FormField
+          control={form.control}
+          name="models"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("Модели:")}</FormLabel>
+              <div className="flex flex-col gap-2">
+                {CAMERA_MODEL_KEYS.map((key) => {
+                  const selected = field.value ?? [];
+                  const id = `camera-model-${key}`;
+                  return (
+                    <div key={key} className="flex items-center gap-2">
+                      <FormControl>
+                        <Checkbox
+                          id={id}
+                          checked={selected.includes(key)}
+                          onCheckedChange={(checked) =>
+                            field.onChange(
+                              CAMERA_MODEL_KEYS.filter((k) =>
+                                k === key
+                                  ? checked === true
+                                  : selected.includes(k),
+                              ),
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <label htmlFor={id} className="text-sm cursor-pointer">
+                        {CAMERA_MODEL_LABELS[key]}
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">
+          {props.isEditing ? t("Сохранить") : t("Создать")}
+        </Button>
       </form>
     </Form>
   );

@@ -13,6 +13,7 @@ export type Permission =
   | "search.view"
   | "search.eval"
   | "search.settings"
+  | "chat.use"
   | "dashboard.view"
   | "org.view"
   | "org.create"

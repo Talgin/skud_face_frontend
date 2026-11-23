@@ -1,13 +1,17 @@
 import { useParams } from "@tanstack/react-router";
-import { useCameraQuery, useUpdateCameraMutation } from "@/entities/camera";
+import {
+  modelsFromKeys,
+  useCameraQuery,
+  useUpdateCameraMutation,
+} from "@/entities/camera";
 import {
   mapCamera,
   parseDateToString,
   SubmitCameraForm,
   type UpdateCameraValues,
 } from "@/features/camera/submit";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function EditCameraPage() {
   const { id } = useParams({ strict: false });
   const [updateCamera, { isSuccess }] = useUpdateCameraMutation();
@@ -27,6 +31,8 @@ export function EditCameraPage() {
           is_activated: values.isActivated,
           point_id: Number(values.pointId),
           url: values.url,
+          // keep per-model settings (e.g. the LPR region) for models that stay ticked
+          models: modelsFromKeys(values.models, camera?.models),
         },
       });
     }
@@ -36,7 +42,7 @@ export function EditCameraPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Изменить камеру</CardTitle>
+          <CardTitle>{t("Изменить камеру")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isCameraSuccess && (

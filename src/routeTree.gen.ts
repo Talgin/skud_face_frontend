@@ -20,6 +20,7 @@ import { Route as AuthOrganizationIndexRouteImport } from './app/routes/_auth/or
 import { Route as AuthMonitoringIndexRouteImport } from './app/routes/_auth/monitoring/index'
 import { Route as AuthFacesIndexRouteImport } from './app/routes/_auth/faces/index'
 import { Route as AuthDashboardIndexRouteImport } from './app/routes/_auth/dashboard/index'
+import { Route as AuthChatIndexRouteImport } from './app/routes/_auth/chat/index'
 import { Route as AuthCameraIndexRouteImport } from './app/routes/_auth/camera/index'
 import { Route as AuthAdminIndexRouteImport } from './app/routes/_auth/admin/index'
 import { Route as AuthUserAddBatchRouteImport } from './app/routes/_auth/user/add-batch'
@@ -27,6 +28,7 @@ import { Route as AuthUserAddRouteImport } from './app/routes/_auth/user/add'
 import { Route as AuthPointAddRouteImport } from './app/routes/_auth/point/add'
 import { Route as AuthOrganizationAddRouteImport } from './app/routes/_auth/organization/add'
 import { Route as AuthMonitoringSearchRouteImport } from './app/routes/_auth/monitoring/search'
+import { Route as AuthMonitoringJournalRouteImport } from './app/routes/_auth/monitoring/journal'
 import { Route as AuthMonitoringHistoryRouteImport } from './app/routes/_auth/monitoring/history'
 import { Route as AuthMonitoringIdRouteImport } from './app/routes/_auth/monitoring/$id'
 import { Route as AuthFacesImportRouteImport } from './app/routes/_auth/faces/import'
@@ -95,6 +97,11 @@ const AuthDashboardIndexRoute = AuthDashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthChatIndexRoute = AuthChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthCameraIndexRoute = AuthCameraIndexRouteImport.update({
   id: '/camera/',
   path: '/camera/',
@@ -128,6 +135,11 @@ const AuthOrganizationAddRoute = AuthOrganizationAddRouteImport.update({
 const AuthMonitoringSearchRoute = AuthMonitoringSearchRouteImport.update({
   id: '/monitoring/search',
   path: '/monitoring/search',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMonitoringJournalRoute = AuthMonitoringJournalRouteImport.update({
+  id: '/monitoring/journal',
+  path: '/monitoring/journal',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthMonitoringHistoryRoute = AuthMonitoringHistoryRouteImport.update({
@@ -213,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/faces/import': typeof AuthFacesImportRoute
   '/monitoring/$id': typeof AuthMonitoringIdRoute
   '/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/monitoring/journal': typeof AuthMonitoringJournalRoute
   '/monitoring/search': typeof AuthMonitoringSearchRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
@@ -220,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/user/add-batch': typeof AuthUserAddBatchRoute
   '/admin': typeof AuthAdminIndexRoute
   '/camera': typeof AuthCameraIndexRoute
+  '/chat': typeof AuthChatIndexRoute
   '/dashboard': typeof AuthDashboardIndexRoute
   '/faces': typeof AuthFacesIndexRoute
   '/monitoring': typeof AuthMonitoringIndexRoute
@@ -242,6 +256,7 @@ export interface FileRoutesByTo {
   '/faces/import': typeof AuthFacesImportRoute
   '/monitoring/$id': typeof AuthMonitoringIdRoute
   '/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/monitoring/journal': typeof AuthMonitoringJournalRoute
   '/monitoring/search': typeof AuthMonitoringSearchRoute
   '/organization/add': typeof AuthOrganizationAddRoute
   '/point/add': typeof AuthPointAddRoute
@@ -249,6 +264,7 @@ export interface FileRoutesByTo {
   '/user/add-batch': typeof AuthUserAddBatchRoute
   '/admin': typeof AuthAdminIndexRoute
   '/camera': typeof AuthCameraIndexRoute
+  '/chat': typeof AuthChatIndexRoute
   '/dashboard': typeof AuthDashboardIndexRoute
   '/faces': typeof AuthFacesIndexRoute
   '/monitoring': typeof AuthMonitoringIndexRoute
@@ -273,6 +289,7 @@ export interface FileRoutesById {
   '/_auth/faces/import': typeof AuthFacesImportRoute
   '/_auth/monitoring/$id': typeof AuthMonitoringIdRoute
   '/_auth/monitoring/history': typeof AuthMonitoringHistoryRoute
+  '/_auth/monitoring/journal': typeof AuthMonitoringJournalRoute
   '/_auth/monitoring/search': typeof AuthMonitoringSearchRoute
   '/_auth/organization/add': typeof AuthOrganizationAddRoute
   '/_auth/point/add': typeof AuthPointAddRoute
@@ -280,6 +297,7 @@ export interface FileRoutesById {
   '/_auth/user/add-batch': typeof AuthUserAddBatchRoute
   '/_auth/admin/': typeof AuthAdminIndexRoute
   '/_auth/camera/': typeof AuthCameraIndexRoute
+  '/_auth/chat/': typeof AuthChatIndexRoute
   '/_auth/dashboard/': typeof AuthDashboardIndexRoute
   '/_auth/faces/': typeof AuthFacesIndexRoute
   '/_auth/monitoring/': typeof AuthMonitoringIndexRoute
@@ -304,6 +322,7 @@ export interface FileRouteTypes {
     | '/faces/import'
     | '/monitoring/$id'
     | '/monitoring/history'
+    | '/monitoring/journal'
     | '/monitoring/search'
     | '/organization/add'
     | '/point/add'
@@ -311,6 +330,7 @@ export interface FileRouteTypes {
     | '/user/add-batch'
     | '/admin'
     | '/camera'
+    | '/chat'
     | '/dashboard'
     | '/faces'
     | '/monitoring'
@@ -333,6 +353,7 @@ export interface FileRouteTypes {
     | '/faces/import'
     | '/monitoring/$id'
     | '/monitoring/history'
+    | '/monitoring/journal'
     | '/monitoring/search'
     | '/organization/add'
     | '/point/add'
@@ -340,6 +361,7 @@ export interface FileRouteTypes {
     | '/user/add-batch'
     | '/admin'
     | '/camera'
+    | '/chat'
     | '/dashboard'
     | '/faces'
     | '/monitoring'
@@ -363,6 +385,7 @@ export interface FileRouteTypes {
     | '/_auth/faces/import'
     | '/_auth/monitoring/$id'
     | '/_auth/monitoring/history'
+    | '/_auth/monitoring/journal'
     | '/_auth/monitoring/search'
     | '/_auth/organization/add'
     | '/_auth/point/add'
@@ -370,6 +393,7 @@ export interface FileRouteTypes {
     | '/_auth/user/add-batch'
     | '/_auth/admin/'
     | '/_auth/camera/'
+    | '/_auth/chat/'
     | '/_auth/dashboard/'
     | '/_auth/faces/'
     | '/_auth/monitoring/'
@@ -455,6 +479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/chat/': {
+      id: '/_auth/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AuthChatIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/camera/': {
       id: '/_auth/camera/'
       path: '/camera'
@@ -502,6 +533,13 @@ declare module '@tanstack/react-router' {
       path: '/monitoring/search'
       fullPath: '/monitoring/search'
       preLoaderRoute: typeof AuthMonitoringSearchRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/monitoring/journal': {
+      id: '/_auth/monitoring/journal'
+      path: '/monitoring/journal'
+      fullPath: '/monitoring/journal'
+      preLoaderRoute: typeof AuthMonitoringJournalRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/monitoring/history': {
@@ -598,6 +636,7 @@ interface AuthRouteChildren {
   AuthFacesImportRoute: typeof AuthFacesImportRoute
   AuthMonitoringIdRoute: typeof AuthMonitoringIdRoute
   AuthMonitoringHistoryRoute: typeof AuthMonitoringHistoryRoute
+  AuthMonitoringJournalRoute: typeof AuthMonitoringJournalRoute
   AuthMonitoringSearchRoute: typeof AuthMonitoringSearchRoute
   AuthOrganizationAddRoute: typeof AuthOrganizationAddRoute
   AuthPointAddRoute: typeof AuthPointAddRoute
@@ -605,6 +644,7 @@ interface AuthRouteChildren {
   AuthUserAddBatchRoute: typeof AuthUserAddBatchRoute
   AuthAdminIndexRoute: typeof AuthAdminIndexRoute
   AuthCameraIndexRoute: typeof AuthCameraIndexRoute
+  AuthChatIndexRoute: typeof AuthChatIndexRoute
   AuthDashboardIndexRoute: typeof AuthDashboardIndexRoute
   AuthFacesIndexRoute: typeof AuthFacesIndexRoute
   AuthMonitoringIndexRoute: typeof AuthMonitoringIndexRoute
@@ -626,6 +666,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthFacesImportRoute: AuthFacesImportRoute,
   AuthMonitoringIdRoute: AuthMonitoringIdRoute,
   AuthMonitoringHistoryRoute: AuthMonitoringHistoryRoute,
+  AuthMonitoringJournalRoute: AuthMonitoringJournalRoute,
   AuthMonitoringSearchRoute: AuthMonitoringSearchRoute,
   AuthOrganizationAddRoute: AuthOrganizationAddRoute,
   AuthPointAddRoute: AuthPointAddRoute,
@@ -633,6 +674,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthUserAddBatchRoute: AuthUserAddBatchRoute,
   AuthAdminIndexRoute: AuthAdminIndexRoute,
   AuthCameraIndexRoute: AuthCameraIndexRoute,
+  AuthChatIndexRoute: AuthChatIndexRoute,
   AuthDashboardIndexRoute: AuthDashboardIndexRoute,
   AuthFacesIndexRoute: AuthFacesIndexRoute,
   AuthMonitoringIndexRoute: AuthMonitoringIndexRoute,

@@ -1,5 +1,6 @@
 import { useApproveEventMutation } from "@/entities/monitoring";
 import { currentUsername } from "@/entities/session";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 
 interface RejectButtonProps {
@@ -21,7 +22,7 @@ export function RejectButton({ eventId }: RejectButtonProps) {
       onClick={handleReject}
       disabled={isLoading}
     >
-      🛑 Отклонить
+      {t("🛑 Отклонить")}
     </Button>
   );
 }

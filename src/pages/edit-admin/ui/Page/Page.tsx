@@ -5,8 +5,8 @@ import {
   buildAdminUpdateBody,
   SubmitAdminForm,
 } from "@/features/admin/submit";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function EditAdminPage() {
   const { id } = useParams({ strict: false });
   const [updateAdmin, { isSuccess }] = useUpdateAdminMutation();
@@ -27,7 +27,7 @@ export function EditAdminPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Изменить админ</CardTitle>
+          <CardTitle>{t("Изменить админа")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isAdminSuccess && (
@@ -35,7 +35,8 @@ export function EditAdminPage() {
               onSubmit={onSubmit}
               isSuccess={isSuccess}
               defaultValues={
-                admin && {
+                admin &&
+                ({
                   name: admin.name,
                   surname: admin.surname,
                   cardId: admin.cardId,
@@ -45,7 +46,7 @@ export function EditAdminPage() {
                   organizationId: admin.organizationId ?? undefined,
                   username: "",
                   password: "",
-                } as AdminValues
+                } as AdminValues)
               }
               isEditing={true}
             />

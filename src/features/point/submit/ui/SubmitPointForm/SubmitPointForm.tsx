@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useCamerasQuery } from "@/entities/camera";
 import { useOrganizationsQuery } from "@/entities/organization";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import {
   Form,
@@ -53,9 +54,13 @@ export function SubmitPointForm(props: Props) {
 
   return props.isSuccess ? (
     <div>
-      <p>Точка успешно {props.isEditing ? "обновлена" : "создана"}!</p>
+      <p>
+        {props.isEditing
+          ? t("Точка успешно обновлена!")
+          : t("Точка успешно создана!")}
+      </p>
       <Button className="mt-4" onClick={onNavigateToPoints}>
-        Все точки
+        {t("Все точки")}
       </Button>
     </div>
   ) : (
@@ -66,7 +71,7 @@ export function SubmitPointForm(props: Props) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Название точки:</FormLabel>
+              <FormLabel>{t("Название точки:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -79,7 +84,7 @@ export function SubmitPointForm(props: Props) {
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Адрес:</FormLabel>
+              <FormLabel>{t("Адрес:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -92,7 +97,7 @@ export function SubmitPointForm(props: Props) {
           name="cameraId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Камера:</FormLabel>
+              <FormLabel>{t("Камера:")}</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -100,7 +105,7 @@ export function SubmitPointForm(props: Props) {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите камеру" />
+                      <SelectValue placeholder={t("Выберите камеру")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -116,7 +121,7 @@ export function SubmitPointForm(props: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit">Добавить</Button>
+        <Button type="submit">{t("Добавить")}</Button>
       </form>
     </Form>
   );

@@ -1,6 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { DayPicker } from "react-day-picker";
-import { ru } from "react-day-picker/locale";
+import { dateLocale } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { buttonVariants } from "@/shared/ui/button";
 
@@ -14,7 +14,7 @@ function Calendar({
 }: CalendarProps) {
   return (
     <DayPicker
-      locale={ru}
+      locale={dateLocale()}
       showOutsideDays={showOutsideDays}
       // className={cn("p-3", className)}
       // classNames={{

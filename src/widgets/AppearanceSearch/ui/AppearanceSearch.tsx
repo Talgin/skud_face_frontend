@@ -15,6 +15,7 @@ import {
 } from "@/entities/appearance-search";
 import { useCan } from "@/entities/role";
 import { currentUsername } from "@/entities/session";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { EvalPanel } from "./EvalPanel";
@@ -22,10 +23,10 @@ import { HitCard } from "./HitCard";
 import { ModesPanel } from "./ModesPanel";
 
 const EXAMPLES = [
-  "мужчина в чёрной куртке",
+  t("мужчина в чёрной куртке"),
   "woman with a white bag",
   "blue jeans, black backpack",
-  "вчера вечером человек в красном",
+  t("вчера вечером человек в красном"),
 ];
 
 const EVAL_KEY = "appearance-search.eval";
@@ -64,7 +65,7 @@ export function AppearanceSearch() {
   async function search(text = form.text) {
     const body = buildSearchBody({ ...form, text });
     if (!body) return;
-    setStatus("Ищу…");
+    setStatus(t("Ищу…"));
     const t0 = performance.now();
     try {
       const res = await runSearch(body).unwrap();
@@ -72,7 +73,7 @@ export function AppearanceSearch() {
       setStatus(statusLine(res, performance.now() - t0));
     } catch {
       setResult(null);
-      setStatus("Сервис поиска недоступен");
+      setStatus(t("Сервис поиска недоступен"));
     }
   }
 
@@ -93,7 +94,9 @@ export function AppearanceSearch() {
   return (
     <div className="p-4 space-y-3">
       <div className="flex flex-wrap items-center gap-3">
-        <h2 className="text-xl font-bold ml-4 mr-2">Поиск по внешности</h2>
+        <h2 className="text-xl font-bold ml-4 mr-2">
+          {t("Поиск по внешности")}
+        </h2>
         <ModesPanel editable={canAny("search.settings")} />
       </div>
 
@@ -108,17 +111,19 @@ export function AppearanceSearch() {
           autoFocus
           value={form.text}
           onChange={(e) => setForm((f) => ({ ...f, text: e.target.value }))}
-          placeholder="например: мужчина в белой рубашке и синих джинсах, чёрный рюкзак"
+          placeholder={t(
+            "например: мужчина в белой рубашке и синих джинсах, чёрный рюкзак",
+          )}
           className="flex-1 min-w-[260px]"
         />
         <Button type="submit" disabled={isLoading || !form.text.trim()}>
-          Найти
+          {t("Найти")}
         </Button>
       </form>
 
       <div className="flex flex-wrap items-end gap-4 text-sm">
         <label className="flex flex-col text-xs text-muted-foreground">
-          Камера
+          {t("Камера")}
           <select
             value={form.cameraId ?? ""}
             onChange={(e) =>
@@ -126,7 +131,7 @@ export function AppearanceSearch() {
             }
             className="border rounded p-1 text-sm text-foreground bg-background"
           >
-            <option value="">Все</option>
+            <option value="">{t("Все")}</option>
             {cameras.map((c) => (
               <option key={c.camera_id} value={c.camera_id}>
                 {cameraLabel(c)}
@@ -135,7 +140,7 @@ export function AppearanceSearch() {
           </select>
         </label>
         <label className="flex flex-col text-xs text-muted-foreground">
-          С
+          {t("С")}
           <input
             type="datetime-local"
             value={form.from ?? ""}
@@ -144,7 +149,7 @@ export function AppearanceSearch() {
           />
         </label>
         <label className="flex flex-col text-xs text-muted-foreground">
-          По
+          {t("По")}
           <input
             type="datetime-local"
             value={form.to ?? ""}
@@ -153,7 +158,7 @@ export function AppearanceSearch() {
           />
         </label>
         <label className="flex flex-col text-xs text-muted-foreground">
-          Сколько
+          {t("Сколько")}
           <input
             type="number"
             min={1}
@@ -173,7 +178,7 @@ export function AppearanceSearch() {
               setForm((f) => ({ ...f, onePerPerson: e.target.checked }))
             }
           />
-          один кадр на человека
+          {t("один кадр на человека")}
         </label>
         {(form.cameraId || form.from || form.to) && (
           <Button
@@ -188,20 +193,22 @@ export function AppearanceSearch() {
               }))
             }
           >
-            Сбросить фильтры
+            {t("Сбросить фильтры")}
           </Button>
         )}
         {canEval && (
           <label
             className="flex items-center gap-1 pb-1 ml-auto"
-            title="Отмечать результаты верно/неверно — набор для оценки качества поиска"
+            title={t(
+              "Отмечать результаты верно/неверно — набор для оценки качества поиска",
+            )}
           >
             <input
               type="checkbox"
               checked={evalMode}
               onChange={(e) => toggleEval(e.target.checked)}
             />
-            режим оценки
+            {t("режим оценки")}
           </label>
         )}
       </div>
@@ -210,7 +217,9 @@ export function AppearanceSearch() {
 
       <div className="text-sm text-muted-foreground">
         {status ||
-          "Опишите внешность — одежду, цвета, сумки, время и место. Работает на русском и английском."}
+          t(
+            "Опишите внешность — одежду, цвета, сумки, время и место. Работает на русском и английском.",
+          )}
       </div>
 
       {!result && (
@@ -230,7 +239,7 @@ export function AppearanceSearch() {
 
       {result && result.hits.length === 0 && (
         <div className="text-center text-muted-foreground py-12">
-          Ничего не найдено
+          {t("Ничего не найдено")}
         </div>
       )}
 

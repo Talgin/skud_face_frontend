@@ -7,9 +7,10 @@ import {
   type OrganizationValues,
   SubmitOrganizationForm,
 } from "@/features/organizations/submitForm";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-const successMessage = "Организация успешно обновлено!";
+const successMessage = t("Организация успешно обновлена!");
 
 export function EditOrganizationPage() {
   const [updateOrganization, { isLoading, isSuccess }] =
@@ -35,7 +36,7 @@ export function EditOrganizationPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Изменить организацию</CardTitle>
+          <CardTitle>{t("Изменить организацию")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isOrganizationSuccess && (

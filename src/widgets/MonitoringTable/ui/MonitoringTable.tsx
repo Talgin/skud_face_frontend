@@ -12,6 +12,7 @@ import { useState } from "react";
 import { matchesMonitoringSearch, useLiveStatus } from "@/entities/monitoring";
 import type { MonitoringEventRaw } from "@/entities/monitoring/types";
 import { useCan } from "@/entities/role";
+import { t } from "@/shared/i18n";
 import {
   Table,
   TableBody,
@@ -60,7 +61,7 @@ export function MonitoringTable({ events, isLoading }: MonitoringTableProps) {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4 ml-4 flex items-center gap-3">
-        Мониторинг
+        {t("Мониторинг")}
         <span className="flex items-center gap-1.5 text-sm font-normal text-muted-foreground">
           <span
             className={`h-2 w-2 rounded-full ${
@@ -72,24 +73,24 @@ export function MonitoringTable({ events, isLoading }: MonitoringTableProps) {
             }`}
           />
           {liveStatus === "online"
-            ? "онлайн"
+            ? t("онлайн")
             : liveStatus === "reconnecting"
-              ? "переподключение…"
-              : "подключение…"}
+              ? t("переподключение…")
+              : t("подключение…")}
         </span>
       </h2>
 
       <div className="mb-2">
         <input
           type="text"
-          placeholder="Поиск по имени или камере…"
+          placeholder={t("Поиск по имени или камере…")}
           value={globalFilter ?? ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
           className="border p-1 rounded text-sm"
         />
       </div>
 
-      <div className="overflow-auto rounded-md border">
+      <div className="overflow-auto rounded-xl border bg-card shadow-sm">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -167,7 +168,7 @@ export function MonitoringTable({ events, isLoading }: MonitoringTableProps) {
                   colSpan={columns.length}
                   className="text-center h-24"
                 >
-                  {isLoading ? "Загрузка..." : "Нет данных"}
+                  {isLoading ? t("Загрузка...") : t("Нет данных")}
                 </TableCell>
               </TableRow>
             )}

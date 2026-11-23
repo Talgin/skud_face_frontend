@@ -3,6 +3,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useOrganizationsQuery } from "@/entities/organization";
+import { t } from "@/shared/i18n";
 import type { SubmitFormProps } from "@/shared/types";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -55,9 +56,13 @@ export function SubmitAdminForm(props: Props) {
 
   return props.isSuccess ? (
     <div>
-      <p>Админ успешно {props.isEditing ? "обновлен" : "создан"}!</p>
+      <p>
+        {props.isEditing
+          ? t("Админ успешно обновлен!")
+          : t("Админ успешно создан!")}
+      </p>
       <Button className="mt-4" onClick={onNavigate}>
-        Все админы
+        {t("Все админы")}
       </Button>
     </div>
   ) : (
@@ -68,7 +73,7 @@ export function SubmitAdminForm(props: Props) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Имя:</FormLabel>
+              <FormLabel>{t("Имя:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -81,7 +86,7 @@ export function SubmitAdminForm(props: Props) {
           name="surname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Фамилия:</FormLabel>
+              <FormLabel>{t("Фамилия:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -94,7 +99,7 @@ export function SubmitAdminForm(props: Props) {
           name="cardId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Номер карты:</FormLabel>
+              <FormLabel>{t("Номер карты:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -107,7 +112,7 @@ export function SubmitAdminForm(props: Props) {
           name="organizationId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Организация:</FormLabel>
+              <FormLabel>{t("Организация:")}</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={(value) => field.onChange(Number(value))}
@@ -115,7 +120,7 @@ export function SubmitAdminForm(props: Props) {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите организацию" />
+                      <SelectValue placeholder={t("Выберите организацию")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -139,7 +144,7 @@ export function SubmitAdminForm(props: Props) {
           name="role"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Роль:</FormLabel>
+              <FormLabel>{t("Роль:")}</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -147,7 +152,7 @@ export function SubmitAdminForm(props: Props) {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите роль" />
+                      <SelectValue placeholder={t("Выберите роль")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -167,7 +172,7 @@ export function SubmitAdminForm(props: Props) {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Имя пользователя:</FormLabel>
+              <FormLabel>{t("Имя пользователя:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -180,7 +185,7 @@ export function SubmitAdminForm(props: Props) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Пароль пользователя:</FormLabel>
+              <FormLabel>{t("Пароль пользователя:")}</FormLabel>
               <FormControl>
                 <PasswordInput {...field} />
               </FormControl>
@@ -193,7 +198,7 @@ export function SubmitAdminForm(props: Props) {
           name="isActive"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Активировать:</FormLabel>
+              <FormLabel>{t("Активировать:")}</FormLabel>
               <FormControl>
                 <Checkbox
                   checked={field.value}
@@ -204,7 +209,7 @@ export function SubmitAdminForm(props: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit">Создать</Button>
+        <Button type="submit">{t("Создать")}</Button>
       </form>
     </Form>
   );

@@ -1,5 +1,6 @@
 import type { Camera } from "../../camera";
 import type { CameraDto } from "../api/types";
+import { DEFAULT_CAMERA_MODELS } from "./cameraModels";
 
 export function mapCamera(dto: CameraDto): Camera {
   return {
@@ -11,5 +12,6 @@ export function mapCamera(dto: CameraDto): Camera {
     isActivated: dto.is_activated,
     pointId: dto.point_id,
     url: dto.url,
+    models: dto.models ?? DEFAULT_CAMERA_MODELS,
   };
 }

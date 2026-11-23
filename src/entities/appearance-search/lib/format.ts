@@ -1,10 +1,10 @@
+import { t } from "@/shared/i18n";
 import type {
   HitAttributes,
   SearchCamera,
   SearchHit,
   SearchResponse,
 } from "../types";
-
 export const SEARCH_BASE = "/api/search";
 
 export type ImageKind = "thumb" | "frame" | "annotated";
@@ -30,11 +30,13 @@ export function formatScore(score: number): string {
 }
 
 export function scoreBreakdown(hit: SearchHit): string {
-  const parts = [`целиком ${formatScore(hit.whole_score)}`];
+  const parts = [t("целиком {s}", { s: formatScore(hit.whole_score) })];
   if (hit.phrase_scores?.length) {
-    parts.push(`фразы ${hit.phrase_scores.map(formatScore).join(" ")}`);
+    parts.push(
+      t("фразы {s}", { s: hit.phrase_scores.map(formatScore).join(" ") }),
+    );
   }
-  if (hit.below_floor) parts.push("ниже уровня шума");
+  if (hit.below_floor) parts.push(t("ниже уровня шума"));
   return parts.join(" · ");
 }
 
@@ -63,8 +65,11 @@ export function hitPerson(hit: SearchHit): HitPerson {
     return { label: rec.person_name || rec.person_id, known: true };
   }
   if (hit.person_id) return { label: hit.person_id, known: true };
-  if (rec) return { label: "Неизвестный", known: false };
-  return { label: hit.track_id ? `трек ${hit.track_id}` : "—", known: false };
+  if (rec) return { label: t("Неизвестный"), known: false };
+  return {
+    label: hit.track_id ? t("трек {id}", { id: hit.track_id }) : "—",
+    known: false,
+  };
 }
 
 const ATTR_ORDER: [string, string?][] = [
@@ -92,12 +97,17 @@ export function attributesSummary(attrs?: HitAttributes | null): string {
 }
 
 export function statusLine(res: SearchResponse, ms: number): string {
-  const parts = [`Найдено: ${res.hits.length}`, `${Math.round(ms)} мс`];
-  if (res.notes.length) parts.push(`понято: ${res.notes.join(", ")}`);
-  if (res.phrases.length) parts.push(`фразы: ${res.phrases.join(" | ")}`);
+  const parts = [
+    t("Найдено: {n}", { n: res.hits.length }),
+    t("{ms} мс", { ms: Math.round(ms) }),
+  ];
+  if (res.notes.length)
+    parts.push(t("понято: {s}", { s: res.notes.join(", ") }));
+  if (res.phrases.length)
+    parts.push(t("фразы: {s}", { s: res.phrases.join(" | ") }));
   const cons = Object.entries(res.constraints ?? {}).map(
     ([k, v]) => `${k}=${v}`,
   );
-  if (cons.length) parts.push(`атрибуты: ${cons.join(" ")}`);
+  if (cons.length) parts.push(t("атрибуты: {s}", { s: cons.join(" ") }));
   return parts.join(" · ");
 }

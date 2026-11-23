@@ -1,14 +1,14 @@
+import { t } from "@/shared/i18n";
 import {
   formatModelAge,
   type PersonFields,
   personName,
   registeredAge,
 } from "../lib/formatPerson";
-
 export function PersonCell({ event }: { event: PersonFields }) {
   const name = personName(event);
   if (!name) {
-    return <span className="text-muted-foreground">Неизвестный</span>;
+    return <span className="text-muted-foreground">{t("Неизвестный")}</span>;
   }
   return <span className="font-medium">{name}</span>;
 }
@@ -20,12 +20,12 @@ export function AgeCell({ event }: { event: PersonFields }) {
     <div className="leading-tight">
       <div>
         {formatModelAge(event.age)}{" "}
-        <span className="text-xs text-muted-foreground">оценка</span>
+        <span className="text-xs text-muted-foreground">{t("оценка")}</span>
       </div>
       {registered && (
         <div>
           {registered}{" "}
-          <span className="text-xs text-muted-foreground">по базе</span>
+          <span className="text-xs text-muted-foreground">{t("по базе")}</span>
         </div>
       )}
     </div>

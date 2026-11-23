@@ -5,8 +5,8 @@ import {
   type PointValues,
   SubmitPointForm,
 } from "@/features/point/submit";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function EditPointPage() {
   const { id } = useParams({ strict: false });
   const [updatePoint, { isSuccess }] = useUpdatePointMutation();
@@ -31,7 +31,7 @@ export function EditPointPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Изменить точку</CardTitle>
+          <CardTitle>{t("Изменить точку")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isPointSuccess && (

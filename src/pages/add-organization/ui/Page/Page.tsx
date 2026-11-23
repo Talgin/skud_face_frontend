@@ -3,9 +3,10 @@ import {
   type OrganizationValues,
   SubmitOrganizationForm,
 } from "@/features/organizations/submitForm";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-const successMessage = "Организация успешно создана!";
+const successMessage = t("Организация успешно создана!");
 
 export function AddOrganizationPage() {
   const [createOrganization, { isLoading, isSuccess }] =
@@ -24,7 +25,7 @@ export function AddOrganizationPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Добавить организации</CardTitle>
+          <CardTitle>{t("Добавить организацию")}</CardTitle>
         </CardHeader>
         <CardContent>
           <SubmitOrganizationForm

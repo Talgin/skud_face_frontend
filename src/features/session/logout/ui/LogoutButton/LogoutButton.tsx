@@ -1,6 +1,7 @@
 import { useRouter } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
 import React from "react";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { useAppDispatch } from "@/shared/model";
 import { Button } from "@/shared/ui/button";
@@ -36,7 +37,7 @@ export const LogoutButton = React.forwardRef(
             isOpen === false ? "opacity-0 hidden" : "opacity-100",
           )}
         >
-          Выйти
+          {t("Выйти")}
         </p>
       </Button>
     );

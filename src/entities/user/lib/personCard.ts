@@ -1,8 +1,8 @@
 import { format } from "date-fns";
+import { t } from "@/shared/i18n";
 import type { User } from "../model/types";
-
 export function genderLabel(gender: User["gender"]): string {
-  return gender === "male" ? "мужчина" : "женщина";
+  return gender === "male" ? t("мужчина") : t("женщина");
 }
 
 // "мужчина · 01.09.1990"

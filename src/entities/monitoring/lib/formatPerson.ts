@@ -1,3 +1,4 @@
+import { getLang, t } from "@/shared/i18n";
 // Formatting of who was seen: the model's estimates (age, gender) for every face and,
 // for a match against «База лиц», the person's registered details.
 
@@ -17,6 +18,8 @@ export function yearsLabel(years: number): string {
   const n = Math.abs(Math.trunc(years));
   const lastTwo = n % 100;
   const last = n % 10;
+  if (getLang() === "en") return n === 1 ? `${n} year` : `${n} years`;
+  if (getLang() === "kk") return `${n} жас`;
   if (lastTwo >= 11 && lastTwo <= 14) return `${n} лет`;
   if (last === 1) return `${n} год`;
   if (last >= 2 && last <= 4) return `${n} года`;
@@ -30,8 +33,8 @@ export function formatModelAge(age?: number | null): string {
 }
 
 export function formatGender(gender?: string | null): string {
-  if (gender === "male") return "мужчина";
-  if (gender === "female") return "женщина";
+  if (gender === "male") return t("мужчина");
+  if (gender === "female") return t("женщина");
   return DASH;
 }
 

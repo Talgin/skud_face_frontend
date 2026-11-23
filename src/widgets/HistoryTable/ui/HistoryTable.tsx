@@ -13,6 +13,7 @@ import {
   type HistoryFilters,
   useGetHistoryQuery,
 } from "@/entities/monitoring";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { DateFilter } from "@/shared/ui/date-filter";
 import { Slider } from "@/shared/ui/slider";
@@ -26,7 +27,6 @@ import {
 } from "@/shared/ui/table";
 import { DataTablePagination } from "@/widgets/DataTable/ui/DataTablePagination";
 import { historyColumns } from "./columns";
-
 export function HistoryTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -75,15 +75,17 @@ export function HistoryTable() {
   }, [filters]);
 
   useEffect(() => {
-    const t = setTimeout(() => {
+    const timer = setTimeout(() => {
       setFilters((f) => ({ ...f, minSimilarity: minSimValue }));
     }, 400);
-    return () => clearTimeout(t);
+    return () => clearTimeout(timer);
   }, [minSimValue]);
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4 ml-4">История мониторинга</h2>
+      <h2 className="text-xl font-bold mb-4 ml-4">
+        {t("История мониторинга")}
+      </h2>
 
       <div className="mb-2">
         <div className="flex flex-wrap gap-4 items-end">
@@ -92,7 +94,7 @@ export function HistoryTable() {
               className="text-xs text-muted-foreground mb-1"
               htmlFor="start_date"
             >
-              Начало
+              {t("Начало")}
             </label>
             <DateFilter
               value={filters.startDate}
@@ -105,7 +107,7 @@ export function HistoryTable() {
               className="text-xs text-muted-foreground mb-1"
               htmlFor="end_date"
             >
-              Конец
+              {t("Конец")}
             </label>
             <DateFilter
               value={filters.endDate}
@@ -118,11 +120,11 @@ export function HistoryTable() {
               className="text-xs text-muted-foreground mb-1"
               htmlFor="min_similarity"
             >
-              Мин. сходство:{" "}
+              {t("Мин. сходство:")}{" "}
               <span className="font-medium">
                 {minSimValue > 0
                   ? `${(minSimValue * 100).toFixed(0)}%`
-                  : "не задано"}
+                  : t("не задано")}
               </span>
             </label>
             <Slider
@@ -133,7 +135,7 @@ export function HistoryTable() {
               max={1}
               step={0.01}
               className="mt-2"
-              aria-label="Минимальная похожесть"
+              aria-label={t("Минимальная похожесть")}
             />
             <div className="flex justify-between text-xs text-muted-foreground mt-1">
               <span>0%</span>
@@ -146,7 +148,7 @@ export function HistoryTable() {
               className="text-xs text-muted-foreground mb-1"
               htmlFor="gender"
             >
-              Пол
+              {t("Пол")}
             </label>
             <select
               id="gender"
@@ -156,24 +158,26 @@ export function HistoryTable() {
               }
               className="border rounded p-1 text-sm"
             >
-              <option value="">Все</option>
-              <option value="male">Мужской</option>
-              <option value="female">Женский</option>
+              <option value="">{t("Все")}</option>
+              <option value="male">{t("Мужской")}</option>
+              <option value="female">{t("Женский")}</option>
             </select>
           </div>
 
           {hasFilters && (
             <Button variant="outline" size="sm" onClick={resetFilters}>
-              Сбросить
+              {t("Сбросить")}
             </Button>
           )}
           <span className="text-sm text-muted-foreground">
-            {isFetching ? "Загрузка…" : `Найдено: ${data?.total_records ?? 0}`}
+            {isFetching
+              ? t("Загрузка…")
+              : t("Найдено: {n}", { n: data?.total_records ?? 0 })}
           </span>
         </div>
       </div>
 
-      <div className="overflow-auto rounded-md border">
+      <div className="overflow-auto rounded-xl border bg-card shadow-sm">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -236,7 +240,7 @@ export function HistoryTable() {
                   colSpan={historyColumns.length}
                   className="text-center h-24"
                 >
-                  {isFetching ? "Загрузка..." : "Нет данных"}
+                  {isFetching ? t("Загрузка...") : t("Нет данных")}
                 </TableCell>
               </TableRow>
             )}

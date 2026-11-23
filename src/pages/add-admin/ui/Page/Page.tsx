@@ -1,7 +1,7 @@
 import { useCreateAdminMutation } from "@/entities/admins";
 import { type AdminValues, SubmitAdminForm } from "@/features/admin/submit";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function AddAdminPage() {
   const [createAdmin, { isSuccess }] = useCreateAdminMutation();
 
@@ -22,7 +22,7 @@ export function AddAdminPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Добавить админ</CardTitle>
+          <CardTitle>{t("Добавить админа")}</CardTitle>
         </CardHeader>
         <CardContent>
           <SubmitAdminForm onSubmit={onSubmit} isSuccess={isSuccess} />

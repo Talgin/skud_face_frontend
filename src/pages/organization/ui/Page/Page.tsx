@@ -4,10 +4,10 @@ import {
   organizationTableColumns,
   useOrganizationsQuery,
 } from "@/entities/organization";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { TableSkeleton } from "@/shared/ui/table-skeleton";
 import { DataTable } from "@/widgets/DataTable";
-
 export function OrganizationPage() {
   const navigate = useNavigate();
   const { data: organizations, isLoading } = useOrganizationsQuery();
@@ -30,7 +30,7 @@ export function OrganizationPage() {
           )}
           <div className="mt-4">
             <Button className="float-right" onClick={handleAddButtonClick}>
-              <CirclePlus className="mr-2" /> Добавить
+              <CirclePlus className="mr-2" /> {t("Добавить")}
             </Button>
           </div>
         </>

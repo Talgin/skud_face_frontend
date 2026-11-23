@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { t } from "@/shared/i18n";
+
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/jpg",
@@ -9,20 +11,20 @@ const ACCEPTED_IMAGE_TYPES = [
 
 const fileSchema = z
   .any()
-  .refine((file) => file, "Загрузите фото")
+  .refine((file) => file, t("Загрузите фото"))
   .refine(
     (file) => file && !ACCEPTED_IMAGE_TYPES.includes(file.type),
-    "Неверный формат файла (допустимы: JPEG, PNG, WEBP)",
+    t("Неверный формат файла (допустимы: JPEG, PNG, WEBP)"),
   );
 
 export const userFormSchema = z.object({
-  name: z.string({ required_error: "Имя обязательно" }),
-  surname: z.string({ required_error: "Фамилия обязательна" }),
-  cardId: z.string({ required_error: "ID карты обязателен" }),
+  name: z.string({ required_error: t("Имя обязательно") }),
+  surname: z.string({ required_error: t("Фамилия обязательна") }),
+  cardId: z.string({ required_error: t("ID карты обязателен") }),
   gender: z.union([z.literal("male"), z.literal("female")], {
-    errorMap: () => ({ message: "Выберите пол" }),
+    errorMap: () => ({ message: t("Выберите пол") }),
   }),
-  birthDate: z.date({ required_error: "Дата рождения обязательна" }),
+  birthDate: z.date({ required_error: t("Дата рождения обязательна") }),
   photo: fileSchema,
 });
 

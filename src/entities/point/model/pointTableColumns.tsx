@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { useDeletePointMutation } from "@/entities/point";
 import { tablePermissions } from "@/entities/role";
+import { t } from "@/shared/i18n";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { Point } from "./types";
 
@@ -9,19 +10,19 @@ const EDIT_ROUTE = "/point/edit";
 export const pointTableColumns: ColumnDef<Point>[] = [
   {
     accessorKey: "id",
-    header: () => <span>Идентификатор</span>,
+    header: () => <span>{t("Идентификатор")}</span>,
   },
   {
     accessorKey: "name",
-    header: () => <span>Название</span>,
+    header: () => <span>{t("Название")}</span>,
   },
   {
     accessorKey: "address",
-    header: () => <span>Адрес</span>,
+    header: () => <span>{t("Адрес")}</span>,
   },
   {
     accessorKey: "cameraId",
-    header: () => <span>Камера</span>,
+    header: () => <span>{t("Камера")}</span>,
   },
   {
     id: "actions",

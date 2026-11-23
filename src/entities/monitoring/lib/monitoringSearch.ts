@@ -1,11 +1,11 @@
+import { t } from "@/shared/i18n";
 import { type PersonFields, personName } from "./formatPerson";
-
 export interface SearchableEvent extends PersonFields {
   camera_id?: number | string | null;
   camera_host?: string | null;
 }
 
-export const UNKNOWN_LABEL = "Неизвестный";
+export const UNKNOWN_LABEL = t("Неизвестный");
 
 function normalize(text: string): string {
   return text.toLowerCase().replace(/ё/g, "е").trim();
@@ -17,7 +17,9 @@ export function matchesMonitoringSearch(
   event: SearchableEvent,
   query: string,
 ): boolean {
-  const words = normalize(query ?? "").split(/\s+/).filter(Boolean);
+  const words = normalize(query ?? "")
+    .split(/\s+/)
+    .filter(Boolean);
   if (!words.length) return true;
   const haystack = normalize(
     [

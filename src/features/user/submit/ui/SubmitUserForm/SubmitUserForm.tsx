@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { ru } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import type { User } from "@/entities/user/model/types";
+import { dateLocale, t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import type { SubmitFormProps } from "@/shared/types";
 import { Button } from "@/shared/ui/button";
@@ -58,9 +58,14 @@ export function SubmitUserForm(props: Props) {
 
   return props.isSuccess ? (
     <div>
-      <p>{props.isEditing ? "Данные человека обновлены" : "Человек добавлен в базу лиц"}!</p>
+      <p>
+        {props.isEditing
+          ? t("Данные человека обновлены")
+          : t("Человек добавлен в базу лиц")}
+        !
+      </p>
       <Button className="mt-4" onClick={onNavigate}>
-        Все люди в базе
+        {t("Все люди в базе")}
       </Button>
     </div>
   ) : (
@@ -71,7 +76,7 @@ export function SubmitUserForm(props: Props) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Имя:</FormLabel>
+              <FormLabel>{t("Имя:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -84,7 +89,7 @@ export function SubmitUserForm(props: Props) {
           name="surname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Фамилия:</FormLabel>
+              <FormLabel>{t("Фамилия:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -97,7 +102,7 @@ export function SubmitUserForm(props: Props) {
           name="cardId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Номер карты:</FormLabel>
+              <FormLabel>{t("Номер карты:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -110,16 +115,16 @@ export function SubmitUserForm(props: Props) {
           name="gender"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Выберите пол:</FormLabel>
+              <FormLabel>{t("Выберите пол:")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Выберите пол:" />
+                    <SelectValue placeholder={t("Выберите пол:")} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="male">Мужчина</SelectItem>
-                  <SelectItem value="female">Женщина</SelectItem>
+                  <SelectItem value="male">{t("Мужчина")}</SelectItem>
+                  <SelectItem value="female">{t("Женщина")}</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -131,7 +136,7 @@ export function SubmitUserForm(props: Props) {
           name="birthDate"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Дата рождения:</FormLabel>
+              <FormLabel>{t("Дата рождения:")}</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -144,10 +149,10 @@ export function SubmitUserForm(props: Props) {
                     >
                       {field.value ? (
                         format(field.value, "PPP", {
-                          locale: ru,
+                          locale: dateLocale(),
                         })
                       ) : (
-                        <span>Выбериите дату</span>
+                        <span>{t("Выберите дату")}</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -158,7 +163,7 @@ export function SubmitUserForm(props: Props) {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    locale={ru}
+                    locale={dateLocale()}
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
                     }
@@ -176,7 +181,7 @@ export function SubmitUserForm(props: Props) {
         {props.isEditing && props.defaultValues?.facePhotoUrl ? (
           <img
             src={props.defaultValues.facePhotoUrl}
-            alt="User Edited"
+            alt={t("Фото")}
             className="h-32 w-32 rounded object-cover"
           />
         ) : null}
@@ -186,7 +191,7 @@ export function SubmitUserForm(props: Props) {
           render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Фото:</FormLabel>
+                <FormLabel>{t("Фото:")}</FormLabel>
                 <FormControl>
                   <Input
                     type="file"
@@ -209,7 +214,7 @@ export function SubmitUserForm(props: Props) {
             name="isActive"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Активировать:</FormLabel>
+                <FormLabel>{t("Активировать:")}</FormLabel>
                 <FormControl>
                   <Checkbox
                     checked={field.value}
@@ -221,7 +226,7 @@ export function SubmitUserForm(props: Props) {
             )}
           />
         ) : null}
-        <Button type="submit">Создать</Button>
+        <Button type="submit">{t("Создать")}</Button>
       </form>
     </Form>
   );

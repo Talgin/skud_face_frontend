@@ -11,8 +11,10 @@ import {
 } from "@/entities/monitoring";
 import { Can } from "@/entities/role";
 import { currentUsername } from "@/entities/session";
+import { intlLocale, t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { EvidenceImage } from "@/shared/ui/evidence-image";
 
 function renderSimilarity(value?: number | null, isKnown?: boolean | null) {
   const { text, className } = formatSimilarity(value, isKnown);
@@ -34,11 +36,11 @@ export function MonitoringDetails() {
       <div className="p-6 space-y-4">
         <Card>
           <CardHeader>
-            <CardTitle>Событие не найдено</CardTitle>
+            <CardTitle>{t("Событие не найдено")}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Проверьте ссылку или вернитесь на список мониторинга.
+              {t("Проверьте ссылку или вернитесь на список мониторинга.")}
             </p>
           </CardContent>
         </Card>
@@ -53,26 +55,26 @@ export function MonitoringDetails() {
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="overflow-hidden">
           <CardHeader>
-            <CardTitle>Crop image</CardTitle>
+            <CardTitle>{t("Кадр лица")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <img
-              src={event.crop_image_url}
+            <EvidenceImage
+              url={event.crop_image_url}
               alt="crop"
-              className="w-full max-h-[420px] object-contain rounded-lg border"
+              className="w-full min-h-40 max-h-[420px] object-contain rounded-lg border"
             />
           </CardContent>
         </Card>
 
         <Card className="overflow-hidden">
           <CardHeader>
-            <CardTitle>Full frame</CardTitle>
+            <CardTitle>{t("Полный кадр")}</CardTitle>
           </CardHeader>
           <CardContent>
-            <img
-              src={event.frame_image_url ?? ""}
+            <EvidenceImage
+              url={event.frame_image_url}
               alt="frame"
-              className="w-full max-h-[420px] object-contain rounded-lg border"
+              className="w-full min-h-40 max-h-[420px] object-contain rounded-lg border"
             />
           </CardContent>
         </Card>
@@ -80,7 +82,7 @@ export function MonitoringDetails() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Информация</CardTitle>
+          <CardTitle>{t("Информация")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -89,35 +91,43 @@ export function MonitoringDetails() {
               <div className="font-medium break-all">{event.event_id}</div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Камера</div>
+              <div className="text-xs text-muted-foreground">{t("Камера")}</div>
               <div className="font-medium">{cameraStr}</div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Человек</div>
+              <div className="text-xs text-muted-foreground">
+                {t("Человек")}
+              </div>
               <div className="text-lg">
                 <PersonCell event={event} />
               </div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Пол</div>
+              <div className="text-xs text-muted-foreground">{t("Пол")}</div>
               <div className="font-medium">{formatGender(event.gender)}</div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Возраст</div>
+              <div className="text-xs text-muted-foreground">
+                {t("Возраст")}
+              </div>
               <div className="font-medium">
                 <AgeCell event={event} />
               </div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Сходство</div>
+              <div className="text-xs text-muted-foreground">
+                {t("Сходство")}
+              </div>
               <div className="text-4xl font-bold">
                 {renderSimilarity(event.recognition_confidence, event.is_known)}
               </div>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">Дата/время</div>
+              <div className="text-xs text-muted-foreground">
+                {t("Дата/время")}
+              </div>
               <div className="font-medium">
-                {new Date(event.datetime).toLocaleString()}
+                {new Date(event.datetime).toLocaleString(intlLocale())}
               </div>
             </div>
           </div>
@@ -129,7 +139,7 @@ export function MonitoringDetails() {
           variant="outline"
           onClick={() => navigate({ to: "/monitoring" })}
         >
-          ← Назад
+          {t("← Назад")}
         </Button>
         <Can req={{ anyOf: ["monitoring-approve", "monitoring-reject"] }}>
           <Button
@@ -144,7 +154,7 @@ export function MonitoringDetails() {
             }}
             disabled={approving}
           >
-            ✅ Подтвердить
+            {t("✅ Подтвердить")}
           </Button>
           <Button
             variant="destructive"
@@ -158,7 +168,7 @@ export function MonitoringDetails() {
             }}
             disabled={approving}
           >
-            🛑 Отклонить
+            {t("🛑 Отклонить")}
           </Button>
         </Can>
       </div>

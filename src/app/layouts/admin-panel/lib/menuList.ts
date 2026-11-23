@@ -4,12 +4,15 @@ import {
   LayoutGrid,
   type LucideIcon,
   MapPin,
+  MessageSquare,
   Monitor,
   Settings,
   UserCog,
   Users,
 } from "lucide-react";
 import { type AccessReq, can, type Roles } from "@/entities/role";
+
+import { t } from "@/shared/i18n";
 
 type Submenu = {
   href: string;
@@ -55,7 +58,7 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
       menus: [
         {
           href: "/",
-          label: "Мониторинг",
+          label: t("Мониторинг"),
           icon: Monitor,
           required: {
             anyOf: [
@@ -66,124 +69,136 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
           },
           submenus: [
             {
+              href: "/monitoring/journal",
+              label: t("Журнал видеоаналитики"),
+              required: { anyOf: ["monitoring.view"] },
+            },
+            {
               href: "/monitoring",
-              label: "Мониторинг",
+              label: t("Мониторинг"),
               required: { anyOf: ["monitoring.view"] },
             },
             {
               href: "/monitoring/history",
-              label: "История",
+              label: t("История"),
               required: { anyOf: ["monitoring-history.view"] },
             },
             {
               href: "/monitoring/search",
-              label: "Поиск по внешности",
+              label: t("Поиск по внешности"),
               required: { anyOf: ["search.view"] },
             },
           ],
         },
         {
+          href: "/chat",
+          label: t("Ассистент"),
+          icon: MessageSquare,
+          required: { anyOf: ["chat.use"] },
+          submenus: [],
+        },
+        {
           href: "/dashboard",
-          label: "Дашборд",
+          label: t("Дашборд"),
           icon: LayoutGrid,
           submenus: [],
         },
       ],
     },
     {
-      groupLabel: "Формы",
+      groupLabel: t("Формы"),
       menus: [
         {
           href: "",
-          label: "Организации",
+          label: t("Организации"),
           icon: Building,
           required: { anyOf: ["org.view", "org.create"] },
           submenus: [
             {
               href: "/organization",
-              label: "Все организации",
+              label: t("Все организации"),
               required: { anyOf: ["org.view"] },
             },
             {
               href: "/organization/add",
-              label: "Добавить",
+              label: t("Добавить"),
               required: { anyOf: ["org.create"] },
             },
           ],
         },
         {
           href: "",
-          label: "Админы",
+          label: t("Админы"),
           icon: UserCog,
           required: { anyOf: ["admin.view", "admin.create"] },
           submenus: [
             {
               href: "/admin",
-              label: "Все админы",
+              label: t("Все админы"),
               required: { anyOf: ["admin.view"] },
             },
             {
               href: "/admin/add",
-              label: "Добавить",
+              label: t("Добавить"),
               required: { anyOf: ["admin.create"] },
             },
           ],
         },
         {
           href: "/",
-          label: "База лиц",
+          label: t("База лиц"),
           icon: Users,
           required: { anyOf: ["user.view", "user.create", "user.batchCreate"] },
           submenus: [
             {
               href: "/faces",
-              label: "Все люди в базе",
+              label: t("Все люди в базе"),
               required: { anyOf: ["user.view"] },
             },
             {
               href: "/faces/add",
-              label: "Добавить человека",
+              label: t("Добавить человека"),
               required: { anyOf: ["user.create"] },
             },
             {
               href: "/faces/import",
-              label: "Импорт из Excel",
+              label: t("Импорт из Excel"),
               required: { anyOf: ["user.batchCreate"] },
             },
           ],
         },
         {
           href: "/point",
-          label: "Точки",
+          label: t("Точки"),
           icon: MapPin,
           required: { anyOf: ["point.view", "point.create"] },
           submenus: [
             {
               href: "/point",
-              label: "Все точки",
+              label: t("Все точки"),
               required: { anyOf: ["point.view"] },
             },
             {
               href: "/point/add",
-              label: "Добавить точку",
+              label: t("Добавить точку"),
               required: { anyOf: ["point.create"] },
             },
           ],
         },
         {
           href: "/camera",
-          label: "Камеры",
+          label: t("Камеры"),
           icon: Camera,
           required: { anyOf: ["camera.view", "camera.create"] },
           submenus: [
             {
               href: "/camera",
-              label: "Все камеры",
+              label: t("Все камеры"),
               required: { anyOf: ["camera.view"] },
             },
             {
               href: "/camera/add",
-              label: "Добавить камеру",
+              label: t("Добавить камеру"),
               required: { anyOf: ["camera.create"] },
             },
           ],
@@ -195,7 +210,7 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
       menus: [
         {
           href: "/profile",
-          label: "Личный кабинет",
+          label: t("Личный кабинет"),
           icon: Settings,
         },
       ],

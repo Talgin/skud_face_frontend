@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 import { useCreateUserMutation } from "@/entities/user";
 import { type CreateValues, SubmitUserForm } from "@/features/user/submit";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function AddUserPage() {
   const [createUser, { isSuccess }] = useCreateUserMutation();
 
@@ -27,7 +27,7 @@ export function AddUserPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Добавить человека в базу лиц</CardTitle>
+          <CardTitle>{t("Добавить человека в базу лиц")}</CardTitle>
         </CardHeader>
         <CardContent>
           {/* TODO: пофиксить */

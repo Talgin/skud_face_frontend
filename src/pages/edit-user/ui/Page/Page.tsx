@@ -2,8 +2,8 @@ import { useParams } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { useUpdateUserMutation, useUserQuery } from "@/entities/user";
 import { SubmitUserForm, type UserValues } from "@/features/user/submit";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function EditUserPage() {
   const { id } = useParams({ strict: false });
   const userId = parseInt(id ?? "");
@@ -37,7 +37,7 @@ export function EditUserPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Изменить данные человека</CardTitle>
+          <CardTitle>{t("Изменить данные человека")}</CardTitle>
         </CardHeader>
         <CardContent>
           {isUserSuccess && (
