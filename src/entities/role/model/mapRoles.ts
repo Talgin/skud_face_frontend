@@ -33,13 +33,13 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
     "camera.update",
     "camera.delete",
   ],
+  // the SKUD backend lets only super admins read organizations and cameras (rolePermissions.test.ts)
   [Roles.ADMIN]: [
     "monitoring.view",
     "monitoring-history.view",
     "search.view",
     "chat.use",
     "dashboard.view",
-    "org.view",
     "admin.view",
     "user.view",
     "user.create",
@@ -50,10 +50,6 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
     "point.create",
     "point.update",
     "point.delete",
-    "camera.view",
-    "camera.create",
-    "camera.update",
-    "camera.delete",
   ],
   [Roles.OPERATOR]: [
     "monitoring.view",
@@ -64,8 +60,6 @@ export const rolePermissions: Record<Roles, ReadonlyArray<Permission>> = {
     "dashboard.view",
     "monitoring-approve",
     "monitoring-reject",
-    "point.view",
-    "camera.view",
     "user.view",
   ],
   [Roles.REGISTRAR]: [

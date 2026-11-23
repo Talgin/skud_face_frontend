@@ -101,6 +101,7 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
           href: "/dashboard",
           label: t("Дашборд"),
           icon: LayoutGrid,
+          required: { anyOf: ["dashboard.view"] },
           submenus: [],
         },
       ],
