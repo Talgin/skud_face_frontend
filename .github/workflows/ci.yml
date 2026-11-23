@@ -1,0 +1,30 @@
+# Required check for merging into main (branch protection: "tests").
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Lint
+        run: npx biome lint src
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Tests
+        run: npx vitest run
+      - name: Production build
+        run: npm run build
+        env:
+          PUBLIC_API_BASE_URL: /api/v1
