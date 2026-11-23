@@ -7,8 +7,8 @@ import {
   useGetSearchSettingsQuery,
   useSetPipelineModesMutation,
 } from "@/entities/appearance-search";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
-
 // Pipeline modes of the indexer (PUT /settings) and its health.
 export function ModesPanel({ editable }: { editable: boolean }) {
   const { data: settings } = useGetSearchSettingsQuery();
@@ -48,16 +48,20 @@ export function ModesPanel({ editable }: { editable: boolean }) {
         );
       })}
       {health && (
-        <span title="строк в индексе · очередь индексатора">
-          в индексе: {health.rows ?? "?"}
+        <span title={t("строк в индексе · очередь индексатора")}>
+          {t("в индексе: {n}", { n: health.rows ?? "?" })}
           {face && typeof face.undelivered === "number" && face.undelivered > 0
-            ? ` · в очереди: ${face.undelivered}`
+            ? ` · ${t("в очереди: {n}", { n: face.undelivered })}`
             : ""}
-          {health.attributes ? ` · с атрибутами: ${health.attributes}` : ""}
+          {health.attributes
+            ? ` · ${t("с атрибутами: {n}", { n: health.attributes })}`
+            : ""}
         </span>
       )}
       {health && health.status !== "ok" && (
-        <span className="text-red-600">сервис поиска: {health.status}</span>
+        <span className="text-red-600">
+          {t("сервис поиска: {s}", { s: health.status })}
+        </span>
       )}
     </div>
   );

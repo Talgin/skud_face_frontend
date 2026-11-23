@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { type JournalEvent, journalImageUrl, lookOf } from "@/entities/journal";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { EvidenceImage } from "@/shared/ui/evidence-image";
 
@@ -39,7 +40,7 @@ export function EventCard({ event, cameraName, token, fresh, onOpen }: Props) {
         </span>
         {event.violation && (
           <span className="absolute right-2 top-2 rounded bg-red-600 px-2 py-0.5 text-[11px] font-medium text-white">
-            Нарушение
+            {t("Нарушение")}
           </span>
         )}
       </div>

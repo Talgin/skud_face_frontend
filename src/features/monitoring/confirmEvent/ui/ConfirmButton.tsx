@@ -1,5 +1,6 @@
 import { useApproveEventMutation } from "@/entities/monitoring";
 import { currentUsername } from "@/entities/session";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 
 interface ConfirmButtonProps {
@@ -21,7 +22,7 @@ export function ConfirmButton({ eventId }: ConfirmButtonProps) {
       onClick={handleConfirm}
       disabled={isLoading}
     >
-      ✅ Подтвердить
+      {t("✅ Подтвердить")}
     </Button>
   );
 }

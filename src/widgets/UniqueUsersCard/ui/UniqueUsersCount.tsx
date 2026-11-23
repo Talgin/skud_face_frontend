@@ -14,6 +14,7 @@ import {
 import { CalendarDays, Filter } from "lucide-react";
 import React from "react";
 import { useGetUniqueCountQuery } from "@/entities/monitoring";
+import { intlLocale, t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { Button } from "@/shared/ui/button";
 import { Calendar } from "@/shared/ui/calendar";
@@ -47,12 +48,12 @@ const presetLabel = (p: Preset) =>
   p === "all"
     ? "All Time"
     : p === "today"
-      ? "Сегодня"
+      ? t("Сегодня")
       : p === "week"
-        ? "За неделю"
+        ? t("За неделю")
         : p === "month"
-          ? "За месяц"
-          : "Диапазон";
+          ? t("За месяц")
+          : t("Диапазон");
 
 export function UniqueUsersCard() {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
@@ -93,14 +94,14 @@ export function UniqueUsersCard() {
                 <CalendarDays className="h-4 w-4 text-white" />
               </span>
               <CardTitle className="text-white font-medium text-base">
-                Уникальные пользователи
+                {t("Уникальные пользователи")}
               </CardTitle>
             </div>
             <CardDescription className="text-white/75 font-normal text-xs pb-1 pl-10">
-              Количество за{" "}
+              {t("Количество за")}{" "}
               <span className="font-semibold">
                 {preset === "custom" && range.from && range.to
-                  ? ` ${range.from.toLocaleDateString()} — ${range.to.toLocaleDateString()}`
+                  ? ` ${range.from.toLocaleDateString(intlLocale())} — ${range.to.toLocaleDateString(intlLocale())}`
                   : ` ${presetLabel(preset)}`}
               </span>
             </CardDescription>
@@ -112,7 +113,7 @@ export function UniqueUsersCard() {
                 variant="secondary"
                 className="bg-white/20 hover:bg-white/30  text-white border-0"
               >
-                <Filter className="mr-2 h-4 w-4" /> Фильтр
+                <Filter className="mr-2 h-4 w-4" /> {t("Фильтр")}
               </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -145,7 +146,7 @@ export function UniqueUsersCard() {
                           preset === "today" ? "" : "bg-transparent col-span-2"
                         }
                       >
-                        Сегодня
+                        {t("Сегодня")}
                       </Button>
                     </ToggleGroupItem>
                     <ToggleGroupItem asChild value="week">
@@ -159,7 +160,7 @@ export function UniqueUsersCard() {
                           preset === "week" ? "" : "bg-transparent col-span-2"
                         }
                       >
-                        Неделя
+                        {t("Неделя")}
                       </Button>
                     </ToggleGroupItem>
                     <ToggleGroupItem asChild value="month">
@@ -173,7 +174,7 @@ export function UniqueUsersCard() {
                           preset === "month" ? "" : "bg-transparent col-span-2"
                         }
                       >
-                        Месяц
+                        {t("Месяц")}
                       </Button>
                     </ToggleGroupItem>
                   </ToggleGroup>
@@ -184,7 +185,7 @@ export function UniqueUsersCard() {
                       preset === "custom" ? "" : "bg-transparent col-span-2"
                     }
                   >
-                    Произвольный диапазон
+                    {t("Произвольный диапазон")}
                   </Button>
                 </div>
 
@@ -215,7 +216,7 @@ export function UniqueUsersCard() {
                     />
                     <div className="flex justify-end gap-2">
                       <Button variant="ghost" onClick={() => setRange({})}>
-                        Сброс
+                        {t("Сброс")}
                       </Button>
                     </div>
                   </div>
@@ -238,7 +239,7 @@ export function UniqueUsersCard() {
 
           <div className="mt-3 text-white/80 text-sm">
             {preset === "custom" && range.from && range.to
-              ? `${range.from.toLocaleDateString()} — ${range.to.toLocaleDateString()}`
+              ? `${range.from.toLocaleDateString(intlLocale())} — ${range.to.toLocaleDateString(intlLocale())}`
               : presetLabel(preset)}
           </div>
         </CardContent>

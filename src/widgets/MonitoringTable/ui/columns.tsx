@@ -10,8 +10,8 @@ import {
 } from "@/entities/monitoring";
 import { ConfirmButton } from "@/features/monitoring/confirmEvent";
 import { RejectButton } from "@/features/monitoring/rejectEvent";
+import { t } from "@/shared/i18n";
 import { EvidenceImage } from "@/shared/ui/evidence-image";
-
 /*
 {
 'id': '76a8bc7c-bfdd-43a1-ac6d-c9748ebea969',
@@ -48,7 +48,7 @@ export const getMonitoringColumns: (
   const columns: ColumnDef<MonitoringEventRaw>[] = [
     {
       accessorKey: "crop_image_url",
-      header: "Image",
+      header: t("Фото"),
       cell: ({ row }) => {
         return (
           <EvidenceImage
@@ -62,7 +62,7 @@ export const getMonitoringColumns: (
     },
     {
       accessorKey: "frame_image_url",
-      header: "Frame Image",
+      header: t("Кадр"),
       cell: ({ row }) => {
         return (
           <EvidenceImage
@@ -76,30 +76,30 @@ export const getMonitoringColumns: (
     },
     {
       accessorKey: "camera",
-      header: "Камера",
+      header: t("Камера"),
       cell: ({ row }) => {
-        const room = `Камера ${row.original.camera_host}:${row.original.camera_id}`;
+        const room = `${t("Камера")} ${row.original.camera_host}:${row.original.camera_id}`;
         return <>{room}</>;
       },
     },
     {
       id: "person",
-      header: "Человек",
+      header: t("Человек"),
       cell: ({ row }) => <PersonCell event={row.original} />,
     },
     {
       accessorKey: "gender",
-      header: "Пол",
+      header: t("Пол"),
       cell: ({ getValue }) => formatGender(getValue<string | null>()),
     },
     {
       accessorKey: "age",
-      header: "Возраст",
+      header: t("Возраст"),
       cell: ({ row }) => <AgeCell event={row.original} />,
     },
     {
       accessorKey: "recognition_confidence",
-      header: "Сходство",
+      header: t("Сходство"),
       cell: ({ row }) => {
         const { text, className } = formatSimilarity(
           row.original.recognition_confidence,
@@ -111,7 +111,7 @@ export const getMonitoringColumns: (
     },
     {
       accessorKey: "datetime",
-      header: "Время",
+      header: t("Время"),
       cell: ({ getValue }) => {
         const iso = getValue<string>();
         const date = new Date(iso);
@@ -124,7 +124,7 @@ export const getMonitoringColumns: (
   if (canActions) {
     columns.push({
       id: "actions",
-      header: "Действия",
+      header: t("Действия"),
       cell: ({ row }) => {
         const event = row.original;
 

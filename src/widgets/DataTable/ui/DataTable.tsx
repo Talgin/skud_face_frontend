@@ -13,7 +13,7 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import * as React from "react";
-
+import { t } from "@/shared/i18n";
 import {
   Table,
   TableBody,
@@ -22,7 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/ui/table";
-
 import { DataTablePagination } from "./DataTablePagination";
 
 interface DataTableProps<TData, TValue> {
@@ -109,7 +108,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Пусто.
+                  {t("Пусто.")}
                 </TableCell>
               </TableRow>
             )}

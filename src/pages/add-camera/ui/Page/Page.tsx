@@ -4,8 +4,8 @@ import {
   parseDateToString,
   SubmitCameraForm,
 } from "@/features/camera/submit";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function AddCameraPage() {
   const [createCamera, { isSuccess }] = useCreateCameraMutation();
 
@@ -24,7 +24,7 @@ export function AddCameraPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Добавить камеру</CardTitle>
+          <CardTitle>{t("Добавить камеру")}</CardTitle>
         </CardHeader>
         <CardContent>
           <SubmitCameraForm onSubmit={onSubmit} isSuccess={isSuccess} />

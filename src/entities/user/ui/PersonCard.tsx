@@ -1,5 +1,6 @@
 import { ScanFace } from "lucide-react";
 import { tablePermissions } from "@/entities/role";
+import { t } from "@/shared/i18n";
 import { Card, CardContent } from "@/shared/ui/card";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import { useDeleteUserMutation } from "../api/userApi";
@@ -25,7 +26,7 @@ export function PersonCard({ user }: { user: User }) {
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-4 text-center text-muted-foreground">
             <ScanFace className="h-12 w-12" />
             <span className="text-sm">
-              Лицо не добавлено в базу — загрузите фото крупнее
+              {t("Лицо не добавлено в базу — загрузите фото крупнее")}
             </span>
           </div>
         )}
@@ -55,7 +56,7 @@ export function PersonCard({ user }: { user: User }) {
           <span
             className={`h-2 w-2 rounded-full ${user.isActive ? "bg-green-600" : "bg-muted-foreground"}`}
           />
-          {user.isActive ? "активен" : "неактивен"}
+          {user.isActive ? t("активен") : t("неактивен")}
         </p>
       </CardContent>
     </Card>

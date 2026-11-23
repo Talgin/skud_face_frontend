@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "@/entities/session";
 import { loginThunk } from "@/features/session/login";
+import { t } from "@/shared/i18n";
 import { useAppDispatch } from "@/shared/model";
 import { Button } from "@/shared/ui/button";
 import {
@@ -53,11 +54,11 @@ export function LoginForm(props: Props) {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t("Электронная почта")}</FormLabel>
               <FormControl>
                 <Input
                   type="email"
-                  placeholder="Введите электронную почту"
+                  placeholder={t("Введите электронную почту")}
                   {...field}
                 />
               </FormControl>
@@ -70,9 +71,9 @@ export function LoginForm(props: Props) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Пароль</FormLabel>
+              <FormLabel>{t("Пароль")}</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="Введите пароль" {...field} />
+                <PasswordInput placeholder={t("Введите пароль")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -82,7 +83,7 @@ export function LoginForm(props: Props) {
           {isLoading ? (
             <Loader2 className="animate-spin" />
           ) : (
-            <span>Войти</span>
+            <span>{t("Войти")}</span>
           )}
         </Button>
       </form>

@@ -1,10 +1,10 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CirclePlus } from "lucide-react";
 import { adminsTableColumns, useAdminsQuery } from "@/entities/admins";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { TableSkeleton } from "@/shared/ui/table-skeleton";
 import { DataTable } from "@/widgets/DataTable";
-
 export function AdminPage() {
   const navigate = useNavigate();
   const { data: admins, isLoading } = useAdminsQuery();
@@ -22,7 +22,7 @@ export function AdminPage() {
           {admins && <DataTable columns={adminsTableColumns} data={admins} />}
           <div className="mt-4">
             <Button className="float-right" onClick={handleAddButtonClick}>
-              <CirclePlus className="mr-2" /> Добавить
+              <CirclePlus className="mr-2" /> {t("Добавить")}
             </Button>
           </div>
         </>

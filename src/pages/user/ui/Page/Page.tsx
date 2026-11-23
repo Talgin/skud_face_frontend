@@ -1,11 +1,15 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CirclePlus } from "lucide-react";
 import { useMemo, useState } from "react";
-import { matchesPersonSearch, PersonCard, useUsersQuery } from "@/entities/user";
+import {
+  matchesPersonSearch,
+  PersonCard,
+  useUsersQuery,
+} from "@/entities/user";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Skeleton } from "@/shared/ui/skeleton";
-
 export function UserPage() {
   const navigate = useNavigate();
   const { data: users = [], isLoading } = useUsersQuery();
@@ -24,22 +28,22 @@ export function UserPage() {
     <div className="container pt-16 pb-8">
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <h1 className="mr-auto text-2xl font-semibold">
-          База лиц{" "}
+          {t("База лиц")}{" "}
           {!isLoading && (
             <span className="text-base font-normal text-muted-foreground">
               · {visible.length}
-              {search && ` из ${users.length}`}
+              {search && ` ${t("из")} ${users.length}`}
             </span>
           )}
         </h1>
         <Input
           className="w-full sm:w-72"
-          placeholder="Поиск по имени или № карты"
+          placeholder={t("Поиск по имени или № карты")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <Button onClick={handleAddButtonClick}>
-          <CirclePlus className="mr-2" /> Добавить человека
+          <CirclePlus className="mr-2" /> {t("Добавить человека")}
         </Button>
       </div>
 
@@ -53,8 +57,8 @@ export function UserPage() {
       ) : visible.length === 0 ? (
         <p className="py-16 text-center text-muted-foreground">
           {users.length === 0
-            ? "В базе лиц пока никого нет"
-            : "Никого не найдено"}
+            ? t("В базе лиц пока никого нет")
+            : t("Никого не найдено")}
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

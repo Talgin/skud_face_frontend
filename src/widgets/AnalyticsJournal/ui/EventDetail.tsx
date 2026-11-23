@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { type JournalEvent, journalImageUrl, lookOf } from "@/entities/journal";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { EvidenceImage } from "@/shared/ui/evidence-image";
 import {
@@ -43,7 +44,7 @@ export function EventDetail({ event, cameraName, token, onClose }: Props) {
                 {format(new Date(event.ts), "dd.MM.yyyy HH:mm:ss")}
                 {event.violation && (
                   <span className="ml-2 font-medium text-red-600">
-                    Нарушение
+                    {t("Нарушение")}
                   </span>
                 )}
               </SheetDescription>
@@ -99,7 +100,9 @@ export function EventDetail({ event, cameraName, token, onClose }: Props) {
                   </div>
                 ))}
               <div>
-                <dt className="text-xs text-muted-foreground">ID события</dt>
+                <dt className="text-xs text-muted-foreground">
+                  {t("ID события")}
+                </dt>
                 <dd className="font-mono text-xs break-all">{event.id}</dd>
               </div>
             </dl>

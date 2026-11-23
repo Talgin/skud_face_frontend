@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { t } from "@/shared/i18n";
 import type { SubmitFormProps } from "@/shared/types";
 import { Button } from "@/shared/ui/button";
 import {
@@ -37,7 +38,7 @@ export function SubmitBatchUserForm(props: Props) {
           name="excelFile"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Excel файл:</FormLabel>
+              <FormLabel>{t("Excel файл:")}</FormLabel>
               <FormControl>
                 {/* TODO: Проверить файл на корректность */}
                 <Input
@@ -60,7 +61,7 @@ export function SubmitBatchUserForm(props: Props) {
           name="photos"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Фото:</FormLabel>
+              <FormLabel>{t("Фото:")}</FormLabel>
               <FormControl>
                 {/* TODO: Проверить файл на корректность */}
                 <Input
@@ -78,7 +79,7 @@ export function SubmitBatchUserForm(props: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit">Создать</Button>
+        <Button type="submit">{t("Создать")}</Button>
       </form>
     </Form>
   );

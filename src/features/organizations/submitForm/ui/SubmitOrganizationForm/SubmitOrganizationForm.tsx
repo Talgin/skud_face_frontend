@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import {
   Form,
@@ -38,9 +39,13 @@ export function SubmitOrganizationForm(props: Props) {
 
   return props.isSuccess ? (
     <div>
-      <p>Организация успешно {props.isEditing ? "обновлена" : "создана"}!</p>
+      <p>
+        {props.isEditing
+          ? t("Организация успешно обновлена!")
+          : t("Организация успешно создана!")}
+      </p>
       <Button className="mt-4" onClick={onNavigateToAllOrganization}>
-        Все организации
+        {t("Все организации")}
       </Button>
     </div>
   ) : (
@@ -51,7 +56,7 @@ export function SubmitOrganizationForm(props: Props) {
           name="organizationName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Название организации:</FormLabel>
+              <FormLabel>{t("Название организации:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -64,7 +69,7 @@ export function SubmitOrganizationForm(props: Props) {
           name="ceoName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Имя руководителя:</FormLabel>
+              <FormLabel>{t("Имя руководителя:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -77,7 +82,7 @@ export function SubmitOrganizationForm(props: Props) {
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Адрес:</FormLabel>
+              <FormLabel>{t("Адрес:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -90,7 +95,7 @@ export function SubmitOrganizationForm(props: Props) {
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Номер телефона:</FormLabel>
+              <FormLabel>{t("Номер телефона:")}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -104,9 +109,9 @@ export function SubmitOrganizationForm(props: Props) {
               <Loader2 className="animate-spin mr-2" />
             </div>
           ) : props.isEditing ? (
-            <span>Изменить</span>
+            <span>{t("Изменить")}</span>
           ) : (
-            <span>Добавить</span>
+            <span>{t("Добавить")}</span>
           )}
         </Button>
       </form>

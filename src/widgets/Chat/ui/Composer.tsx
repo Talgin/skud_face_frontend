@@ -1,7 +1,7 @@
 import { ArrowUp, Film, Loader2, Paperclip, Square, X } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
-
 export type PendingFile = {
   key: string;
   file: File;
@@ -93,8 +93,8 @@ export function Composer({
                   {f.error
                     ? f.error
                     : f.attachmentId
-                      ? `${(f.file.size / 1048576).toFixed(1)} МБ`
-                      : `загрузка ${Math.round(f.progress * 100)}%`}
+                      ? t("{n} МБ", { n: (f.file.size / 1048576).toFixed(1) })
+                      : t("загрузка {p}%", { p: Math.round(f.progress * 100) })}
                 </div>
               </div>
               {!f.attachmentId && !f.error && (
@@ -104,7 +104,7 @@ export function Composer({
                 type="button"
                 onClick={() => onRemoveFile(f.key)}
                 className="absolute right-1 top-1 rounded-full p-0.5 text-muted-foreground hover:bg-background hover:text-foreground"
-                aria-label="Убрать файл"
+                aria-label={t("Убрать файл")}
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -118,8 +118,8 @@ export function Composer({
           onClick={() => fileInput.current?.click()}
           className="mb-0.5 rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-40"
           disabled={streaming || disabled}
-          aria-label="Прикрепить фото или видео"
-          title="Прикрепить фото или видео"
+          aria-label={t("Прикрепить фото или видео")}
+          title={t("Прикрепить фото или видео")}
         >
           <Paperclip className="h-5 w-5" />
         </button>
@@ -138,10 +138,16 @@ export function Composer({
           ref={ref}
           rows={1}
           value={value}
-          placeholder="Спросите что-нибудь: «найди мужчину в красной куртке вчера вечером»"
+          placeholder={t(
+            "Спросите что-нибудь: «найди мужчину в красной куртке вчера вечером»",
+          )}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+            if (
+              e.key === "Enter" &&
+              !e.shiftKey &&
+              !e.nativeEvent.isComposing
+            ) {
               e.preventDefault();
               if (canSend) onSend();
             }
@@ -160,8 +166,8 @@ export function Composer({
             type="button"
             onClick={onStop}
             className="mb-0.5 rounded-full bg-foreground p-2 text-background hover:opacity-90"
-            aria-label="Остановить"
-            title="Остановить"
+            aria-label={t("Остановить")}
+            title={t("Остановить")}
           >
             <Square className="h-4 w-4" fill="currentColor" />
           </button>
@@ -171,8 +177,8 @@ export function Composer({
             onClick={onSend}
             disabled={!canSend}
             className="mb-0.5 rounded-full bg-primary p-2 text-primary-foreground hover:opacity-90 disabled:opacity-30"
-            aria-label="Отправить"
-            title="Отправить (Enter)"
+            aria-label={t("Отправить")}
+            title={t("Отправить (Enter)")}
           >
             <ArrowUp className="h-4 w-4" />
           </button>

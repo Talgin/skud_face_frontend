@@ -5,16 +5,16 @@ import {
   setTag,
   tagValue,
 } from "@/entities/journal";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { DateFilter } from "@/shared/ui/date-filter";
 import { Input } from "@/shared/ui/input";
-
 export const TYPES: { type: string; label: string }[] = [
-  { type: "face", label: "Распознавание лиц" },
-  { type: "ppe", label: "Контроль СИЗ" },
-  { type: "lpr", label: "Распознавание номеров" },
+  { type: "face", label: t("Распознавание лиц") },
+  { type: "ppe", label: t("Контроль СИЗ") },
+  { type: "lpr", label: t("Распознавание номеров") },
 ];
 
 type Props = {
@@ -35,33 +35,33 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
   return (
     <div className="space-y-5 text-sm">
       <section className="space-y-2">
-        <h3 className="font-medium">Тип аналитики</h3>
-        {TYPES.map((t) => (
-          <div key={t.type} className="flex items-center gap-2">
+        <h3 className="font-medium">{t("Тип аналитики")}</h3>
+        {TYPES.map((ty) => (
+          <div key={ty.type} className="flex items-center gap-2">
             <Checkbox
-              id={`journal-type-${t.type}`}
-              checked={value.types.includes(t.type)}
+              id={`journal-type-${ty.type}`}
+              checked={value.types.includes(ty.type)}
               onCheckedChange={() =>
-                set({ types: toggle(value.types, t.type), tags: [] })
+                set({ types: toggle(value.types, ty.type), tags: [] })
               }
             />
             <label
-              htmlFor={`journal-type-${t.type}`}
+              htmlFor={`journal-type-${ty.type}`}
               className="flex-1 cursor-pointer"
             >
-              {t.label}
+              {ty.label}
             </label>
             <span className="text-xs text-muted-foreground">
-              {byType?.[t.type] ?? 0}
+              {byType?.[ty.type] ?? 0}
             </span>
           </div>
         ))}
       </section>
 
       <section className="space-y-2">
-        <h3 className="font-medium">Камеры</h3>
+        <h3 className="font-medium">{t("Камеры")}</h3>
         {cameras.length === 0 && (
-          <p className="text-xs text-muted-foreground">Нет камер</p>
+          <p className="text-xs text-muted-foreground">{t("Нет камер")}</p>
         )}
         <div className="max-h-48 space-y-2 overflow-y-auto">
           {cameras.map((c) => (
@@ -86,7 +86,7 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
       </section>
 
       <section className="space-y-2">
-        <h3 className="font-medium">Период</h3>
+        <h3 className="font-medium">{t("Период")}</h3>
         <div className="flex flex-col gap-2">
           <DateFilter value={value.since} onChange={(d) => set({ since: d })} />
           <DateFilter value={value.until} onChange={(d) => set({ until: d })} />
@@ -96,7 +96,7 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
               size="sm"
               onClick={() => set({ since: undefined, until: undefined })}
             >
-              Сбросить период
+              {t("Сбросить период")}
             </Button>
           )}
         </div>
@@ -110,11 +110,11 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
             onCheckedChange={(c) => set({ violationsOnly: c === true })}
           />
           <label htmlFor="journal-violations" className="cursor-pointer">
-            Только нарушения
+            {t("Только нарушения")}
           </label>
         </div>
         <Input
-          placeholder="Имя или номер"
+          placeholder={t("Имя или номер")}
           value={value.q}
           onChange={(e) => set({ q: e.target.value })}
         />
@@ -122,20 +122,20 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
 
       {onlyPpe && (
         <section className="space-y-3">
-          <h3 className="font-medium">СИЗ</h3>
+          <h3 className="font-medium">{t("СИЗ")}</h3>
           {(
             [
-              ["helmet", "Каска"],
-              ["vest", "Жилет"],
+              ["helmet", t("Каска")],
+              ["vest", t("Жилет")],
             ] as const
           ).map(([key, label]) => (
             <div key={key} className="flex items-center gap-2">
               <span className="w-14">{label}</span>
               {(
                 [
-                  ["", "все"],
-                  ["yes", "есть"],
-                  ["no", "нет"],
+                  ["", t("все")],
+                  ["yes", t("есть")],
+                  ["no", t("нет")],
                 ] as const
               ).map(([v, text]) => (
                 <Button
@@ -152,7 +152,7 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
             </div>
           ))}
           <div className="space-y-2">
-            <span>Цвет одежды</span>
+            <span>{t("Цвет одежды")}</span>
             <div className="flex flex-wrap gap-1.5">
               {Object.keys(COLOR_RU).map((c) => {
                 const active = tagValue(value.tags, "color") === c;
@@ -184,7 +184,7 @@ export function JournalFilters({ value, onChange, cameras, byType }: Props) {
         className="w-full"
         onClick={() => onChange({ ...value, ...RESET })}
       >
-        Сбросить фильтры
+        {t("Сбросить фильтры")}
       </Button>
     </div>
   );

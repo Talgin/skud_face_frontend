@@ -19,16 +19,19 @@ import {
   type ToolBlock,
   uploadUrl,
 } from "@/entities/chat";
-import { useAppSelector } from "@/shared/model";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
+import { useAppSelector } from "@/shared/model";
 import { type BlockActions, ToolCard } from "./blocks";
 import { Composer, type PendingFile } from "./Composer";
 
 const SUGGESTIONS = [
-  "Найди мужчину в красной куртке вчера вечером",
-  "Кто приходил сегодня утром?",
-  "Покажи список камер",
-  "Добавь камеру rtsp://user:pass@192.168.1.10:554/stream1 и назови её «Вход»",
+  t("Найди мужчину в красной куртке вчера вечером"),
+  t("Кто приходил сегодня утром?"),
+  t("Покажи список камер"),
+  t(
+    "Добавь камеру rtsp://user:pass@192.168.1.10:554/stream1 и назови её «Вход»",
+  ),
 ];
 
 type Props = {
@@ -52,12 +55,12 @@ function groupByDay(convs: Conversation[]) {
     const days = Math.round((t0 - d) / 86400000);
     push(
       days <= 0
-        ? "Сегодня"
+        ? t("Сегодня")
         : days === 1
-          ? "Вчера"
+          ? t("Вчера")
           : days < 7
-            ? "Последние 7 дней"
-            : "Ранее",
+            ? t("Последние 7 дней")
+            : t("Ранее"),
       c,
     );
   }
@@ -151,7 +154,7 @@ export function Chat({ convId, onSelect }: Props) {
           /\.(mkv|ts|avi|mov|flv|mp4|m4v|webm)$/i.test(f.name),
       );
       if (!accepted.length) {
-        setError("Можно прикрепить только фото или видео");
+        setError(t("Можно прикрепить только фото или видео"));
         return;
       }
       let id: string;
@@ -287,7 +290,7 @@ export function Chat({ convId, onSelect }: Props) {
             }));
             break;
           case "error":
-            setError(`Ошибка модели: ${ev.message}`);
+            setError(t("Ошибка модели: {m}", { m: ev.message }));
             patchAssistant(assistantId, (m) => ({ ...m, status: "error" }));
             break;
         }
@@ -322,7 +325,7 @@ export function Chat({ convId, onSelect }: Props) {
   );
 
   const removeConversation = async (id: string) => {
-    if (!window.confirm("Удалить этот чат?")) return;
+    if (!window.confirm(t("Удалить этот чат?"))) return;
     try {
       await chatApi.deleteConversation(token, id);
       setConvs((cs) => cs.filter((c) => c.id !== id));
@@ -367,13 +370,13 @@ export function Chat({ convId, onSelect }: Props) {
               }}
               className="flex flex-1 items-center gap-2 rounded-lg border px-3 py-2 text-sm hover:bg-muted"
             >
-              <Plus className="h-4 w-4" /> Новый чат
+              <Plus className="h-4 w-4" /> {t("Новый чат")}
             </button>
             <button
               type="button"
               className="rounded-lg p-2 hover:bg-muted md:hidden"
               onClick={() => setSidebarOpen(false)}
-              aria-label="Скрыть список"
+              aria-label={t("Скрыть список")}
             >
               <X className="h-4 w-4" />
             </button>
@@ -429,7 +432,7 @@ export function Chat({ convId, onSelect }: Props) {
                             setRenaming({ id: c.id, title: c.title })
                           }
                           className="rounded p-1 text-muted-foreground hover:text-foreground"
-                          aria-label="Переименовать"
+                          aria-label={t("Переименовать")}
                         >
                           <Pencil className="h-3.5 w-3.5" />
                         </button>
@@ -437,7 +440,7 @@ export function Chat({ convId, onSelect }: Props) {
                           type="button"
                           onClick={() => removeConversation(c.id)}
                           className="rounded p-1 text-muted-foreground hover:text-destructive"
-                          aria-label="Удалить"
+                          aria-label={t("Удалить")}
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
@@ -449,7 +452,7 @@ export function Chat({ convId, onSelect }: Props) {
             ))}
             {!convs.length && (
               <div className="px-2 text-xs text-muted-foreground">
-                Здесь появятся ваши чаты
+                {t("Здесь появятся ваши чаты")}
               </div>
             )}
           </div>
@@ -458,7 +461,7 @@ export function Chat({ convId, onSelect }: Props) {
       {sidebarOpen && (
         <button
           type="button"
-          aria-label="Закрыть"
+          aria-label={t("Закрыть")}
           className="absolute inset-0 z-10 bg-black/20 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
@@ -487,7 +490,7 @@ export function Chat({ convId, onSelect }: Props) {
           type="button"
           className="absolute left-3 top-3 z-10 rounded-lg border bg-card p-2 md:hidden"
           onClick={() => setSidebarOpen(true)}
-          aria-label="Чаты"
+          aria-label={t("Чаты")}
         >
           <PanelLeft className="h-4 w-4" />
         </button>
@@ -506,11 +509,13 @@ export function Chat({ convId, onSelect }: Props) {
               <div className="mb-4 rounded-2xl bg-primary/10 p-3 text-primary">
                 <Sparkles className="h-7 w-7" />
               </div>
-              <h2 className="text-xl font-semibold">Чем помочь?</h2>
+              <h2 className="text-xl font-semibold">{t("Чем помочь?")}</h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Ищите людей в записях по внешности, времени и камере,
-                прикрепите фото, чтобы найти человека, или видео для анализа.
-                Вставьте ссылки rtsp://, чтобы подключить камеры.
+                {t("Ищите людей в записях по внешности, времени и камере,")}
+                {t(
+                  "прикрепите фото, чтобы найти человека, или видео для анализа.",
+                )}
+                {t("Вставьте ссылки rtsp://, чтобы подключить камеры.")}
               </p>
               <div className="mt-6 grid w-full gap-2 sm:grid-cols-2">
                 {SUGGESTIONS.map((s) => (
@@ -529,7 +534,7 @@ export function Chat({ convId, onSelect }: Props) {
             <div className="mx-auto max-w-3xl space-y-6 px-4 py-6">
               {loading && (
                 <div className="text-center text-sm text-muted-foreground">
-                  Загрузка…
+                  {t("Загрузка…")}
                 </div>
               )}
               {messages.map((m) =>
@@ -555,7 +560,7 @@ export function Chat({ convId, onSelect }: Props) {
               <button
                 type="button"
                 onClick={() => setError(null)}
-                aria-label="Скрыть"
+                aria-label={t("Скрыть")}
               >
                 <X className="h-4 w-4" />
               </button>
@@ -572,15 +577,17 @@ export function Chat({ convId, onSelect }: Props) {
             streaming={streaming}
           />
           <div className="mt-1.5 text-center text-[11px] text-muted-foreground">
-            Ассистент работает на локальной модели Qwen3-VL и может ошибаться.
-            Проверяйте важные результаты по кадрам.
+            {t(
+              "Ассистент работает на локальной модели Qwen3-VL и может ошибаться.",
+            )}
+            {t("Проверяйте важные результаты по кадрам.")}
           </div>
         </div>
 
         {dragging && (
           <div className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center bg-primary/5 ring-2 ring-inset ring-primary/40">
             <div className="rounded-xl bg-card px-4 py-3 text-sm shadow">
-              Отпустите, чтобы прикрепить фото или видео
+              {t("Отпустите, чтобы прикрепить фото или видео")}
             </div>
           </div>
         )}
@@ -691,7 +698,7 @@ function AssistantMessage({
         )}
         {m.content && <Markdown text={m.content} />}
         {m.status === "error" && !m.content && (
-          <div className="text-destructive">Ответ не получен.</div>
+          <div className="text-destructive">{t("Ответ не получен.")}</div>
         )}
       </div>
     </div>

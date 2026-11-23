@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { useDeleteAdminMutation } from "@/entities/admins";
 import { tablePermissions } from "@/entities/role";
+import { t } from "@/shared/i18n";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { Admin } from "../model/types";
@@ -10,30 +11,30 @@ const EDIT_ROUTE = "/admin/edit";
 export const adminsTableColumns: ColumnDef<Admin>[] = [
   {
     accessorKey: "id",
-    header: () => <span>Идентификатор</span>,
+    header: () => <span>{t("Идентификатор")}</span>,
   },
   {
     accessorKey: "name",
-    header: () => <span>Имя</span>,
+    header: () => <span>{t("Имя")}</span>,
   },
   {
     accessorKey: "surname",
-    header: () => <span>Фамилия</span>,
+    header: () => <span>{t("Фамилия")}</span>,
   },
   {
     accessorKey: "cardId",
-    header: () => <span>Номер карты</span>,
+    header: () => <span>{t("Номер карты")}</span>,
   },
   {
     accessorKey: "isActive",
-    header: () => <span>Активирован</span>,
+    header: () => <span>{t("Активирован")}</span>,
     cell: ({ row }) => {
       return <Checkbox checked={row.original.isActive} disabled={true} />;
     },
   },
   {
     accessorKey: "role",
-    header: () => <span>Роль</span>,
+    header: () => <span>{t("Роль")}</span>,
   },
   {
     id: "actions",

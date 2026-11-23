@@ -1,7 +1,7 @@
 import { useCreatePointMutation } from "@/entities/point";
 import { type PointValues, SubmitPointForm } from "@/features/point/submit";
+import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
 export function AddPointPage() {
   const [createPoint, { isSuccess }] = useCreatePointMutation();
 
@@ -17,7 +17,7 @@ export function AddPointPage() {
     <div className="container flex justify-center pt-16">
       <Card className="xl:w-6/12 w-full">
         <CardHeader>
-          <CardTitle>Добавить точку</CardTitle>
+          <CardTitle>{t("Добавить точку")}</CardTitle>
         </CardHeader>
         <CardContent>
           <SubmitPointForm onSubmit={onSubmit} isSuccess={isSuccess} />

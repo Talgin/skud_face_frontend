@@ -1,3 +1,4 @@
+import { t } from "@/shared/i18n";
 import { createSseParser } from "../lib/sse";
 import type {
   Attachment,
@@ -6,7 +7,6 @@ import type {
   StreamEvent,
   VideoJob,
 } from "../model/types";
-
 export const CHAT_BASE = "/api/chat";
 
 export class ChatApiError extends Error {
@@ -42,8 +42,8 @@ async function toError(r: Response): Promise<ChatApiError> {
   } catch {
     /* not json */
   }
-  if (r.status === 401) detail = "Сессия истекла, войдите заново";
-  if (r.status === 413) detail = "Файл слишком большой";
+  if (r.status === 401) detail = t("Сессия истекла, войдите заново");
+  if (r.status === 413) detail = t("Файл слишком большой");
   return new ChatApiError(detail, r.status);
 }
 
@@ -105,15 +105,15 @@ export const chatApi = {
         } else {
           const msg =
             xhr.status === 413
-              ? "Файл слишком большой"
+              ? t("Файл слишком большой")
               : typeof body.detail === "string"
                 ? body.detail
-                : `Ошибка загрузки (${xhr.status})`;
+                : t("Ошибка загрузки ({status})", { status: xhr.status });
           reject(new ChatApiError(msg, xhr.status));
         }
       };
-      xhr.onerror = () => reject(new ChatApiError("Сеть недоступна", 0));
-      xhr.onabort = () => reject(new ChatApiError("Загрузка отменена", 0));
+      xhr.onerror = () => reject(new ChatApiError(t("Сеть недоступна"), 0));
+      xhr.onabort = () => reject(new ChatApiError(t("Загрузка отменена"), 0));
       signal?.addEventListener("abort", () => xhr.abort());
       const form = new FormData();
       form.append("conv_id", convId);

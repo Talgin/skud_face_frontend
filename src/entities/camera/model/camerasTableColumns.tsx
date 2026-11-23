@@ -6,6 +6,7 @@ import {
   useDeleteCameraMutation,
 } from "@/entities/camera";
 import { tablePermissions } from "@/entities/role";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import { CAMERA_MODEL_LABELS, modelKeys } from "../lib/cameraModels";
@@ -16,23 +17,23 @@ const EDIT_ROUTE = "/camera/edit";
 export const camerasTableColumns: ColumnDef<Camera>[] = [
   {
     accessorKey: "id",
-    header: () => <span>Идентификатор</span>,
+    header: () => <span>{t("Идентификатор")}</span>,
   },
   {
     accessorKey: "serialNumber",
-    header: () => <span>Серийный номер</span>,
+    header: () => <span>{t("Серийный номер")}</span>,
   },
   {
     accessorKey: "brandName",
-    header: () => <span>Название бренда</span>,
+    header: () => <span>{t("Название бренда")}</span>,
   },
   {
     accessorKey: "modelName",
-    header: () => <span>Название модели</span>,
+    header: () => <span>{t("Название модели")}</span>,
   },
   {
     accessorKey: "registrationDate",
-    header: () => <span>Дата регистрации</span>,
+    header: () => <span>{t("Дата регистрации")}</span>,
     cell: ({ row }) => {
       return (
         <p>
@@ -43,7 +44,7 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
   },
   {
     accessorKey: "models",
-    header: () => <span>Модели</span>,
+    header: () => <span>{t("Модели")}</span>,
     cell: ({ row }) => (
       <div className="flex flex-col gap-1">
         {modelKeys(row.original.models).map((key) => (
@@ -56,7 +57,7 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
   },
   {
     accessorKey: "isActivated",
-    header: () => <span>Статус</span>,
+    header: () => <span>{t("Статус")}</span>,
     cell: ({ row }) => {
       const [activate, { isLoading: activating }] = useActivateCameraMutation();
       const [deactivate, { isLoading: deactivating }] =
@@ -82,9 +83,9 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
           {isLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : isActive ? (
-            "Остановить"
+            t("Остановить")
           ) : (
-            "Запустить"
+            t("Запустить")
           )}
         </Button>
       );
@@ -92,12 +93,12 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
   },
   {
     accessorKey: "pointId",
-    header: () => <span>ИД точки</span>,
+    header: () => <span>{t("ИД точки")}</span>,
     cell: ({ row }) => {
       return (
         <div>
           {row.original.pointId === null ? (
-            <p>Не указано</p>
+            <p>{t("Не указано")}</p>
           ) : (
             row.original.pointId
           )}
@@ -107,7 +108,7 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
   },
   {
     accessorKey: "url",
-    header: () => <span>Ссылка</span>,
+    header: () => <span>{t("Ссылка")}</span>,
   },
   {
     id: "actions",

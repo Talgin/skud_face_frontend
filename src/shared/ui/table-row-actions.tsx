@@ -4,6 +4,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { Pencil } from "lucide-react";
 import { useEffect } from "react";
 import { type AccessReq, useCan } from "@/entities/role";
+import { t } from "@/shared/i18n";
 import { useConfirmModal } from "@/shared/lib/useConfirmModal";
 import { Button } from "@/shared/ui/button";
 import {
@@ -14,7 +15,6 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
-
 export type TableRowActionsProps = {
   editRouteTo: string;
   onConfirm: () => void;
@@ -70,13 +70,13 @@ export function TableRowActions(props: TableRowActionsProps) {
           className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
         >
           <DotsHorizontalIcon className="h-4 w-4" />
-          <span className="sr-only">Открой меню</span>
+          <span className="sr-only">{t("Открой меню")}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         {showEdit && (
           <DropdownMenuItem onClick={handleEditButtonClick} disabled={!canEdit}>
-            Редактировать
+            {t("Редактировать")}
             <DropdownMenuShortcut>
               <Pencil size={16} />
             </DropdownMenuShortcut>
@@ -88,7 +88,7 @@ export function TableRowActions(props: TableRowActionsProps) {
             onClick={handleRemoveButtonClick}
             disabled={!canDelete}
           >
-            Удалить
+            {t("Удалить")}
             <DropdownMenuShortcut>
               <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
             </DropdownMenuShortcut>

@@ -2,6 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { tablePermissions } from "@/entities/role";
 import { useDeleteUserMutation } from "@/entities/user";
+import { t } from "@/shared/i18n";
 import { Checkbox } from "@/shared/ui/checkbox";
 import { TableRowActions } from "@/shared/ui/table-row-actions";
 import type { User } from "./types";
@@ -11,44 +12,46 @@ const EDIT_ROUTE = "/faces/edit";
 export const usersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "id",
-    header: () => <span>Идентификатор</span>,
+    header: () => <span>{t("Идентификатор")}</span>,
   },
   {
     accessorKey: "name",
-    header: () => <span>Имя</span>,
+    header: () => <span>{t("Имя")}</span>,
   },
   {
     accessorKey: "surname",
-    header: () => <span>Фамилия</span>,
+    header: () => <span>{t("Фамилия")}</span>,
   },
   {
     accessorKey: "cardId",
-    header: () => <span>Номер карты</span>,
+    header: () => <span>{t("Номер карты")}</span>,
   },
   {
     accessorKey: "gender",
-    header: () => <span>Пол</span>,
+    header: () => <span>{t("Пол")}</span>,
     cell: ({ row }) => {
-      return <p>{row.original.gender === "male" ? "мужчина" : "женщина"}</p>;
+      return (
+        <p>{row.original.gender === "male" ? t("мужчина") : t("женщина")}</p>
+      );
     },
   },
   {
     accessorKey: "birthDate",
-    header: () => <span>Дата рождения</span>,
+    header: () => <span>{t("Дата рождения")}</span>,
     cell: ({ row }) => {
       return <p>{format(row.original.birthDate, "dd.MM.yyyy")}</p>;
     },
   },
   {
     accessorKey: "isActive",
-    header: () => <span>Активирован</span>,
+    header: () => <span>{t("Активирован")}</span>,
     cell: ({ row }) => {
       return <Checkbox checked={row.original.isActive} disabled={true} />;
     },
   },
   {
     accessorKey: "facePhotoUrl",
-    header: () => <span>Фото</span>,
+    header: () => <span>{t("Фото")}</span>,
     cell: ({ row }) =>
       row.original.facePhotoUrl ? (
         <img

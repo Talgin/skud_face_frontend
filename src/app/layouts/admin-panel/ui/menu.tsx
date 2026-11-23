@@ -4,6 +4,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Ellipsis } from "lucide-react";
 import { Roles, useRoleQuery } from "@/entities/role";
 import { LogoutButton } from "@/features/session/logout";
+import { t } from "@/shared/i18n";
 import { cn } from "@/shared/lib/shadcn-ui/utils";
 import { Button } from "@/shared/ui/button";
 import { ScrollArea } from "@/shared/ui/scroll-area";
@@ -126,7 +127,7 @@ export function Menu({ isOpen }: MenuProps) {
                   <LogoutButton isOpen={isOpen} />
                 </TooltipTrigger>
                 {isOpen === false && (
-                  <TooltipContent side="right">Выйти</TooltipContent>
+                  <TooltipContent side="right">{t("Выйти")}</TooltipContent>
                 )}
               </Tooltip>
             </TooltipProvider>

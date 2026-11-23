@@ -7,6 +7,7 @@ import {
   journalApi,
   journalLiveUrl,
 } from "@/entities/journal";
+import { t } from "@/shared/i18n";
 import { useAppSelector } from "@/shared/model";
 import { Button } from "@/shared/ui/button";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -33,14 +34,14 @@ export function AnalyticsJournal() {
     () =>
       (cameraList ?? []).map((c) => ({
         id: c.id,
-        name: `Камера ${c.id}${hostOf(c.url) ? ` · ${hostOf(c.url)}` : ""}`,
+        name: `${t("Камера")} ${c.id}${hostOf(c.url) ? ` · ${hostOf(c.url)}` : ""}`,
       })),
     [cameraList],
   );
   const cameraName = useCallback(
     (e: JournalEvent) =>
       cameras.find((c) => c.id === e.camera_id)?.name ??
-      `Камера ${e.camera_id}${e.camera_host ? ` · ${e.camera_host}` : ""}`,
+      `${t("Камера")} ${e.camera_id}${e.camera_host ? ` · ${e.camera_host}` : ""}`,
     [cameras],
   );
 
@@ -61,8 +62,8 @@ export function AnalyticsJournal() {
   // typing in the search box waits 400 ms; every other filter applies at once
   useEffect(() => {
     const delay = filters.q === query.q ? 0 : 400;
-    const t = setTimeout(() => setQuery(filters), delay);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setQuery(filters), delay);
+    return () => clearTimeout(timer);
   }, [filters, query.q]);
 
   // first page whenever the filters change
@@ -156,9 +157,11 @@ export function AnalyticsJournal() {
 
       <div className="flex-1 min-w-0 space-y-4">
         <div className="flex flex-wrap items-center gap-4">
-          <h1 className="text-xl font-semibold">Журнал видеоаналитики</h1>
+          <h1 className="text-xl font-semibold">
+            {t("Журнал видеоаналитики")}
+          </h1>
           <span className="text-sm text-muted-foreground">
-            Событий:{" "}
+            {t("Событий:")}{" "}
             <span className="font-medium text-foreground">{total ?? "…"}</span>
           </span>
           <div className="ml-auto flex items-center gap-4">
@@ -169,7 +172,7 @@ export function AnalyticsJournal() {
                 onCheckedChange={(c) => setLive(c === true)}
               />
               <label htmlFor="journal-live" className="cursor-pointer">
-                В реальном времени
+                {t("В реальном времени")}
               </label>
               {live && (
                 <span className="h-2 w-2 rounded-full bg-green-600 animate-pulse" />
@@ -180,7 +183,7 @@ export function AnalyticsJournal() {
               size="sm"
               onClick={() => setShowFilters((v) => !v)}
             >
-              {showFilters ? "Скрыть фильтры" : "Фильтры"}
+              {showFilters ? t("Скрыть фильтры") : t("Фильтры")}
             </Button>
           </div>
         </div>
@@ -193,7 +196,7 @@ export function AnalyticsJournal() {
 
         {!loading && !error && items.length === 0 && (
           <div className="rounded-lg border border-dashed p-10 text-center text-sm text-muted-foreground">
-            Нет событий за последние 7 дней по выбранным фильтрам
+            {t("Нет событий за последние 7 дней по выбранным фильтрам")}
           </div>
         )}
 
@@ -212,12 +215,14 @@ export function AnalyticsJournal() {
 
         <div ref={sentinel} className="h-8" />
         {loading && (
-          <p className="text-center text-sm text-muted-foreground">Загрузка…</p>
+          <p className="text-center text-sm text-muted-foreground">
+            {t("Загрузка…")}
+          </p>
         )}
         {!loading && cursor && (
           <div className="text-center">
             <Button variant="outline" onClick={loadMore}>
-              Показать ещё
+              {t("Показать ещё")}
             </Button>
           </div>
         )}

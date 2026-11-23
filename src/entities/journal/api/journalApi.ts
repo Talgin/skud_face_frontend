@@ -1,6 +1,6 @@
+import { t } from "@/shared/i18n";
 import { filtersToParams } from "../lib/query";
 import type { JournalEvent, JournalFilters, JournalPage } from "../model/types";
-
 export const JOURNAL_BASE = "/api/journal";
 
 export class JournalApiError extends Error {
@@ -24,7 +24,7 @@ async function request<T>(token: string | undefined, path: string): Promise<T> {
     } catch {
       /* not json */
     }
-    if (r.status === 401) detail = "Сессия истекла, войдите заново";
+    if (r.status === 401) detail = t("Сессия истекла, войдите заново");
     throw new JournalApiError(detail, r.status);
   }
   return (await r.json()) as T;

@@ -1,5 +1,5 @@
+import { t } from "@/shared/i18n";
 import type { JournalEvent } from "../model/types";
-
 // How each analytics type looks on a card and in the detail view. A new analytics type = one entry here
 // (plus its adapter in trt-journal); types without an entry fall back to the generic look.
 
@@ -17,19 +17,19 @@ export type TypeLook = {
 };
 
 export const COLOR_RU: Record<string, string> = {
-  beige: "бежевый",
-  black: "чёрный",
-  blue: "синий",
-  brown: "коричневый",
-  gray: "серый",
-  green: "зелёный",
-  light_blue: "голубой",
-  orange: "оранжевый",
-  pink: "розовый",
-  purple: "фиолетовый",
-  red: "красный",
-  white: "белый",
-  yellow: "жёлтый",
+  beige: t("бежевый"),
+  black: t("чёрный"),
+  blue: t("синий"),
+  brown: t("коричневый"),
+  gray: t("серый"),
+  green: t("зелёный"),
+  light_blue: t("голубой"),
+  orange: t("оранжевый"),
+  pink: t("розовый"),
+  purple: t("фиолетовый"),
+  red: t("красный"),
+  white: t("белый"),
+  yellow: t("жёлтый"),
 };
 
 export const COLOR_HEX: Record<string, string> = {
@@ -49,13 +49,13 @@ export const COLOR_HEX: Record<string, string> = {
 };
 
 const PART_RU: Record<string, string> = {
-  up: "Верх",
-  low: "Низ",
-  hat: "Головной убор",
+  up: t("Верх"),
+  low: t("Низ"),
+  hat: t("Головной убор"),
 };
 
 function yesNo(v: unknown, yes: string, no: string): Field["value"] {
-  return v === true ? yes : v === false ? no : "не определено";
+  return v === true ? yes : v === false ? no : t("не определено");
 }
 
 function tone(v: unknown): Field["tone"] {
@@ -78,85 +78,91 @@ function colorFields(e: JournalEvent): Field[] {
 }
 
 const face: TypeLook = {
-  badge: "Лицо",
+  badge: t("Лицо"),
   badgeClass: "bg-blue-700 text-white",
   fields: (e) => [
     {
-      label: "Имя",
+      label: t("Имя"),
       value: e.title,
       tone: e.data.is_known ? "good" : "muted",
     },
   ],
   details: (e) => [
-    { label: "Имя", value: e.title },
+    { label: t("Имя"), value: e.title },
     {
-      label: "Возраст",
+      label: t("Возраст"),
       value:
         typeof e.data.age === "number" ? String(Math.round(e.data.age)) : "—",
     },
     {
-      label: "Пол",
+      label: t("Пол"),
       value:
         e.data.gender === "male"
-          ? "мужской"
+          ? t("мужской")
           : e.data.gender === "female"
-            ? "женский"
+            ? t("женский")
             : "—",
     },
-    { label: "Сходство", value: pct(e.data.recognition_confidence) },
-    { label: "ID лица", value: String(e.data.face_id ?? "—") },
+    { label: t("Сходство"), value: pct(e.data.recognition_confidence) },
+    { label: t("ID лица"), value: String(e.data.face_id ?? "—") },
   ],
 };
 
 const ppe: TypeLook = {
-  badge: "СИЗ",
+  badge: t("СИЗ"),
   badgeClass: "bg-amber-600 text-white",
   fields: (e) => [
     {
-      label: "Каска",
-      value: yesNo(e.data.helmet, "есть", "нет"),
+      label: t("Каска"),
+      value: yesNo(e.data.helmet, t("есть"), t("нет")),
       tone: tone(e.data.helmet),
     },
     {
-      label: "Жилет",
-      value: yesNo(e.data.vest, "есть", "нет"),
+      label: t("Жилет"),
+      value: yesNo(e.data.vest, t("есть"), t("нет")),
       tone: tone(e.data.vest),
     },
     ...colorFields(e).slice(0, 1),
   ],
   details: (e) => [
     {
-      label: "Каска",
-      value: yesNo(e.data.helmet, "есть", "нет"),
+      label: t("Каска"),
+      value: yesNo(e.data.helmet, t("есть"), t("нет")),
       tone: tone(e.data.helmet),
     },
     {
-      label: "Жилет",
-      value: yesNo(e.data.vest, "есть", "нет"),
+      label: t("Жилет"),
+      value: yesNo(e.data.vest, t("есть"), t("нет")),
       tone: tone(e.data.vest),
     },
     ...colorFields(e),
-    { label: "Очки", value: e.data.glasses ? "да" : "нет" },
-    { label: "Кадров в треке", value: String(e.data.frames ?? "—") },
-    { label: "Уверенность детекции", value: pct(e.data.detection_confidence) },
+    { label: t("Очки"), value: e.data.glasses ? t("да") : t("нет") },
+    { label: t("Кадров в треке"), value: String(e.data.frames ?? "—") },
+    {
+      label: t("Уверенность детекции"),
+      value: pct(e.data.detection_confidence),
+    },
   ],
 };
 
 const lpr: TypeLook = {
-  badge: "Номер",
+  badge: t("Номер"),
   badgeClass: "bg-emerald-700 text-white",
-  fields: (e) => [{ label: "Номер", value: e.title }],
+  fields: (e) => [{ label: t("Номер"), value: e.title }],
   details: (e) => [
-    { label: "Номер", value: e.title },
-    { label: "Уверенность OCR", value: pct(e.data.plate_confidence) },
-    { label: "Уверенность детекции", value: pct(e.data.detection_confidence) },
+    { label: t("Номер"), value: e.title },
+    { label: t("Уверенность OCR"), value: pct(e.data.plate_confidence) },
+    {
+      label: t("Уверенность детекции"),
+      value: pct(e.data.detection_confidence),
+    },
   ],
 };
 
 const generic: TypeLook = {
-  badge: "Событие",
+  badge: t("Событие"),
   badgeClass: "bg-slate-600 text-white",
-  fields: (e) => [{ label: "Событие", value: e.title }],
+  fields: (e) => [{ label: t("Событие"), value: e.title }],
   details: (e) =>
     Object.entries(e.data).map(([k, v]) => ({
       label: k,

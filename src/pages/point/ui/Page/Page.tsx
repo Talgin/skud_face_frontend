@@ -8,10 +8,10 @@ import {
   pointTableColumns,
   usePointsQuery,
 } from "@/entities/point";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { TableSkeleton } from "@/shared/ui/table-skeleton";
 import { DataTable } from "@/widgets/DataTable";
-
 export function PointPage() {
   const navigate = useNavigate();
   const { data: points, isLoading } = usePointsQuery();
@@ -29,7 +29,7 @@ export function PointPage() {
 
       return {
         accessorKey: "cameraId",
-        header: () => <span>Камера</span>,
+        header: () => <span>{t("Камера")}</span>,
         cell: ({ row }) => {
           const camera = cameras?.find(
             (camera) => camera.id === row.original.cameraId,
@@ -52,7 +52,7 @@ export function PointPage() {
           )}
           <div className="mt-4">
             <Button className="float-right" onClick={handleAddButtonClick}>
-              <CirclePlus className="mr-2" /> Добавить
+              <CirclePlus className="mr-2" /> {t("Добавить")}
             </Button>
           </div>
         </>

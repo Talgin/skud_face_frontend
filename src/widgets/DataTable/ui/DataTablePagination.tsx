@@ -5,7 +5,7 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
-
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import {
   Select,
@@ -25,12 +25,14 @@ export function DataTablePagination<TData>({
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} из{" "}
-        {table.getFilteredRowModel().rows.length} строк выбрано.
+        {t("{n} из {total} строк выбрано.", {
+          n: table.getFilteredSelectedRowModel().rows.length,
+          total: table.getFilteredRowModel().rows.length,
+        })}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Строки на странице</p>
+          <p className="text-sm font-medium">{t("Строки на странице")}</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
@@ -50,8 +52,10 @@ export function DataTablePagination<TData>({
           </Select>
         </div>
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Страница {table.getState().pagination.pageIndex + 1} из{" "}
-          {table.getPageCount()}
+          {t("Страница {n} из {total}", {
+            n: table.getState().pagination.pageIndex + 1,
+            total: table.getPageCount(),
+          })}
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -60,7 +64,7 @@ export function DataTablePagination<TData>({
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Перейти на первую страницу</span>
+            <span className="sr-only">{t("Перейти на первую страницу")}</span>
             <DoubleArrowLeftIcon className="h-4 w-4" />
           </Button>
           <Button
@@ -69,7 +73,9 @@ export function DataTablePagination<TData>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Перейти на предыдущую страницу</span>
+            <span className="sr-only">
+              {t("Перейти на предыдущую страницу")}
+            </span>
             <ChevronLeftIcon className="h-4 w-4" />
           </Button>
           <Button
@@ -78,7 +84,9 @@ export function DataTablePagination<TData>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Перейти на следующую страницу</span>
+            <span className="sr-only">
+              {t("Перейти на следующую страницу")}
+            </span>
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
           <Button
@@ -87,7 +95,9 @@ export function DataTablePagination<TData>({
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Перейти на последнюю страницу</span>
+            <span className="sr-only">
+              {t("Перейти на последнюю страницу")}
+            </span>
             <DoubleArrowRightIcon className="h-4 w-4" />
           </Button>
         </div>

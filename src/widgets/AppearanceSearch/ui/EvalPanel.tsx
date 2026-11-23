@@ -5,8 +5,8 @@ import {
   useGetEvalQueriesQuery,
   useLazyGetEvalReportQuery,
 } from "@/entities/appearance-search";
+import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
-
 // Eval set: labelled queries and precision@k with query parsing on/off.
 export function EvalPanel({ onPick }: { onPick: (query: string) => void }) {
   const { data: queries = [] } = useGetEvalQueriesQuery();
@@ -23,7 +23,7 @@ export function EvalPanel({ onPick }: { onPick: (query: string) => void }) {
           onClick={() => loadReport(REPORT_K)}
           disabled={isFetching}
         >
-          {isFetching ? "Считаю…" : `Отчёт p@${REPORT_K}`}
+          {isFetching ? t("Считаю…") : t("Отчёт p@{k}", { k: REPORT_K })}
         </Button>
       </div>
       {queries.length > 0 && (
@@ -33,7 +33,7 @@ export function EvalPanel({ onPick }: { onPick: (query: string) => void }) {
               key={q.query}
               type="button"
               className="text-primary hover:underline"
-              title={`${q.relevant} верно / ${q.irrelevant} неверно${q.by ? ` · ${q.by}` : ""}`}
+              title={`${t("{r} верно / {i} неверно", { r: q.relevant, i: q.irrelevant })}${q.by ? ` · ${q.by}` : ""}`}
               onClick={() => onPick(q.query)}
             >
               {q.query}
@@ -44,17 +44,20 @@ export function EvalPanel({ onPick }: { onPick: (query: string) => void }) {
       {report && (
         <div className="overflow-auto">
           <div className="mb-1">
-            <b>Средняя p@{report.k}</b> по {report.queries} запросам — с
-            разбором {report.mean_p_at_k.parse ?? "–"}, без разбора{" "}
-            {report.mean_p_at_k.plain ?? "–"}
+            <b>{t("Средняя p@{k}", { k: report.k })}</b>{" "}
+            {t("по {n} запросам — с разбором {a}, без разбора {b}", {
+              n: report.queries,
+              a: report.mean_p_at_k.parse ?? "–",
+              b: report.mean_p_at_k.plain ?? "–",
+            })}
           </div>
           <table className="text-xs">
             <thead>
               <tr className="text-left">
-                <th className="pr-4">запрос</th>
-                <th className="pr-4">верных известно</th>
-                <th className="pr-4">p@k с разбором</th>
-                <th>p@k без разбора</th>
+                <th className="pr-4">{t("запрос")}</th>
+                <th className="pr-4">{t("верных известно")}</th>
+                <th className="pr-4">{t("p@k с разбором")}</th>
+                <th>{t("p@k без разбора")}</th>
               </tr>
             </thead>
             <tbody>

@@ -1,5 +1,6 @@
 import { create as createModal, useModal } from "@ebay/nice-modal-react";
 import { Loader2 } from "lucide-react";
+import { t } from "@/shared/i18n";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,9 +20,9 @@ type Props = {
   isLoading?: boolean;
 };
 
-const DEFAULT_CONFIRM_TITLE = "Вы уверены что хотите удалить?";
-const DEFAULT_CONFIRM_TEXT = "Да";
-const DEFAULT_CANCEL_TEXT = "Нет";
+const DEFAULT_CONFIRM_TITLE = t("Вы уверены что хотите удалить?");
+const DEFAULT_CONFIRM_TEXT = t("Да");
+const DEFAULT_CANCEL_TEXT = t("Нет");
 
 export function ConfirmModalPresenter(props: Props) {
   const {

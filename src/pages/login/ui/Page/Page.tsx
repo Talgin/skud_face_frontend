@@ -1,28 +1,30 @@
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Activity, BellRing, ShieldCheck } from "lucide-react";
 import { LoginForm } from "@/features/session/login";
+import { t } from "@/shared/i18n";
 import {
   BRAND_NAME,
   BRAND_PRODUCT,
   BrandMark,
   BrandWordmark,
 } from "@/shared/ui/brand-mark";
+import { LanguageSwitcher } from "@/shared/ui/language-switcher";
 
 const FEATURES = [
   {
     icon: Activity,
-    title: "Мониторинг в реальном времени",
-    text: "Распознавание лиц на всех подключённых камерах",
+    title: t("Мониторинг в реальном времени"),
+    text: t("Распознавание лиц на всех подключённых камерах"),
   },
   {
     icon: BellRing,
-    title: "События и история",
-    text: "Каждое появление сохраняется с кадром и временем",
+    title: t("События и история"),
+    text: t("Каждое появление сохраняется с кадром и временем"),
   },
   {
     icon: ShieldCheck,
-    title: "Контроль доступа",
-    text: "База лиц, точки прохода и роли сотрудников",
+    title: t("Контроль доступа"),
+    text: t("База лиц, точки прохода и роли сотрудников"),
   },
 ];
 
@@ -49,10 +51,10 @@ export function LoginPage() {
 
         <div className="relative max-w-md">
           <h2 className="text-4xl font-semibold leading-tight tracking-tight">
-            Видеоаналитика
+            {t("Видеоаналитика")}
             <br />
             <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-              под полным контролем
+              {t("под полным контролем")}
             </span>
           </h2>
           <ul className="mt-10 space-y-6">
@@ -78,17 +80,18 @@ export function LoginPage() {
       </aside>
 
       {/* Sign-in */}
-      <main className="flex items-center justify-center bg-background px-6 py-12">
+      <main className="relative flex items-center justify-center bg-background px-6 py-12">
+        <LanguageSwitcher className="absolute right-4 top-4" />
         <div className="w-full max-w-sm">
           <div className="mb-8 flex items-center gap-3 lg:hidden">
             <BrandMark />
             <BrandWordmark />
           </div>
           <h1 className="text-2xl font-semibold tracking-tight">
-            Вход в систему
+            {t("Вход в систему")}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Введите email и пароль вашей учётной записи
+            {t("Введите email и пароль вашей учётной записи")}
           </p>
           <div className="mt-8 rounded-xl border bg-card p-6 shadow-sm">
             <LoginForm onComplete={onComplete} />

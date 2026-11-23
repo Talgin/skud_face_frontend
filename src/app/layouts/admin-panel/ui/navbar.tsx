@@ -1,3 +1,4 @@
+import { LanguageSwitcher } from "@/shared/ui/language-switcher";
 import { SheetMenu } from "./sheet-menu";
 import { UserNav } from "./user-nav";
 
@@ -13,7 +14,8 @@ export function Navbar({ title }: NavbarProps) {
           <SheetMenu />
           <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
         </div>
-        <div className="flex flex-1 items-center justify-end">
+        <div className="flex flex-1 items-center justify-end gap-2">
+          <LanguageSwitcher />
           <UserNav />
         </div>
       </div>
