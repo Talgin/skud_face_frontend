@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CirclePlus } from "lucide-react";
 import { adminsTableColumns, useAdminsQuery } from "@/entities/admins";
+import { Can } from "@/entities/role";
 import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { TableSkeleton } from "@/shared/ui/table-skeleton";
@@ -21,9 +22,13 @@ export function AdminPage() {
         <>
           {admins && <DataTable columns={adminsTableColumns} data={admins} />}
           <div className="mt-4">
-            <Button className="float-right" onClick={handleAddButtonClick}>
-              <CirclePlus className="mr-2" /> {t("Добавить")}
-            </Button>
+            {/* only for those who may add: the add page would send others to /403 */}{" "}
+            <Can req={{ anyOf: ["admin.create"] }}>
+              {" "}
+              <Button className="float-right" onClick={handleAddButtonClick}>
+                <CirclePlus className="mr-2" /> {t("Добавить")}
+              </Button>{" "}
+            </Can>
           </div>
         </>
       )}

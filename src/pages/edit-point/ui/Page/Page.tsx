@@ -7,9 +7,10 @@ import {
 } from "@/features/point/submit";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 export function EditPointPage() {
   const { id } = useParams({ strict: false });
-  const [updatePoint, { isSuccess }] = useUpdatePointMutation();
+  const [updatePoint, { isSuccess, error }] = useUpdatePointMutation();
   const { data: point, isSuccess: isPointSuccess } = usePointQuery(
     parseInt(id ?? ""),
   );
@@ -42,6 +43,7 @@ export function EditPointPage() {
               isEditing={true}
             />
           )}
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

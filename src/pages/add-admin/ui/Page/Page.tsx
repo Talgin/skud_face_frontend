@@ -2,8 +2,9 @@ import { useCreateAdminMutation } from "@/entities/admins";
 import { type AdminValues, SubmitAdminForm } from "@/features/admin/submit";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 export function AddAdminPage() {
-  const [createAdmin, { isSuccess }] = useCreateAdminMutation();
+  const [createAdmin, { isSuccess, error }] = useCreateAdminMutation();
 
   function onSubmit(values: AdminValues) {
     createAdmin({
@@ -15,7 +16,7 @@ export function AddAdminPage() {
       username: values.username,
       password: values.password,
       organization_id: values.organizationId,
-    }).unwrap();
+    });
   }
 
   return (
@@ -26,6 +27,7 @@ export function AddAdminPage() {
         </CardHeader>
         <CardContent>
           <SubmitAdminForm onSubmit={onSubmit} isSuccess={isSuccess} />
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

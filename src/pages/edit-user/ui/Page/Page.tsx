@@ -4,11 +4,12 @@ import { useUpdateUserMutation, useUserQuery } from "@/entities/user";
 import { SubmitUserForm, type UserValues } from "@/features/user/submit";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 export function EditUserPage() {
   const { id } = useParams({ strict: false });
   const userId = parseInt(id ?? "");
   const { data: user, isSuccess: isUserSuccess } = useUserQuery(userId);
-  const [updateUser, { isSuccess }] = useUpdateUserMutation();
+  const [updateUser, { isSuccess, error }] = useUpdateUserMutation();
 
   function onSubmit(values: UserValues) {
     const formData = new FormData();
@@ -29,7 +30,7 @@ export function EditUserPage() {
           },
           body: formData,
         },
-      }).unwrap();
+      });
     }
   }
 
@@ -48,6 +49,7 @@ export function EditUserPage() {
               isEditing={true}
             />
           )}
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

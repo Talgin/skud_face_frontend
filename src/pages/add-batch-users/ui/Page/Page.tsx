@@ -5,8 +5,9 @@ import {
 } from "@/features/user/submit-batch";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 export function AddBatchUsersPage() {
-  const [addBatchUsers, { isSuccess }] = useBatchUsersMutation();
+  const [addBatchUsers, { isSuccess, error }] = useBatchUsersMutation();
 
   function onSubmit(values: BatchUserValues) {
     const formData = new FormData();
@@ -21,7 +22,7 @@ export function AddBatchUsersPage() {
       });
     }
 
-    addBatchUsers(formData).unwrap();
+    addBatchUsers(formData);
   }
 
   return (
@@ -32,6 +33,7 @@ export function AddBatchUsersPage() {
         </CardHeader>
         <CardContent>
           <SubmitBatchUserForm onSubmit={onSubmit} isSuccess={isSuccess} />
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

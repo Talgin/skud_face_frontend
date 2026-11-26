@@ -5,7 +5,10 @@ export type PointDto = {
   camera_id: number;
 };
 
-type RequestBody = Omit<PointDto, "id">;
+type RequestBody = Omit<PointDto, "id"> & {
+  /** required for super admins; the backend uses the admin's own organization otherwise */
+  organization_id?: number;
+};
 
 export type CreatePointRequestBody = RequestBody;
 

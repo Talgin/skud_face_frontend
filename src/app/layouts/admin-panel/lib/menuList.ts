@@ -6,7 +6,6 @@ import {
   MapPin,
   MessageSquare,
   Monitor,
-  Settings,
   UserCog,
   Users,
 } from "lucide-react";
@@ -203,16 +202,6 @@ export function getMenuList(roles: Roles[] | Roles): Group[] {
               required: { anyOf: ["camera.create"] },
             },
           ],
-        },
-      ],
-    },
-    {
-      groupLabel: "Settings",
-      menus: [
-        {
-          href: "/profile",
-          label: t("Личный кабинет"),
-          icon: Settings,
         },
       ],
     },

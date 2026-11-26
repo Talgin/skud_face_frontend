@@ -8,6 +8,7 @@ import {
   pointTableColumns,
   usePointsQuery,
 } from "@/entities/point";
+import { Can, useCan } from "@/entities/role";
 import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import { TableSkeleton } from "@/shared/ui/table-skeleton";
@@ -15,7 +16,11 @@ import { DataTable } from "@/widgets/DataTable";
 export function PointPage() {
   const navigate = useNavigate();
   const { data: points, isLoading } = usePointsQuery();
-  const { data: cameras } = useCamerasQuery();
+  const { canAny } = useCan();
+  // only super admins may list cameras; others see the camera number
+  const { data: cameras } = useCamerasQuery(undefined, {
+    skip: !canAny("camera.view"),
+  });
 
   function handleAddButtonClick() {
     navigate({ to: "/point/add" });
@@ -35,7 +40,7 @@ export function PointPage() {
             (camera) => camera.id === row.original.cameraId,
           );
 
-          return <p>{camera?.serialNumber}</p>;
+          return <p>{camera?.serialNumber ?? `№ ${row.original.cameraId}`}</p>;
         },
       };
     });
@@ -51,9 +56,13 @@ export function PointPage() {
             <DataTable columns={mappedPointTableColumns} data={points} />
           )}
           <div className="mt-4">
-            <Button className="float-right" onClick={handleAddButtonClick}>
-              <CirclePlus className="mr-2" /> {t("Добавить")}
-            </Button>
+            {/* only for those who may add: the add page would send others to /403 */}{" "}
+            <Can req={{ anyOf: ["point.create"] }}>
+              {" "}
+              <Button className="float-right" onClick={handleAddButtonClick}>
+                <CirclePlus className="mr-2" /> {t("Добавить")}
+              </Button>{" "}
+            </Can>
           </div>
         </>
       )}

@@ -22,7 +22,7 @@ const BACKEND_ALLOWS: Partial<Record<Permission, Roles[]>> = {
   "point.create": ADMINS,
   "point.update": ADMINS,
   "point.delete": ADMINS,
-  "camera.view": SUPER, // GET /camera
+  "camera.view": ADMINS, // GET /camera (admins: their organization's cameras)
   "camera.create": SUPER,
   "camera.update": SUPER,
   "camera.delete": SUPER,

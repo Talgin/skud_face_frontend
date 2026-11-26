@@ -9,11 +9,12 @@ import {
 } from "@/features/organizations/submitForm";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 
 const successMessage = t("Организация успешно обновлена!");
 
 export function EditOrganizationPage() {
-  const [updateOrganization, { isLoading, isSuccess }] =
+  const [updateOrganization, { isLoading, isSuccess, error }] =
     useUpdateOrganizationMutation();
   const { id } = useParams({ strict: false });
   const { data: organization, isSuccess: isOrganizationSuccess } =
@@ -49,6 +50,7 @@ export function EditOrganizationPage() {
               isEditing={true}
             />
           )}
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

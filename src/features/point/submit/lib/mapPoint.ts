@@ -5,9 +5,10 @@ export function mapPoint(values: Point): PointValues {
   return {
     name: values.name,
     address: values.address,
-    //TODO: Пофиксить
-    // @ts-ignore
-    organizationId: String(values.organizationId),
+    // @ts-ignore the point read model has no organization id yet
+    organizationId: values.organizationId
+      ? String(values.organizationId)
+      : undefined,
     cameraId: String(values.cameraId),
   };
 }
