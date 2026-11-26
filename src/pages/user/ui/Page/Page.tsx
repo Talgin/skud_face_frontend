@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CirclePlus } from "lucide-react";
 import { useMemo, useState } from "react";
+import { Can } from "@/entities/role";
 import {
   matchesPersonSearch,
   PersonCard,
@@ -42,9 +43,13 @@ export function UserPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Button onClick={handleAddButtonClick}>
-          <CirclePlus className="mr-2" /> {t("Добавить человека")}
-        </Button>
+        {/* only for those who may add: the add page would send others to /403 */}{" "}
+        <Can req={{ anyOf: ["user.create"] }}>
+          {" "}
+          <Button onClick={handleAddButtonClick}>
+            <CirclePlus className="mr-2" /> {t("Добавить человека")}
+          </Button>{" "}
+        </Can>
       </div>
 
       {isLoading ? (

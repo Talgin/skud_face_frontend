@@ -6,8 +6,9 @@ import {
 } from "@/features/camera/submit";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 export function AddCameraPage() {
-  const [createCamera, { isSuccess }] = useCreateCameraMutation();
+  const [createCamera, { isSuccess, error }] = useCreateCameraMutation();
 
   function onSubmit(values: AddCameraValues) {
     createCamera({
@@ -17,7 +18,7 @@ export function AddCameraPage() {
       registration_date: parseDateToString(values.registrationDate),
       url: values.url,
       models: modelsFromKeys(values.models),
-    }).unwrap();
+    });
   }
 
   return (
@@ -28,6 +29,7 @@ export function AddCameraPage() {
         </CardHeader>
         <CardContent>
           <SubmitCameraForm onSubmit={onSubmit} isSuccess={isSuccess} />
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

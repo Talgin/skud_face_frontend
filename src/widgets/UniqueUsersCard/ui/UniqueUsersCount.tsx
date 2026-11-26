@@ -46,7 +46,7 @@ const presetRange = (p: Preset) => {
 
 const presetLabel = (p: Preset) =>
   p === "all"
-    ? "All Time"
+    ? t("За всё время")
     : p === "today"
       ? t("Сегодня")
       : p === "week"

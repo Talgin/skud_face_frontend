@@ -7,6 +7,7 @@ import {
   journalApi,
   journalLiveUrl,
 } from "@/entities/journal";
+import { useCan } from "@/entities/role";
 import { t } from "@/shared/i18n";
 import { useAppSelector } from "@/shared/model";
 import { Button } from "@/shared/ui/button";
@@ -29,7 +30,11 @@ function hostOf(url: string): string {
 // «Журнал видеоаналитики»: every analytics type (faces, PPE, plates, ...) in one grid, from trt-journal.
 export function AnalyticsJournal() {
   const token = useAppSelector((s) => s.session.accessToken) ?? undefined;
-  const { data: cameraList } = useCamerasQuery();
+  // camera names come from SKUD, which lists cameras to super admins only; others see "Камера N · host"
+  const { canAny } = useCan();
+  const { data: cameraList } = useCamerasQuery(undefined, {
+    skip: !canAny("camera.view"),
+  });
   const cameras = useMemo(
     () =>
       (cameraList ?? []).map((c) => ({

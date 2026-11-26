@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useCamerasQuery } from "@/entities/camera";
 import { useOrganizationsQuery } from "@/entities/organization";
+import { useCan } from "@/entities/role";
 import { t } from "@/shared/i18n";
 import { Button } from "@/shared/ui/button";
 import {
@@ -34,8 +35,15 @@ type Props = {
 
 export function SubmitPointForm(props: Props) {
   const router = useRouter();
-  const { data: _organizations } = useOrganizationsQuery();
-  const { data: cameras } = useCamerasQuery();
+  const { canAny } = useCan();
+  // a super admin (no organization of their own) chooses the point's organization
+  const chooseOrg = canAny("org.view") && !props.isEditing;
+  const { data: organizations } = useOrganizationsQuery(undefined, {
+    skip: !chooseOrg,
+  });
+  const { data: cameras } = useCamerasQuery(undefined, {
+    skip: !canAny("camera.view"),
+  });
   const form = useForm<PointValues>({
     resolver: zodResolver(submitPointFormSchema),
     defaultValues: props.defaultValues,
@@ -43,9 +51,13 @@ export function SubmitPointForm(props: Props) {
 
   const onSubmitHandler = useCallback(
     (values: PointValues) => {
+      if (chooseOrg && !values.organizationId) {
+        form.setError("organizationId", { message: t("Выберите организацию") });
+        return;
+      }
       props.onSubmit(values);
     },
-    [props.onSubmit],
+    [props.onSubmit, chooseOrg, form.setError],
   );
 
   function onNavigateToPoints() {
@@ -121,7 +133,38 @@ export function SubmitPointForm(props: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit">{t("Добавить")}</Button>
+        {chooseOrg && (
+          <FormField
+            control={form.control}
+            name="organizationId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("Организация:")}</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t("Выберите организацию")} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {organizations?.map((org) => (
+                      <SelectItem key={org.id} value={String(org.id)}>
+                        {org.organizationName}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        <Button type="submit">
+          {props.isEditing ? t("Сохранить") : t("Добавить")}
+        </Button>
       </form>
     </Form>
   );

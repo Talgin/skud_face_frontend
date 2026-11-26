@@ -100,6 +100,8 @@ export function Chat({ convId, onSelect }: Props) {
   }, [refreshConvs]);
 
   useEffect(() => {
+    // a chat this tab just created for the message being sent: its answer is streaming, keep it
+    if (convId && createdHere.current === convId) return;
     abortRef.current?.abort();
     setFiles([]);
     setError(null);
@@ -107,7 +109,6 @@ export function Chat({ convId, onSelect }: Props) {
       setMessages([]);
       return;
     }
-    if (createdHere.current === convId) return;
     let cancelled = false;
     setLoading(true);
     chatApi

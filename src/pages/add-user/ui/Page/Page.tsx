@@ -3,8 +3,9 @@ import { useCreateUserMutation } from "@/entities/user";
 import { type CreateValues, SubmitUserForm } from "@/features/user/submit";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 export function AddUserPage() {
-  const [createUser, { isSuccess }] = useCreateUserMutation();
+  const [createUser, { isSuccess, error }] = useCreateUserMutation();
 
   function onSubmit(values: CreateValues) {
     const formData = new FormData();
@@ -20,7 +21,7 @@ export function AddUserPage() {
         birth_date: format(values.birthDate, "yyyy-MM-dd"),
       },
       body: formData,
-    }).unwrap();
+    });
   }
 
   return (
@@ -33,6 +34,7 @@ export function AddUserPage() {
           {/* TODO: пофиксить */
           /* @ts-ignore */}
           <SubmitUserForm onSubmit={onSubmit} isSuccess={isSuccess} />
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

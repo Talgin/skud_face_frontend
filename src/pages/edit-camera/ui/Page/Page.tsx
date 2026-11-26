@@ -12,9 +12,10 @@ import {
 } from "@/features/camera/submit";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 export function EditCameraPage() {
   const { id } = useParams({ strict: false });
-  const [updateCamera, { isSuccess }] = useUpdateCameraMutation();
+  const [updateCamera, { isSuccess, error }] = useUpdateCameraMutation();
   const { data: camera, isSuccess: isCameraSuccess } = useCameraQuery(
     parseInt(id ?? ""),
   );
@@ -55,6 +56,7 @@ export function EditCameraPage() {
               isEditing={true}
             />
           )}
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

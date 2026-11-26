@@ -127,7 +127,7 @@ export const camerasTableColumns: ColumnDef<Camera>[] = [
           isDeletedSuccessfully={isSuccess}
           isLoading={isLoading}
           permissions={tablePermissions.camera}
-          onDeny="disable"
+          onDeny="hide"
         />
       );
     },

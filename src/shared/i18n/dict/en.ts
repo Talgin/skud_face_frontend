@@ -433,4 +433,20 @@ export const en: Record<string, string> = {
   "✓ верно": "✓ correct",
   "✗ неверно": "✗ wrong",
   "🛑 Отклонить": "🛑 Reject",
+  Администратор: "Administrator",
+  Оператор: "Operator",
+  Регистратор: "Registrar",
+  Суперадминистратор: "Super administrator",
+  "За всё время": "All time",
+  "Нет доступа": "Access denied",
+  "У вашей учётной записи нет прав на эту страницу. Если доступ нужен для работы, обратитесь к администратору.":
+    "Your account has no access to this page. If you need it for your work, ask an administrator.",
+  "На главную": "Go to the main page",
+  "Сервер недоступен. Проверьте соединение и попробуйте ещё раз.":
+    "The server is unreachable. Check the connection and try again.",
+  "Недостаточно прав для этого действия":
+    "You don't have permission to do this",
+  "Ошибка на сервере ({status}). Попробуйте ещё раз.":
+    "Server error ({status}). Please try again.",
+  "Не удалось выполнить действие": "The action could not be completed",
 };

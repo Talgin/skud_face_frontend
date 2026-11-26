@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { Roles } from "@/entities/role";
 import { getMenuList } from "./menuList";
@@ -32,7 +33,7 @@ describe("sidebar per role", () => {
     }
   });
 
-  it("admin runs a site: people, points, accounts - but not cameras or organizations", () => {
+  it("admin runs a site: people, points, accounts and their own cameras - not organizations", () => {
     const menu = hrefs(Roles.ADMIN);
     expect(menu).toEqual(
       expect.arrayContaining([
@@ -41,9 +42,9 @@ describe("sidebar per role", () => {
         "/faces/add",
         "/point/add",
         "/admin",
+        "/camera",
       ]),
     );
-    expect(menu).not.toContain("/camera");
     expect(menu).not.toContain("/camera/add");
     expect(menu).not.toContain("/organization");
   });
@@ -65,21 +66,29 @@ describe("sidebar per role", () => {
     expect(menu).not.toContain("/admin");
   });
 
-  it("registrar only enrolls people (plus their own account page)", () => {
+  it("registrar only enrolls people", () => {
     const menu = hrefs(Roles.REGISTRAR);
     expect(menu.sort()).toEqual(
-      ["/faces", "/faces/add", "/faces/import", "/profile"].sort(),
+      ["/faces", "/faces/add", "/faces/import"].sort(),
     );
   });
 
-  it("everyone has their account page", () => {
+  it("every menu link opens a page that exists", () => {
+    // the menu once linked to /profile, which had no page (found by the browser tests)
+    const routes = Array.from(
+      readFileSync("src/routeTree.gen.ts", "utf8").matchAll(
+        /fullPath: '([^']+)'/g,
+      ),
+      (m) => m[1].replace(/\/$/, "") || "/",
+    );
     for (const role of [
       Roles.SUPER_ADMIN,
       Roles.ADMIN,
       Roles.OPERATOR,
       Roles.REGISTRAR,
     ]) {
-      expect(hrefs(role)).toContain("/profile");
+      for (const href of hrefs(role))
+        expect(routes, `${role}: ${href}`).toContain(href);
     }
   });
 

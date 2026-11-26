@@ -7,9 +7,10 @@ import {
 } from "@/features/admin/submit";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 export function EditAdminPage() {
   const { id } = useParams({ strict: false });
-  const [updateAdmin, { isSuccess }] = useUpdateAdminMutation();
+  const [updateAdmin, { isSuccess, error }] = useUpdateAdminMutation();
   const { data: admin, isSuccess: isAdminSuccess } = useAdminQuery(
     parseInt(id ?? ""),
   );
@@ -51,6 +52,7 @@ export function EditAdminPage() {
               isEditing={true}
             />
           )}
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>

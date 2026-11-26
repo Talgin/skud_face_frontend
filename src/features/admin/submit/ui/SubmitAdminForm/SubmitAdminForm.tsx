@@ -156,10 +156,14 @@ export function SubmitAdminForm(props: Props) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="admin">admin</SelectItem>
-                    <SelectItem value="operator">operator</SelectItem>
-                    <SelectItem value="registrar">registrar</SelectItem>
-                    <SelectItem value="super_admin">super admin</SelectItem>
+                    <SelectItem value="admin">{t("Администратор")}</SelectItem>
+                    <SelectItem value="operator">{t("Оператор")}</SelectItem>
+                    <SelectItem value="registrar">
+                      {t("Регистратор")}
+                    </SelectItem>
+                    <SelectItem value="super_admin">
+                      {t("Суперадминистратор")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>

@@ -5,11 +5,12 @@ import {
 } from "@/features/organizations/submitForm";
 import { t } from "@/shared/i18n";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ServerError } from "@/shared/ui/server-error";
 
 const successMessage = t("Организация успешно создана!");
 
 export function AddOrganizationPage() {
-  const [createOrganization, { isLoading, isSuccess }] =
+  const [createOrganization, { isLoading, isSuccess, error }] =
     useCreateOrganizationMutation();
 
   function onSubmit(values: OrganizationValues) {
@@ -18,7 +19,7 @@ export function AddOrganizationPage() {
       ceo_name: values.ceoName,
       address: values.address,
       phone: values.phoneNumber,
-    }).unwrap();
+    });
   }
 
   return (
@@ -34,6 +35,7 @@ export function AddOrganizationPage() {
             isSuccess={isSuccess}
             successMessage={successMessage}
           />
+          <ServerError error={error} />
         </CardContent>
       </Card>
     </div>
