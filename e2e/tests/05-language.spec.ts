@@ -27,7 +27,7 @@ test.describe("English interface", () => {
           if (/[А-Яа-яЁё]/.test(s)) out.add(s.slice(0, 80));
         }
         for (const el of document.querySelectorAll("*")) {
-          if (el.closest("td")) continue;
+          if (el.closest("td, div.group > button[title]")) continue; // table data, chat titles
           for (const a of attrs) {
             const v = el.getAttribute(a);
             if (v && /[А-Яа-яЁё]/.test(v) && !el.closest("main .grid button")) out.add(`[${a}] ${v.slice(0, 80)}`);

@@ -7,7 +7,8 @@ import { creds, login, row, rowAction, settle } from "./helpers";
 const LEFTOVERS: { list: string; match: RegExp }[] = [
   { list: "/point", match: /E2E точка/ },
   { list: "/camera", match: /E2E-\w+/ },
-  { list: "/organization", match: /E2E орг/ },
+  // "E2E орг <run>" only: the permanent "E2E организация" holds the test logins
+  { list: "/organization", match: /E2E орг\s/ },
   { list: "/admin", match: /e2e-tmp-/ },
   { list: "/faces", match: /e2e-p-/ },
 ];
